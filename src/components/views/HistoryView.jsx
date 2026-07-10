@@ -119,6 +119,17 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                       <div className="px-4 pb-4 animate-in slide-in-from-top-2 duration-200">
                         <div className="h-px bg-slate-100 dark:bg-slate-700 mb-4" />
 
+                        {/* Nombre del servicio completo */}
+                        <div className="bg-slate-50 dark:bg-slate-900/60 rounded-xl p-3 mb-3 flex items-start gap-2.5">
+                          <div className="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-500 dark:text-indigo-400">
+                            <i className="fa-solid fa-file-invoice text-[11px]"></i>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[8px] uppercase font-black text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">Nombre del Servicio</p>
+                            <p className="text-xs font-extrabold text-slate-800 dark:text-white break-words leading-tight">{bill.name}</p>
+                          </div>
+                        </div>
+
                         <div className="grid grid-cols-2 gap-3 mb-3">
 
                           {/* Fecha de vencimiento */}
