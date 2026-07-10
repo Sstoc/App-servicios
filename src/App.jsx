@@ -217,7 +217,7 @@ function App() {
 
   if (isDataLoading && !user) {
     return (
-      <div className="h-screen w-full bg-slate-900 flex items-center justify-center">
+      <div className="h-dvh w-full bg-slate-900 flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -245,7 +245,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen flex flex-col md:flex-row bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors overflow-hidden">
+    <div className="h-dvh flex flex-col md:flex-row bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors overflow-hidden">
       <Sidebar 
         view={view} 
         setView={setView} 
@@ -260,7 +260,7 @@ function App() {
         syncStatus={syncStatus}
       />
       
-      <main ref={containerRef} className="flex-1 flex flex-col relative w-full h-full overflow-y-auto scroll-smooth">
+      <main ref={containerRef} className="flex-1 flex flex-col relative w-full h-full overflow-y-auto overscroll-y-contain scroll-smooth">
         <HeaderMobile 
           view={view}
           getPageTitle={getPageTitle}
