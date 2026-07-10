@@ -93,7 +93,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                           {getIcon(bill.category)}
                         </div>
                         <div className="min-w-0">
-                          <span className="font-bold text-slate-700 dark:text-slate-200 text-xs tracking-tight truncate block">
+                          <span className={`font-bold text-slate-700 dark:text-slate-200 text-xs tracking-tight block ${isExpanded ? 'whitespace-normal break-words' : 'truncate'}`}>
                             {bill.name}
                           </span>
                           {bill.isInstallments && (
