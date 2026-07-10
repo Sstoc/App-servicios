@@ -9,4 +9,8 @@ export default defineConfig({
     // En Tailwind v4 ya no necesitamos postcss.config.js si usamos el plugin de Vite
     // Pero como lo configuramos via PostCSS lo dejaremos asi por ahora o usaremos el plugin directo
   ],
+  server: {
+    host: true, // Expone el servidor en todas las interfaces (0.0.0.0) → accesible desde hotspot
+    port: 5173,
+  },
 })

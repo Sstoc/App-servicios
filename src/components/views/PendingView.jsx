@@ -1,7 +1,12 @@
 import React from 'react';
 import { Card, Badge, Button } from '../ui';
-import { Celebration } from '../ui/Celebration';
 import { formatMoney, isOverdue } from '../../lib/utils';
+
+const CATEGORY_LABELS = {
+  casa: 'Casa',
+  auto: 'Auto',
+  otro: 'Otro',
+};
 
 export const PendingView = ({ 
   bills, 
@@ -10,7 +15,8 @@ export const PendingView = ({
   handleDeleteClick, 
   handleTogglePaid,
   activeMenu,
-  setActiveMenu
+  setActiveMenu,
+  showBalance
 }) => {
   const pendingBills = React.useMemo(() => {
     return [...bills].sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate));
@@ -26,7 +32,9 @@ export const PendingView = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <div className="bg-red-500/5 dark:bg-red-500/10 border border-red-500/30 p-6 rounded-2xl text-red-600 dark:text-red-400 relative overflow-hidden group">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70 mb-1">Deuda Total Pendiente</p>
-          <h3 className="text-4xl font-black tracking-tight mb-2">{formatMoney(totalDebt)}</h3>
+          <h3 className="text-4xl font-black tracking-tight mb-2">
+            {showBalance ? formatMoney(totalDebt) : '****'}
+          </h3>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
             <p className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Incluye meses anteriores</p>
@@ -74,14 +82,16 @@ export const PendingView = ({
               </span>
               <span className="flex items-center gap-1.5">
                 <i className="fa-solid fa-tag text-slate-300 dark:text-slate-600"></i>
-                <span className="capitalize">{bill.category}</span>
+                <span>{CATEGORY_LABELS[bill.category] || bill.category}</span>
               </span>
             </div>
           </div>
 
           <div className="flex items-center justify-between md:justify-end gap-6 pl-5 md:pl-0 w-full md:w-auto border-t md:border-0 pt-4 md:pt-0 border-slate-100 dark:border-slate-800">
             <div className="text-right">
-              <p className="font-black text-2xl text-slate-900 dark:text-white tracking-tighter">{formatMoney(bill.amount)}</p>
+              <p className="font-black text-2xl text-slate-900 dark:text-white tracking-tighter">
+                {showBalance ? formatMoney(bill.amount) : '****'}
+              </p>
               <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mt-1">Saldar Cuenta</p>
             </div>
             

@@ -1,6 +1,35 @@
 import React from 'react';
 
-export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, signOut, user, showBalance }) => {
+export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, signOut, user, showBalance, syncStatus }) => {
+  const getSyncIcon = () => {
+    switch (syncStatus) {
+      case 'syncing':
+        return (
+          <span className="flex items-center text-indigo-500 dark:text-indigo-400 animate-pulse" title="Sincronizando con Supabase...">
+            <i className="fa-solid fa-cloud text-[10px]"></i>
+          </span>
+        );
+      case 'synced':
+        return (
+          <span className="flex items-center text-slate-400/40 dark:text-slate-500/40 transition-opacity duration-500" title="Sincronizado con Supabase">
+            <i className="fa-solid fa-cloud text-[10px]"></i>
+          </span>
+        );
+      case 'error':
+        return (
+          <span className="flex items-center text-rose-500/80 dark:text-rose-400/80" title="Sin conexión - Guardado local">
+            <i className="fa-solid fa-cloud-bolt text-[10px]"></i>
+          </span>
+        );
+      default:
+        return (
+          <span className="flex items-center text-slate-300/30 dark:text-slate-700/30" title="Listo">
+            <i className="fa-solid fa-cloud text-[10px]"></i>
+          </span>
+        );
+    }
+  };
+
   return (
     <aside className="hidden md:flex w-72 glass border-r border-slate-200/50 dark:border-white/10 flex-col justify-between p-6 z-20 shadow-weightless">
       <div>
@@ -9,8 +38,9 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
             <img src="/logo-home.png" alt="Logo" className="w-10 h-10 object-contain rounded-xl shadow-lg border border-white/10" />
             <div className="absolute -inset-1 bg-indigo-500/10 rounded-xl blur-sm -z-10 animate-pulse"></div>
           </div>
-          <div>
+          <div className="flex items-center gap-2">
             <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white leading-none">Home</h1>
+            <div className="flex items-center pt-0.5">{getSyncIcon()}</div>
           </div>
         </div>
 

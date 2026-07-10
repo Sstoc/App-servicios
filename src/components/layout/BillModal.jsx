@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Card, Button } from '../ui';
 
 export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
@@ -14,9 +14,15 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
     currentInstallment: ''
   });
 
+  // useLayoutEffect: corre ANTES del pintado del navegador → el modal
+  // siempre arranca en el estado correcto sin el frame de "aparición brusca"
+  useLayoutEffect(() => {
+    if (isOpen) setShow(true);
+  }, [isOpen]);
+
+  // useEffect: resetea el formulario (no afecta la animación visual)
   useEffect(() => {
     if (isOpen) {
-      setShow(true);
       if (bill) {
         setForm({ 
           ...bill,
@@ -187,6 +193,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                       value={form.totalInstallments}
                       onChange={(e) => setForm({...form, totalInstallments: e.target.value})}
                       placeholder="Ej: 12"
+                      required
+                      min="1"
                       className="w-full p-3 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-xl outline-none font-bold text-slate-800 dark:text-white text-sm"
                     />
                   </div>
@@ -197,6 +205,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                       value={form.currentInstallment}
                       onChange={(e) => setForm({...form, currentInstallment: e.target.value})}
                       placeholder="Ej: 1"
+                      required
+                      min="1"
                       className="w-full p-3 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-xl outline-none font-bold text-slate-800 dark:text-white text-sm"
                     />
                   </div>

@@ -4,6 +4,12 @@ import { formatMoney, formatMoneyProtected, getIcon, isOverdue } from '../../lib
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
+const CATEGORY_LABELS = {
+  casa: 'Casa',
+  auto: 'Auto',
+  otro: 'Otro',
+};
+
 export const DashboardView = ({ 
   bills, 
   showBalance, 
@@ -151,7 +157,7 @@ export const DashboardView = ({
                         </span>
                       )}
                     </h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 capitalize">{bill.category}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{CATEGORY_LABELS[bill.category] || bill.category}</p>
                   </div>
                 </div>
                 <div className="relative">
@@ -186,7 +192,9 @@ export const DashboardView = ({
                 </div>
                 <div className="text-right">
                   {bill.amount >= 0 && (
-                    <p className="font-extrabold text-lg text-slate-800 dark:text-slate-100 mb-2">{formatMoney(bill.amount)}</p>
+                    <p className="font-extrabold text-lg text-slate-800 dark:text-slate-100 mb-2">
+                      {showBalance ? formatMoney(bill.amount) : '****'}
+                    </p>
                   )}
                   <Button 
                     variant={bill.paid ? 'ghost' : 'secondary'} 
@@ -200,6 +208,18 @@ export const DashboardView = ({
             </Card>
           </div>
         ))}
+        {monthBills.length === 0 && (
+          <div className="col-span-full flex flex-col items-center justify-center py-16 text-center bg-white/45 dark:bg-slate-800/20 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 p-8 shadow-sm">
+            <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center text-2xl text-indigo-600 dark:text-indigo-400 mb-4 shadow-inner">
+              <i className="fa-solid fa-receipt"></i>
+            </div>
+            <h4 className="text-lg font-black text-slate-800 dark:text-white mb-2">No hay servicios registrados</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mb-6 font-medium leading-relaxed">Comenzá a organizar tus cuentas agregando tu primer servicio de luz, agua, internet, etc.</p>
+            <Button onClick={() => handleEdit(null)} className="!rounded-full px-6 py-2.5 text-xs font-black shadow-md shadow-indigo-500/20 active:scale-95 transition-transform">
+              Agregar Servicio
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
