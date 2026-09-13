@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from '../ui';
 
-export const HeaderMobile = React.memo(({ view, getPageTitle, toggleBalance, showBalance, darkMode, toggleDarkMode, openModal, signOut, user, pushEnabled, requestPushPermission, syncStatus }) => {
+export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, toggleDarkMode, signOut, user, pushEnabled, requestPushPermission, syncStatus }) => {
   const [openSettings, setOpenSettings] = useState(false);
 
   React.useEffect(() => {
@@ -14,7 +13,7 @@ export const HeaderMobile = React.memo(({ view, getPageTitle, toggleBalance, sho
     switch (syncStatus) {
       case 'syncing':
         return (
-          <span className="flex items-center text-indigo-500 dark:text-indigo-400 animate-pulse" title="Sincronizando con Supabase...">
+          <span className="flex items-center text-blue-500 dark:text-blue-400 animate-pulse" title="Sincronizando con Supabase...">
             <i className="fa-solid fa-cloud text-[10px]"></i>
           </span>
         );
@@ -46,7 +45,7 @@ export const HeaderMobile = React.memo(({ view, getPageTitle, toggleBalance, sho
         <div className="flex items-center gap-3">
           <div className="relative">
             <img src="/logo-home.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg shadow-md border border-white/5" />
-            <div className="absolute -inset-1 bg-indigo-500/10 rounded-lg blur-[3px] -z-10"></div>
+            <div className="absolute -inset-1 bg-blue-500/10 rounded-lg blur-[3px] -z-10"></div>
           </div>
           <div className="flex items-center gap-2">
             <h1 className="font-black text-slate-900 dark:text-white text-lg tracking-tight">Home</h1>
@@ -71,23 +70,23 @@ export const HeaderMobile = React.memo(({ view, getPageTitle, toggleBalance, sho
             </button>
 
             {openSettings && (
-              <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden py-3 z-50 origin-top-right animate-in fade-in zoom-in-95 duration-200">
-                <div className="px-5 py-3 border-b border-slate-50 dark:border-slate-700/50 mb-1">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ajustes</p>
-                  <p className="text-sm font-bold text-slate-800 dark:text-white truncate">{user?.email}</p>
+              <div className="absolute right-0 mt-3 w-72 sm:w-80 bg-white dark:bg-slate-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-700 overflow-hidden py-3 z-50 origin-top-right popup-animate">
+                <div className="px-5 py-4 border-b border-slate-50 dark:border-slate-700/50 mb-1">
+                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Ajustes</p>
+                  <p className="text-base font-bold text-slate-800 dark:text-white truncate mt-1">{user?.email}</p>
                 </div>
-                <button onClick={() => { toggleDarkMode(); setOpenSettings(false); }} className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <i className={`fa-solid w-6 text-center text-lg ${darkMode ? 'fa-sun text-yellow-500' : 'fa-moon text-indigo-400'}`}></i>
+                <button onClick={() => { toggleDarkMode(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <i className={`fa-solid w-6 text-center text-xl ${darkMode ? 'fa-sun text-yellow-500' : 'fa-moon text-blue-400'}`}></i>
                   <span className="flex-1 text-left">{darkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
                 </button>
-                <button onClick={() => { requestPushPermission(); setOpenSettings(false); }} className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <i className={`fa-solid w-6 text-center text-lg ${pushEnabled ? 'fa-bell text-indigo-500' : 'fa-bell-slash text-slate-400'}`}></i>
+                <button onClick={() => { requestPushPermission(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <i className={`fa-solid w-6 text-center text-xl ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
                   <span className="flex-1 text-left">Notificaciones</span>
                 </button>
                 <div className="border-t border-slate-100 dark:border-slate-700 my-2 mx-5"></div>
                 {user && (
-                  <button onClick={() => { signOut(); setOpenSettings(false); }} className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
-                    <i className="fa-solid fa-right-from-bracket w-6 text-center text-lg"></i>
+                  <button onClick={() => { signOut(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
+                    <i className="fa-solid fa-right-from-bracket w-6 text-center text-xl"></i>
                     <span className="flex-1 text-left">Cerrar Sesión</span>
                   </button>
                 )}

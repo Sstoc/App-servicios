@@ -1,11 +1,11 @@
 import React from 'react';
 
-export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, signOut, user, showBalance, syncStatus }) => {
+export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, signOut, user, showBalance, syncStatus, pushEnabled, toggleNotifications }) => {
   const getSyncIcon = () => {
     switch (syncStatus) {
       case 'syncing':
         return (
-          <span className="flex items-center text-indigo-500 dark:text-indigo-400 animate-pulse" title="Sincronizando con Supabase...">
+          <span className="flex items-center text-blue-500 dark:text-blue-400 animate-pulse" title="Sincronizando con Supabase...">
             <i className="fa-solid fa-cloud text-[10px]"></i>
           </span>
         );
@@ -36,7 +36,7 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
         <div className="flex items-center gap-3 mb-10">
           <div className="relative">
             <img src="/logo-home.png" alt="Logo" className="w-10 h-10 object-contain rounded-xl shadow-lg border border-white/10" />
-            <div className="absolute -inset-1 bg-indigo-500/10 rounded-xl blur-sm -z-10 animate-pulse"></div>
+            <div className="absolute -inset-1 bg-blue-500/10 rounded-xl blur-sm -z-10 animate-pulse"></div>
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white leading-none">Home</h1>
@@ -47,7 +47,7 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
         <nav className="space-y-2">
           <button 
             onClick={() => setView('dashboard')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'dashboard' ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'dashboard' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
             <i className="fa-solid fa-chart-pie w-5 text-center"></i> 
             <span className="flex-1 text-left">General</span>
@@ -55,7 +55,7 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
           
           <button 
             onClick={() => setView('pending')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'pending' ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'pending' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
             <i className="fa-solid fa-clock w-5 text-center"></i> 
             <span className="flex-1 text-left">Pendientes</span>
@@ -68,7 +68,7 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
           
           <button 
             onClick={() => setView('history')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'history' ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'history' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
             <i className="fa-solid fa-receipt w-5 text-center"></i> 
             <span className="flex-1 text-left">Historial</span>
@@ -92,6 +92,15 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
               )}
             </button>
 
+            <button 
+              onClick={toggleNotifications} 
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300"
+            >
+              <i className={`fa-solid w-5 text-center text-lg ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
+              <span className="flex-1 text-left">Notificaciones</span>
+              {pushEnabled && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
+            </button>
+
             {user && (
               <button 
                 onClick={signOut} 
@@ -106,11 +115,11 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
       </div>
       
       <div className="bg-slate-900 rounded-[2.5rem] p-7 text-white relative overflow-hidden group shadow-weightless mx-1">
-        <div className="absolute -right-6 -top-6 w-32 h-32 bg-indigo-500 rounded-full blur-3xl opacity-30 group-hover:scale-125 transition-transform duration-700"></div>
+        <div className="absolute -right-6 -top-6 w-32 h-32 bg-blue-500 rounded-full blur-3xl opacity-30 group-hover:scale-125 transition-transform duration-700"></div>
         <p className="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-widest">Estimado Mensual</p>
         <p className="text-3xl font-bold">{showBalance ? formatMoney(calculateMonthTotal()) : '$ ***'}</p>
         <div className="mt-3 text-[10px] text-slate-500 font-bold flex items-center gap-2">
-          <i className="fa-solid fa-circle-info text-indigo-500"></i>
+          <i className="fa-solid fa-circle-info text-blue-500"></i>
           Basado en tus facturas activas
         </div>
       </div>

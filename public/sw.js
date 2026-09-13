@@ -1,4 +1,4 @@
-const CACHE_NAME = 'home-finance-v3';
+const CACHE_NAME = 'home-finance-v4';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -28,6 +28,43 @@ self.addEventListener('activate', event => {
       })
     ])
   );
+});
+
+self.addEventListener('push', event => {
+  let payload = {};
+
+  try {
+    payload = event.data ? event.data.json() : {};
+  } catch {
+    payload = { body: event.data?.text() };
+  }
+
+  event.waitUntil(self.registration.showNotification(payload.title || 'Home - Servicios', {
+    body: payload.body || 'Tenés un vencimiento próximo.',
+    icon: '/logo-notificacion.png',
+    badge: '/logo-notificacion.png',
+    tag: payload.tag || 'home-servicios-reminder',
+    renotify: true,
+    data: { url: payload.url || '/' },
+  }));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const destination = event.notification.data?.url || '/';
+
+  event.waitUntil((async () => {
+    const windows = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const existing = windows.find(client => new URL(client.url).origin === self.location.origin);
+
+    if (existing) {
+      await existing.focus();
+      await existing.navigate(destination);
+      return;
+    }
+
+    await clients.openWindow(destination);
+  })());
 });
 
 self.addEventListener('fetch', event => {

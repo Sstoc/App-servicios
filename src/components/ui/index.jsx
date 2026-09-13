@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 export const Card = memo(({ children, className = "" }) => (
-  <div className={`glass-card p-6 rounded-3xl shadow-weightless relative transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 active:scale-[0.98] ${className}`}>
+  <div className={`card-item p-6 rounded-3xl relative ${className}`}>
     {children}
   </div>
 ));
@@ -12,7 +12,7 @@ export const Badge = memo(({ children, variant = "default", className = "" }) =>
     green: "bg-green-100/50 text-green-700 dark:bg-green-500/20 dark:text-green-400 backdrop-blur-md",
     red: "bg-red-100/50 text-red-600 dark:bg-red-500/20 dark:text-red-400 backdrop-blur-md",
     orange: "bg-orange-100/50 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400 backdrop-blur-md",
-    indigo: "bg-indigo-100/50 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400 backdrop-blur-md"
+    blue: "bg-blue-100/50 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 backdrop-blur-md"
   };
 
   return (
@@ -24,7 +24,7 @@ export const Badge = memo(({ children, variant = "default", className = "" }) =>
 
 export const Button = memo(({ children, variant = "primary", onClick, className = "", disabled = false, icon = null }) => {
   const variants = {
-    primary: "bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-500/30 border border-indigo-400/30",
+    primary: "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/30 border border-blue-400/30",
     secondary: "bg-slate-900 hover:bg-slate-800 text-white shadow-slate-900/30 dark:bg-white/10 dark:hover:bg-white/20 border border-white/5",
     ghost: "bg-transparent hover:bg-slate-100 dark:hover:bg-white/5 text-slate-600 dark:text-slate-400",
     danger: "bg-red-500 hover:bg-red-400 text-white shadow-red-500/30 border border-red-400/30"

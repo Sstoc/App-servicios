@@ -4,40 +4,53 @@ import App from './App.jsx'
 import './index.css'
 import { AppProvider } from './context/AppContext'
 
-// NUCLEAR: Clear EVERYTHING (Caches, SW, Storage) on version bump to fix white screens permanently
-const APP_CLEAN_VERSION = 'v5'; // Update to trigger a total wipe
-if (localStorage.getItem('app_root_version') !== APP_CLEAN_VERSION) {
-  // 1. Unregister all service workers
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(regs => {
-      for (const reg of regs) reg.unregister();
-    });
+class RootErrorBoundary extends React.Component {
+  state = { error: null }
+
+  static getDerivedStateFromError(error) {
+    return { error }
   }
-  // 2. Clear all Caches
-  if ('caches' in window) {
-    caches.keys().then(names => {
-      for (const name of names) caches.delete(name);
-    });
+
+  componentDidCatch(error) {
+    console.error('Application startup error:', error)
   }
-  // 3. Clear Storage
-  localStorage.clear();
-  sessionStorage.clear();
-  
-  // 4. Set new version and FORCE RELOAD
-  localStorage.setItem('app_root_version', APP_CLEAN_VERSION);
-  window.location.reload();
+
+  render() {
+    if (this.state.error) {
+      return (
+        <main className="min-h-dvh grid place-items-center bg-slate-50 p-6 text-slate-800">
+          <section className="w-full max-w-lg rounded-2xl border border-red-200 bg-white p-6 shadow-xl">
+            <h1 className="mb-2 text-lg font-bold text-red-600">No se pudo iniciar la aplicación</h1>
+            <p className="break-words font-mono text-sm">{this.state.error.message}</p>
+          </section>
+        </main>
+      )
+    }
+
+    return this.props.children
+  }
+}
+
+// A service worker caches JavaScript files and can conflict with Vite's dev server.
+// Remove any old registration while developing; it stays enabled in production builds.
+if (import.meta.env.DEV && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    registrations.forEach(registration => registration.unregister())
+  })
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <RootErrorBoundary>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </RootErrorBoundary>
   </React.StrictMode>,
 )
 
 // Register Service Worker for PWA
-if ('serviceWorker' in navigator) {
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then(registration => console.log('SW registered'))
