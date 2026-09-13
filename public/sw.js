@@ -1,4 +1,4 @@
-const CACHE_NAME = 'home-finance-v5';
+const CACHE_NAME = 'home-finance-v8';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -68,10 +68,11 @@ self.addEventListener('notificationclick', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Estrategia Network-First para el HTML principal (navegación)
+  // Estrategia Network-First para HTML principal y manifest
   if (event.request.mode === 'navigate' || 
       event.request.url.endsWith('/') || 
-      event.request.url.endsWith('index.html')) {
+      event.request.url.endsWith('index.html') ||
+      event.request.url.includes('manifest.json')) {
     event.respondWith(
       fetch(event.request)
         .then(response => {
@@ -84,7 +85,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Estrategia Cache-First para el resto (imágenes, manifest, etc)
+  // Estrategia Cache-First para el resto (imágenes estáticas, assets)
   event.respondWith(
     caches.match(event.request)
       .then(response => response || fetch(event.request))
