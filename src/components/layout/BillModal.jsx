@@ -140,10 +140,6 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
     const updated = [...customCategories, newCat];
     if (saveCustomCategories) {
       saveCustomCategories(updated);
-    } else {
-      try {
-        localStorage.setItem('home_custom_categories', JSON.stringify(updated));
-      } catch {}
     }
 
     setForm(prev => ({ ...prev, category: id }));

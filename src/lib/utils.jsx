@@ -1,22 +1,14 @@
 import React from 'react';
 
-// Caché en memoria para evitar llamadas masivas a localStorage.getItem y JSON.parse en cada frame
-let cachedCategories = null;
-let lastCacheRead = 0;
+// Caché en memoria para evitar accesos lentos en renderizado
+let cachedCategories = [];
+
+export const setCustomCategoriesCache = (categories) => {
+  cachedCategories = Array.isArray(categories) ? categories : [];
+};
 
 const getCustomCategoriesCached = () => {
-  const now = Date.now();
-  if (cachedCategories && (now - lastCacheRead) < 2000) {
-    return cachedCategories;
-  }
-  try {
-    const stored = localStorage.getItem('home_custom_categories');
-    cachedCategories = stored ? JSON.parse(stored) : [];
-    lastCacheRead = now;
-    return cachedCategories;
-  } catch {
-    return [];
-  }
+  return cachedCategories;
 };
 
 /**

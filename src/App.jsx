@@ -375,7 +375,7 @@ function App() {
           <div className="flex flex-1 items-center justify-around pr-2">
             {[
               { id: 'dashboard', icon: 'fa-chart-pie', label: 'Inicio' },
-              { id: 'pending', icon: 'fa-clock', label: 'Pagos' },
+              { id: 'pending', icon: 'fa-clock', label: 'Pendientes' },
               { id: 'history', icon: 'fa-receipt', label: 'Historial' }
             ].map(item => (
               <button
