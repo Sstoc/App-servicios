@@ -29,9 +29,14 @@ export const AppProvider = ({ children }) => {
   // Authentication logic
   useEffect(() => {
     let isMounted = true;
+    let authTimeout = null;
 
     const finishAuthCheck = (session) => {
       if (!isMounted) return;
+      if (authTimeout) {
+        window.clearTimeout(authTimeout);
+        authTimeout = null;
+      }
 
       if (session && session.user) {
         setUser(session.user);
@@ -77,28 +82,33 @@ export const AppProvider = ({ children }) => {
       }
     };
 
+    // In case a network failure or stalled token refresh never settles getSession(),
+    // allow the user to reach the login screen as fallback.
+    authTimeout = window.setTimeout(() => {
+      if (isMounted) {
+        finishAuthCheck(null);
+      }
+    }, 5000);
+
     checkSession();
 
-    // In case a browser extension, offline network, or a stalled token refresh never
-    // settles getSession(), always let the user reach the login screen.
-    const authTimeout = window.setTimeout(() => finishAuthCheck(null), 5000);
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!isMounted) return;
 
-      if (!session) {
-        setUser(null);
-        setOwnerId(null);
-        setBills([]);
-        setCustomCategories([]);
-        setCustomCategoriesCache([]);
+      if (event === 'SIGNED_OUT') {
+        finishAuthCheck(null);
+      } else if (session) {
+        finishAuthCheck(session);
+      } else if (event === 'INITIAL_SESSION' && !session) {
+        finishAuthCheck(null);
       }
-      finishAuthCheck(session);
     });
 
     return () => {
       isMounted = false;
-      window.clearTimeout(authTimeout);
+      if (authTimeout) {
+        window.clearTimeout(authTimeout);
+      }
       subscription.unsubscribe();
     };
   }, []);
