@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Badge, Button } from '../ui';
-import { formatMoney, isOverdue, getCategoryLabel } from '../../lib/utils';
+import { formatMoney, isOverdue, getCategoryLabel, getIcon } from '../../lib/utils';
 
 export const PendingView = ({ 
   bills, 
@@ -21,116 +21,141 @@ export const PendingView = ({
   }, [pendingBills]);
 
   return (
-    <div className="space-y-6">
-      {/* Resumen de Deuda Total */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        <div className="bg-red-500/5 dark:bg-red-500/10 border border-red-500/30 p-6 rounded-2xl text-red-600 dark:text-red-400 relative overflow-hidden group">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70 mb-1">Deuda Total Pendiente</p>
-          <h3 className="text-4xl font-black tracking-tight mb-2">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Resumen de Deuda Total Compacto */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-4 mb-3 sm:mb-6">
+        <div className="bg-red-500/5 dark:bg-red-500/10 border border-red-500/30 !p-3.5 sm:!p-6 !rounded-2xl text-red-600 dark:text-red-400 relative overflow-hidden group">
+          <p className="text-[10px] font-black uppercase tracking-wider opacity-70 mb-0.5">Deuda Total</p>
+          <h3 className="text-xl sm:text-3xl font-black tracking-tight mb-1">
             {showBalance ? formatMoney(totalDebt) : '****'}
           </h3>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
-            <p className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Incluye meses anteriores</p>
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>
+            <p className="text-[10px] font-bold opacity-80 uppercase tracking-wider">Acumulado</p>
           </div>
         </div>
 
-        <div className="bg-white/40 dark:bg-white/5 backdrop-blur-xl p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-center shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl">
+        <div className="bg-white/40 dark:bg-white/5 backdrop-blur-xl !p-3.5 sm:!p-6 !rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-center shadow-sm">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-base sm:text-xl shrink-0">
               <i className="fa-solid fa-list-check"></i>
             </div>
-            <div>
-              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Servicios por pagar</p>
-              <p className="text-lg font-black text-slate-800 dark:text-white leading-tight">{pendingBills.length} <span className="text-xs font-bold text-slate-400">ítems</span></p>
+            <div className="min-w-0">
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-none">Por pagar</p>
+              <p className="text-base sm:text-xl font-black text-slate-800 dark:text-white leading-tight mt-0.5">{pendingBills.length} <span className="text-xs font-bold text-slate-400">ítems</span></p>
             </div>
           </div>
         </div>
       </div>
 
-      {pendingBills.map(bill => (
-        <Card key={bill.id} className={`flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 !translate-y-0 relative !overflow-visible border border-slate-100 dark:border-white/5 ${activeMenu === bill.id ? 'z-50' : 'z-0'}`}>
-          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
-            <div 
-              className={`absolute left-0 top-0 bottom-0 w-1.5 ${isOverdue(bill.dueDate) ? 'bg-red-500/80 shadow-[1px_0_8px_rgba(239,68,68,0.3)]' : 'bg-blue-500/80'}`}
-            ></div>
-          </div>
-
-          <div className="pl-5 flex-1">
-            <div className="flex items-center gap-2">
-              <h4 className="font-bold text-slate-800 dark:text-slate-100 text-lg tracking-tight">
-                {bill.name}
-                {bill.isInstallments && (
-                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
-                    {bill.currentInstallment}/{bill.totalInstallments}
-                  </span>
-                )}
-              </h4>
-              {isOverdue(bill.dueDate) && (
-                <Badge variant="red" className="!rounded-lg text-[10px] font-black uppercase tracking-widest px-2 py-0.5">Vencido</Badge>
-              )}
-            </div>
-            <div className="flex items-center gap-4 mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-              <span className="flex items-center gap-1.5">
-                <i className="fa-regular fa-calendar-check text-blue-500"></i> 
-                {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'long' })}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <i className="fa-solid fa-tag text-slate-300 dark:text-slate-600"></i>
-                <span>{getCategoryLabel(bill.category)}</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between md:justify-end gap-6 pl-5 md:pl-0 w-full md:w-auto border-t md:border-0 pt-4 md:pt-0 border-slate-100 dark:border-slate-800">
-            <div className="text-right">
-              <p className="font-black text-2xl text-slate-900 dark:text-white tracking-tighter">
-                {showBalance ? formatMoney(bill.amount) : '****'}
-              </p>
-              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mt-1">Saldar Cuenta</p>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                  className="w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 transition-all rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-90 border border-transparent hover:border-slate-200 dark:hover:border-white/5"
-                >
-                  <i className="fa-solid fa-ellipsis-vertical text-lg"></i>
-                </button>
-                {activeMenu === bill.id && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-[190]"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveMenu(null);
-                      }}
-                    />
-                    <div className="absolute right-0 bottom-full mb-3 w-52 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-white/10 z-[200] overflow-hidden py-2 popup-animate origin-bottom-right">
-                      <button onClick={() => { handleEdit(bill); setActiveMenu(null); }} className="w-full text-left px-5 py-4 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition flex items-center gap-3">
-                         <i className="fa-solid fa-pen-to-square text-blue-500 w-4"></i> Editar datos
-                      </button>
-                      <div className="h-px bg-slate-100 dark:bg-white/5 mx-3 my-1"></div>
-                      <button onClick={() => { handleDeleteClick(bill); setActiveMenu(null); }} className="w-full text-left px-5 py-4 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition flex items-center gap-3">
-                         <i className="fa-solid fa-trash-can w-4"></i> Borrar servicio
-                      </button>
-                    </div>
-                  </>
-                )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-20">
+        {pendingBills.map(bill => (
+          <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
+            <Card 
+              className={`group !overflow-visible !p-3.5 sm:!p-4.5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
+            >
+              <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all ${bill.paid ? 'bg-green-500' : isOverdue(bill.dueDate) ? 'bg-red-500' : bill.amount > 0 ? 'bg-orange-400' : 'bg-blue-500'}`}></div>
               </div>
 
-              <button 
-                className={`group relative flex items-center justify-center w-14 h-14 !rounded-full shadow-lg transition-all duration-300 border border-white/20 ${bill.amount > 0 ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-blue-500/20 hover:shadow-blue-500/40' : 'bg-amber-500 text-white shadow-amber-500/20 hover:shadow-amber-500/40'}`}
-                onClick={(e) => { e.stopPropagation(); handleTogglePaid(bill); }}
-                title={bill.amount > 0 ? "Confirmar Pago" : "Definir Monto"}
-              >
-                <i className={`fa-solid ${bill.amount > 0 ? 'fa-check' : 'fa-pen-to-square'} text-2xl group-hover:scale-110 transition-transform`}></i>
-              </button>
-            </div>
+              {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
+              <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-1">
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+                    {getIcon(bill.category)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-tight truncate" title={bill.name}>
+                      {bill.name}
+                      {bill.isInstallments && (
+                        <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
+                          {bill.currentInstallment}/{bill.totalInstallments}
+                        </span>
+                      )}
+                    </h4>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {bill.amount >= 0 && (
+                    <span className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                      {showBalance ? formatMoney(bill.amount) : '****'}
+                    </span>
+                  )}
+                  <div className="relative">
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
+                      className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                    >
+                      <i className="fa-solid fa-ellipsis-vertical text-xs sm:text-sm"></i>
+                    </button>
+                    {activeMenu === bill.id && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-[190]"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveMenu(null);
+                          }}
+                        />
+                        <div className="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-white/10 z-[200] overflow-hidden py-1.5 popup-animate origin-top-right">
+                          <button onClick={() => { handleEdit(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                            <i className="fa-solid fa-pen-to-square text-slate-400"></i>
+                            <span>Editar</span>
+                          </button>
+                          <button onClick={() => { handleDeleteClick(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition">
+                            <i className="fa-solid fa-trash-can text-red-400"></i>
+                            <span>Eliminar</span>
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Fila Inferior: Estado / Vencimiento + Botón Pagar */}
+              <div className="flex justify-between items-center gap-2 pt-2 border-t border-slate-100 dark:border-white/5 pl-1">
+                <div className="flex items-center gap-2 min-w-0">
+                  {bill.amount > 0 ? (
+                    <>
+                      <Badge 
+                        variant={bill.paid ? 'green' : isOverdue(bill.dueDate) ? 'red' : 'default'}
+                        className="!text-[9px] !px-2 !py-0.5 shrink-0"
+                      >
+                        {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
+                      </Badge>
+                      <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1">
+                        <i className="fa-regular fa-calendar text-[10px] opacity-60"></i>
+                        {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
+                      </span>
+                    </>
+                  ) : (
+                    <Badge variant="blue" className="animate-pulse !text-[9px] !px-2 !py-0.5">Falta monto</Badge>
+                  )}
+                </div>
+
+                <div>
+                  <Button 
+                    variant={bill.paid ? 'ghost' : 'secondary'} 
+                    className={`!px-3.5 !py-1 !text-xs font-bold !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50 hover:opacity-80' : 'shadow-sm'}`}
+                    onClick={() => handleTogglePaid(bill)}
+                  >
+                    {bill.paid ? (
+                      <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[10px]"></i> Pagado</span>
+                    ) : bill.amount === 0 ? (
+                      'Definir'
+                    ) : (
+                      'Pagar'
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </Card>
           </div>
-        </Card>
-      ))}
+        ))}
+      </div>
 
 
       {pendingBills.length === 0 && (

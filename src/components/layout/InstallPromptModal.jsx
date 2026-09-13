@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export const InstallPromptModal = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(() => window.__pwaDeferredPrompt || null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -20,35 +20,44 @@ export const InstallPromptModal = () => {
     const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
     setIsIOS(isAppleDevice);
 
-    // 3. Capturar el evento nativo de instalación en Android / Chrome / Edge
+    // 3. Revisar si ya capturamos el evento antes de que React cargara
+    if (window.__pwaDeferredPrompt) {
+      setDeferredPrompt(window.__pwaDeferredPrompt);
+    }
+
+    // 4. Capturar eventos nativos y custom
+    const handleCaptured = () => {
+      if (window.__pwaDeferredPrompt) {
+        setDeferredPrompt(window.__pwaDeferredPrompt);
+      }
+    };
+
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
+      window.__pwaDeferredPrompt = e;
       setDeferredPrompt(e);
-      // Siempre mostrar el prompt cuando el navegador confirme que la app es instalable
       setShowPrompt(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('pwa-prompt-captured', handleCaptured);
 
-    // 4. Temporizador de apertura automática para cualquier navegador no instalado
-    const dismissed = sessionStorage.getItem('home_pwa_dismissed');
-    let timer;
-    if (!dismissed) {
-      timer = setTimeout(() => {
-        setShowPrompt(true);
-      }, 1500);
-    }
+    // 5. Temporizador de apertura automática para dispositivos no instalados
+    const timer = setTimeout(() => {
+      setShowPrompt(true);
+    }, 1200);
 
-    // 5. Ocultar si el usuario completa la instalación
+    // 6. Ocultar si se completa la instalación
     const handleAppInstalled = () => {
       setShowPrompt(false);
       setDeferredPrompt(null);
+      window.__pwaDeferredPrompt = null;
       setIsStandalone(true);
     };
 
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    // 6. Permitir abrir el prompt desde el menú de Ajustes manualmente
+    // 7. Disparar desde menú de ajustes
     const handleCustomTrigger = () => {
       setShowAndroidGuide(false);
       setShowPrompt(true);
@@ -56,18 +65,21 @@ export const InstallPromptModal = () => {
     window.addEventListener('trigger-pwa-install', handleCustomTrigger);
 
     return () => {
-      if (timer) clearTimeout(timer);
+      clearTimeout(timer);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('pwa-prompt-captured', handleCaptured);
       window.removeEventListener('appinstalled', handleAppInstalled);
       window.removeEventListener('trigger-pwa-install', handleCustomTrigger);
     };
   }, []);
 
   const handleInstallClick = async () => {
-    if (deferredPrompt) {
+    const promptEvent = deferredPrompt || window.__pwaDeferredPrompt;
+
+    if (promptEvent) {
       try {
-        await deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+        await promptEvent.prompt();
+        const { outcome } = await promptEvent.userChoice;
         if (outcome === 'accepted') {
           setShowPrompt(false);
           setIsStandalone(true);
@@ -76,8 +88,9 @@ export const InstallPromptModal = () => {
         console.error('Error al solicitar instalación PWA:', err);
       }
       setDeferredPrompt(null);
+      window.__pwaDeferredPrompt = null;
     } else {
-      // Si el navegador aún no preparó el evento nativo o lo bloqueó por política interna, guiamos al usuario
+      // Si por alguna política interna de Chrome el evento no fue provisto aún:
       setShowAndroidGuide(true);
     }
   };
@@ -128,7 +141,7 @@ export const InstallPromptModal = () => {
         </div>
 
         <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-5 leading-relaxed">
-          Instalá la aplicación en tu pantalla de inicio para abrirla como una app nativa, acceder más rápido y recibir <strong className="text-slate-900 dark:text-white">notificaciones de vencimiento</strong> automáticamente.
+          Instalá la aplicación en tu pantalla de inicio para abrirla al instante y recibir <strong className="text-slate-900 dark:text-white">notificaciones de vencimiento</strong> automáticamente.
         </p>
 
         {isIOS ? (
@@ -146,38 +159,33 @@ export const InstallPromptModal = () => {
               <span>Buscá y seleccioná <strong>"Agregar a pantalla de inicio"</strong>.</span>
             </div>
           </div>
-        ) : showAndroidGuide ? (
-          /* Guía de instalación manual en Android si el navegador no disparó el diálogo */
-          <div className="bg-blue-50/70 dark:bg-blue-500/10 rounded-2xl p-4 border border-blue-200/50 dark:border-blue-500/20 space-y-2.5 mb-4 animate-fade-in">
-            <p className="text-xs font-bold text-blue-900 dark:text-blue-200 flex items-center gap-2">
-              <i className="fa-solid fa-circle-info text-blue-500"></i>
-              Instalación rápida en Android:
-            </p>
-            <div className="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
-              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-[11px] shrink-0">1</span>
-              <span>Tocá los <strong>3 puntitos (⋮)</strong> arriba a la derecha en Chrome.</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
-              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-[11px] shrink-0">2</span>
-              <span>Elegí <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</span>
-            </div>
-          </div>
         ) : (
           /* Botón de instalación nativa Android / Chrome / PC */
-          <div className="space-y-2">
+          <div className="space-y-3">
             <button
               onClick={handleInstallClick}
-              className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 text-base transition-all"
+              className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 text-base transition-all cursor-pointer"
             >
               <i className="fa-solid fa-download"></i>
               <span>Instalar Aplicación</span>
             </button>
+
+            {showAndroidGuide && (
+              <div className="bg-blue-50/80 dark:bg-blue-500/10 rounded-2xl p-3.5 border border-blue-200/60 dark:border-blue-500/20 text-xs text-slate-600 dark:text-slate-300 animate-fade-in space-y-1.5">
+                <p className="font-bold text-blue-900 dark:text-blue-200">
+                  Si tu navegador no abrió el diálogo:
+                </p>
+                <p>
+                  Tocá los <strong>3 puntitos (⋮)</strong> arriba a la derecha en Chrome y seleccioná <strong>"Instalar aplicación"</strong> o <strong>"Agregar a pantalla principal"</strong>.
+                </p>
+              </div>
+            )}
           </div>
         )}
 
         <button
           onClick={handleDismiss}
-          className="w-full mt-2.5 py-2.5 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-center"
+          className="w-full mt-2 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-center"
         >
           Quizás más tarde
         </button>

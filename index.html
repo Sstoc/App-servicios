@@ -6,6 +6,12 @@
       if (window.location.hostname.includes('netlify.app')) {
         window.location.replace('https://app-servicios-olive.vercel.app' + window.location.pathname + window.location.search + window.location.hash);
       }
+      window.__pwaDeferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        window.__pwaDeferredPrompt = e;
+        window.dispatchEvent(new CustomEvent('pwa-prompt-captured'));
+      });
     </script>
     <meta name="google" content="notranslate" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />

@@ -22,58 +22,64 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
     setEditing(false);
   };
 
-  // Si no hay presupuesto, mostrar un CTA discreto
+  // Si no hay presupuesto, mostrar un CTA discreto y compacto
   if (budget === null) {
     return (
-      <button
-        onClick={() => { setInputVal(''); setEditing(true); }}
-        className="w-full mb-6 flex items-center gap-3 p-4 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-500/40 transition-all group"
-      >
-        <i className="fa-solid fa-bullseye text-lg group-hover:scale-110 transition-transform"></i>
-        <span className="text-sm font-semibold">Establecer presupuesto mensual</span>
-        {editing && (
-          <div className="ml-auto flex items-center gap-2" onClick={e => e.stopPropagation()}>
-            <input
-              type="number"
-              autoFocus
-              value={inputVal}
-              onChange={e => setInputVal(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSave()}
-              placeholder="Ej: 50000"
-              min="0"
-              className="w-32 px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-blue-500"
-            />
-            <button onClick={handleSave} className="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold">Guardar</button>
+      <div className="mb-3 sm:mb-6">
+        <button
+          onClick={() => { setInputVal(''); setEditing(true); }}
+          className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all flex items-center justify-between text-xs font-semibold group"
+        >
+          <div className="flex items-center gap-2">
+            <i className="fa-solid fa-bullseye text-sm group-hover:scale-110 transition-transform text-blue-500/70"></i>
+            <span>Establecer presupuesto mensual</span>
           </div>
-        )}
-      </button>
+          {editing ? (
+            <div className="flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
+              <input
+                type="number"
+                autoFocus
+                value={inputVal}
+                onChange={e => setInputVal(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSave()}
+                placeholder="Ej: 50000"
+                min="0"
+                className="w-24 sm:w-28 px-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-blue-500"
+              />
+              <button onClick={handleSave} className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold">Guardar</button>
+            </div>
+          ) : (
+            <i className="fa-solid fa-plus text-[10px] opacity-60"></i>
+          )}
+        </button>
+      </div>
     );
   }
 
   // Con presupuesto configurado
   return (
-    <Card className={`mb-6 transition-all duration-500 ${hasExceeded ? 'border-red-200 dark:border-red-500/30 bg-red-50/50 dark:bg-red-500/5' : 'border-blue-100 dark:border-blue-500/20'}`}>
-      <div className="flex items-start justify-between mb-3">
+    <Card className={`mb-3 sm:mb-6 !p-3.5 sm:!p-5 !rounded-2xl transition-all duration-500 ${hasExceeded ? 'border-red-200 dark:border-red-500/30 bg-red-50/50 dark:bg-red-500/5' : 'border-blue-100 dark:border-blue-500/20'}`}>
+      <div className="flex items-start justify-between mb-2">
         <div>
-          <p className={`text-xs font-bold uppercase tracking-widest ${hasExceeded ? 'text-red-500' : 'text-blue-600 dark:text-blue-400'}`}>
+          <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${hasExceeded ? 'text-red-500' : 'text-blue-600 dark:text-blue-400'}`}>
             {hasExceeded ? '⚠ Presupuesto superado' : 'Presupuesto del mes'}
           </p>
-          <p className="text-2xl font-black text-slate-800 dark:text-white mt-0.5">
+          <p className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white mt-0.5">
             {showBalance ? (
               <span>
                 <span className={hasExceeded ? 'text-red-500' : ''}>{formatMoney(monthTotal)}</span>
-                <span className="text-slate-300 dark:text-slate-600 text-lg font-bold"> / </span>
-                <span className="text-slate-500 dark:text-slate-400 text-lg font-bold">{formatMoney(budget)}</span>
+                <span className="text-slate-300 dark:text-slate-600 text-sm sm:text-base font-bold"> / </span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm sm:text-base font-bold">{formatMoney(budget)}</span>
               </span>
             ) : '••• / •••'}
           </p>
         </div>
         <button
           onClick={() => { setInputVal(String(budget)); setEditing(v => !v); }}
-          className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-blue-500 transition-all"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-blue-500 transition-all"
           title="Editar presupuesto"
         >
-          <i className="fa-solid fa-pen text-xs"></i>
+          <i className="fa-solid fa-pen text-[10px] sm:text-xs"></i>
         </button>
       </div>
 
@@ -316,37 +322,39 @@ export const DashboardView = ({
 
   return (
     <div ref={container}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className={`relative overflow-hidden transition-all duration-700 ${calculatePendingTotal() === 0 ? 'bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 border-none shadow-[0_20px_50px_rgba(245,158,11,0.3)]' : ''}`}>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 mb-3 sm:mb-6">
+        {/* Card 1: Pendiente Total */}
+        <Card className={`!p-3 sm:!p-5 !rounded-2xl relative overflow-hidden transition-all duration-700 ${calculatePendingTotal() === 0 ? 'bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 border-none shadow-[0_20px_50px_rgba(245,158,11,0.3)]' : ''}`}>
           <div className="relative z-10">
-            <p className={`text-xs font-bold uppercase mb-1 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-red-500'}`}>
+            <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-red-500'}`}>
               {calculatePendingTotal() === 0 ? '¡Felicidades!' : 'Pendiente Total'}
             </p>
-            <p className={`text-3xl font-bold ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
+            <p className={`text-xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
               {calculatePendingTotal() === 0 ? '¡Todo al día!' : formatMoneyProtected(calculatePendingTotal(), showBalance)}
             </p>
-            <p className={`text-sm mt-1 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-400'}`}>
+            <p className={`text-[11px] sm:text-sm mt-0.5 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-400'}`}>
               {calculatePendingTotal() === 0 ? 'Sin deudas este mes' : `${pendingCount} facturas sin pagar`}
             </p>
           </div>
-          <div className={`absolute right-0 bottom-0 w-24 h-24 rounded-tl-full -mr-4 -mb-4 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-red-50 dark:bg-red-500/5 opacity-50'}`}></div>
+          <div className={`absolute right-0 bottom-0 w-16 sm:w-24 h-16 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-red-50 dark:bg-red-500/5 opacity-50'}`}></div>
           {calculatePendingTotal() === 0 && (
-            <div className="absolute top-2 right-2 text-white/20 text-4xl rotate-12">
+            <div className="absolute top-2 right-2 text-white/20 text-2xl sm:text-4xl rotate-12">
               <i className="fa-solid fa-star"></i>
             </div>
           )}
         </Card>
 
-        <Card className="relative overflow-hidden">
+        {/* Card 2: Pagado (Mes) */}
+        <Card className="!p-3 sm:!p-5 !rounded-2xl relative overflow-hidden">
           <div className="relative z-10 w-full">
-            <div className="flex justify-between mb-1">
-              <p className="text-xs font-bold uppercase text-green-600">Pagado (Mes)</p>
-              <span className="text-xs font-bold text-slate-400">{Math.round(currentMonthProgress())}%</span>
+            <div className="flex justify-between items-center mb-0.5">
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-green-600">Pagado (Mes)</p>
+              <span className="text-[10px] sm:text-xs font-bold text-slate-400">{Math.round(currentMonthProgress())}%</span>
             </div>
-            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">
+            <p className="text-xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">
               {formatMoneyProtected(calculatePaidThisMonth(), showBalance)}
             </p>
-            <div className="w-full bg-slate-100 dark:bg-slate-700 h-2 mt-3 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-100 dark:bg-slate-700 h-1.5 sm:h-2 mt-2 rounded-full overflow-hidden">
               <div 
                 className={`h-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all duration-1000 ${currentMonthProgress() >= 100 ? 'animate-pulse' : ''}`} 
                 style={{ width: `${Math.min(100, currentMonthProgress())}%` }}
@@ -355,14 +363,17 @@ export const DashboardView = ({
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-blue-100 dark:border-blue-500/20">
+        {/* Card 3: Próximo Vencimiento - En mobile horizontal abarcando 2 columnas, en desktop 3ra columna */}
+        <Card className="col-span-2 md:col-span-1 !p-3 sm:!p-5 !rounded-2xl relative overflow-hidden border-blue-100 dark:border-blue-500/20">
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-[50px] opacity-10"></div>
-          <div className="relative z-10">
-            <p className="text-slate-400 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Próximo Vencimiento</p>
-            <p className="text-xl font-bold mt-2 truncate text-slate-800 dark:text-white">
-              {getNextDueBill() ? getNextDueBill().name : 'Nada pendiente'}
-            </p>
-            <p className="text-sm text-blue-600 dark:text-blue-400 mt-1 font-medium">
+          <div className="relative z-10 flex items-center justify-between gap-2 md:block">
+            <div className="min-w-0">
+              <p className="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider">Próximo Vencimiento</p>
+              <p className="text-sm sm:text-xl font-bold mt-0.5 truncate text-slate-800 dark:text-white">
+                {getNextDueBill() ? getNextDueBill().name : 'Nada pendiente'}
+              </p>
+            </div>
+            <p className="text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400 shrink-0 md:mt-1">
               {getNextDueBill() ? getRelativeDateString(getNextDueBill().dueDate) : 'Todo al día'}
             </p>
           </div>
@@ -450,85 +461,103 @@ export const DashboardView = ({
           <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
             <SwipeableBillCard bill={bill} onSwipePay={handleTogglePaid}>
               <Card 
-                className={`group !overflow-visible transition-all duration-500 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                className={`group !overflow-visible !p-3.5 sm:!p-4.5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
               >
-                <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+                <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
                   <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all ${bill.paid ? 'bg-green-500' : isOverdue(bill.dueDate) ? 'bg-red-500' : bill.amount > 0 ? 'bg-orange-400' : 'bg-blue-500'}`}></div>
                 </div>
-                <div className="flex justify-between items-start mb-3 relative z-10">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+
+                {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
+                <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-1">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
                       {getIcon(bill.category)}
                     </div>
-                    <div>
-                      <h4 className="font-bold text-slate-800 dark:text-slate-100 text-lg">
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-tight truncate" title={bill.name}>
                         {bill.name}
                         {bill.isInstallments && (
-                          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
+                          <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
                             {bill.currentInstallment}/{bill.totalInstallments}
                           </span>
                         )}
                       </h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{getCategoryLabel(bill.category)}</p>
+                      <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
                     </div>
                   </div>
-                  <div className="relative">
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                      className="text-slate-400 dark:text-slate-500 hover:text-blue-500 p-2 transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
-                    >
-                      <i className="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                    {activeMenu === bill.id && (
-                      <>
-                        <div
-                          className="fixed inset-0 z-[190]"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveMenu(null);
-                          }}
-                        />
-                        <div className="absolute right-0 top-full mt-2 w-52 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-white/10 z-[200] overflow-hidden py-2 popup-animate origin-top-right">
-                          <button onClick={() => { handleEdit(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
-                            <i className="fa-solid fa-pen-to-square text-slate-400"></i>
-                            <span>Editar</span>
-                          </button>
-                          <button onClick={() => { handleDeleteClick(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition">
-                            <i className="fa-solid fa-trash-can text-red-400"></i>
-                            <span>Eliminar</span>
-                          </button>
-                        </div>
-                      </>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {bill.amount >= 0 && (
+                      <span className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                        {showBalance ? formatMoney(bill.amount) : '****'}
+                      </span>
                     )}
+                    <div className="relative">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
+                        className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                      >
+                        <i className="fa-solid fa-ellipsis-vertical text-xs sm:text-sm"></i>
+                      </button>
+                      {activeMenu === bill.id && (
+                        <>
+                          <div
+                            className="fixed inset-0 z-[190]"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveMenu(null);
+                            }}
+                          />
+                          <div className="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-white/10 z-[200] overflow-hidden py-1.5 popup-animate origin-top-right">
+                            <button onClick={() => { handleEdit(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                              <i className="fa-solid fa-pen-to-square text-slate-400"></i>
+                              <span>Editar</span>
+                            </button>
+                            <button onClick={() => { handleDeleteClick(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition">
+                              <i className="fa-solid fa-trash-can text-red-400"></i>
+                              <span>Eliminar</span>
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="flex justify-between items-end">
-                  <div>
+
+                {/* Fila Inferior: Estado / Vencimiento + Botón Pagar */}
+                <div className="flex justify-between items-center gap-2 pt-2 border-t border-slate-100 dark:border-white/5 pl-1">
+                  <div className="flex items-center gap-2 min-w-0">
                     {bill.amount > 0 ? (
                       <>
-                        <Badge variant={bill.paid ? 'green' : isOverdue(bill.dueDate) ? 'red' : 'default'}>
+                        <Badge 
+                          variant={bill.paid ? 'green' : isOverdue(bill.dueDate) ? 'red' : 'default'}
+                          className="!text-[9px] !px-2 !py-0.5 shrink-0"
+                        >
                           {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
                         </Badge>
-                        <p className="text-xs text-slate-400 mt-1 font-medium">
+                        <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1">
+                          <i className="fa-regular fa-calendar text-[10px] opacity-60"></i>
                           {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
-                        </p>
+                        </span>
                       </>
                     ) : (
-                      <Badge variant="blue" className="animate-pulse">Falta monto</Badge>
+                      <Badge variant="blue" className="animate-pulse !text-[9px] !px-2 !py-0.5">Falta monto</Badge>
                     )}
                   </div>
-                  <div className="text-right">
-                    {bill.amount >= 0 && (
-                      <p className="font-extrabold text-lg text-slate-800 dark:text-slate-100 mb-2">
-                        {showBalance ? formatMoney(bill.amount) : '****'}
-                      </p>
-                    )}
+
+                  <div>
                     <Button 
                       variant={bill.paid ? 'ghost' : 'secondary'} 
-                      className={`px-5 py-1.5 text-xs !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50' : ''}`}
+                      className={`!px-3.5 !py-1 !text-xs font-bold !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50 hover:opacity-80' : 'shadow-sm'}`}
                       onClick={() => handleTogglePaid(bill)}
                     >
-                      {bill.paid ? 'Pagado' : bill.amount === 0 ? 'Definir' : 'Pagar'}
+                      {bill.paid ? (
+                        <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[10px]"></i> Pagado</span>
+                      ) : bill.amount === 0 ? (
+                        'Definir'
+                      ) : (
+                        'Pagar'
+                      )}
                     </Button>
                   </div>
                 </div>

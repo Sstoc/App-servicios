@@ -287,13 +287,13 @@ function App() {
           syncStatus={syncStatus}
         />
 
-        <div key={view} className="flex-1 p-4 md:p-10 pt-20 md:pt-10 overflow-y-auto page-enter" style={{ WebkitOverflowScrolling: 'touch' }}>
-          <div className="max-w-5xl mx-auto space-y-6 pb-32">
+        <div key={view} className="flex-1 p-3.5 sm:p-4 md:p-10 pt-[4.9rem] sm:pt-20 md:pt-10 overflow-y-auto page-enter" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="max-w-5xl mx-auto space-y-3 sm:space-y-6 pb-32">
 
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-1 sm:gap-4 mb-1.5 sm:mb-4">
               <div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{getPageTitle()}</h2>
-                <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-base capitalize">{getPageSubtitle()}</p>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{getPageTitle()}</h2>
+                <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm md:text-base capitalize">{getPageSubtitle()}</p>
               </div>
               {view === 'dashboard' && (
                 <Button className="hidden md:flex" icon="fa-solid fa-plus" onClick={() => { setEditingBill(null); setIsModalOpen(true); }}>

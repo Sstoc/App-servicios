@@ -111,53 +111,80 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
               onClick={() => toggleHistoryGroup(group.key)}
               className={`w-full p-4 sm:p-5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer select-none ${isGroupOpen ? 'rounded-t-3xl' : 'rounded-3xl'}`}
             >
-              <div className="flex items-center justify-between gap-3 min-w-0">
-                {/* Izquierda: Icono de estado + Título del mes + Cantidad de movimientos y botones de exportación */}
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className={`w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center text-sm font-bold shadow-sm ${group.isFullyPaid ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400'}`}>
-                    <i className={`fa-solid ${group.isFullyPaid ? 'fa-check' : 'fa-hourglass-start'}`}></i>
-                  </div>
-                  <div className="min-w-0 flex-1 text-left">
-                    <h3 className="font-bold text-slate-800 dark:text-slate-100 capitalize text-base sm:text-lg tracking-tight truncate">
+              {/* En móviles: 2 filas súper limpias y espaciosas */}
+              <div className="sm:hidden space-y-2.5">
+                {/* Fila 1: Icono de estado + Título COMPLETO del mes + Flecha de desplegar */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <div className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center text-sm font-bold shadow-sm ${group.isFullyPaid ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'}`}>
+                      <i className={`fa-solid ${group.isFullyPaid ? 'fa-check' : 'fa-hourglass-start'}`}></i>
+                    </div>
+                    <h3 className="font-extrabold text-slate-800 dark:text-slate-100 capitalize text-base tracking-tight leading-tight">
                       {group.title}
                     </h3>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[10px] text-slate-400 dark:text-slate-400 font-bold uppercase tracking-wider whitespace-nowrap">
-                        {group.bills.length} {group.bills.length === 1 ? 'movimiento' : 'movimientos'}
-                      </span>
-                      {/* Botones de exportar en móvil (junto a movimientos para no apretar la derecha) */}
-                      <div className="flex sm:hidden items-center gap-1.5 ml-1">
-                        <button
-                          onClick={(e) => handleExportCSV(e, group)}
-                          title="Exportar a Excel (CSV)"
-                          className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:text-emerald-500 active:scale-90 transition-all"
-                        >
-                          <i className="fa-solid fa-file-excel text-[11px]"></i>
-                        </button>
-                        <button
-                          onClick={(e) => handleExportPDF(e, group)}
-                          title="Exportar a PDF"
-                          disabled={exportingPDF === group.key}
-                          className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:text-rose-500 active:scale-90 transition-all disabled:opacity-50"
-                        >
-                          {exportingPDF === group.key
-                            ? <i className="fa-solid fa-spinner animate-spin text-[11px]"></i>
-                            : <i className="fa-solid fa-file-pdf text-[11px]"></i>
-                          }
-                        </button>
-                      </div>
-                    </div>
+                  </div>
+
+                  <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-500/15 text-blue-500' : 'text-slate-400'}`}>
+                    <i className="fa-solid fa-chevron-down text-xs"></i>
                   </div>
                 </div>
 
-                {/* Derecha: Total del mes + Botones de exportar (escritorio) + Flecha de desplegar */}
-                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                  <span className="font-extrabold text-slate-900 dark:text-white text-base sm:text-xl whitespace-nowrap tracking-tight">
+                {/* Fila 2: Cantidad de movimientos + Botones Excel/PDF + Total del mes */}
+                <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100/80 dark:border-slate-700/40">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
+                      {group.bills.length} {group.bills.length === 1 ? 'servicio' : 'servicios'}
+                    </span>
+                    <div className="flex items-center gap-1.5 ml-1">
+                      <button
+                        onClick={(e) => handleExportCSV(e, group)}
+                        title="Exportar a Excel (CSV)"
+                        className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-500 hover:text-emerald-500 active:scale-90 transition-all"
+                      >
+                        <i className="fa-solid fa-file-excel text-xs text-emerald-600 dark:text-emerald-400"></i>
+                      </button>
+                      <button
+                        onClick={(e) => handleExportPDF(e, group)}
+                        title="Exportar a PDF"
+                        disabled={exportingPDF === group.key}
+                        className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-500 hover:text-rose-500 active:scale-90 transition-all disabled:opacity-50"
+                      >
+                        {exportingPDF === group.key
+                          ? <i className="fa-solid fa-spinner animate-spin text-xs"></i>
+                          : <i className="fa-solid fa-file-pdf text-xs text-rose-600 dark:text-rose-400"></i>
+                        }
+                      </button>
+                    </div>
+                  </div>
+
+                  <span className="font-black text-slate-900 dark:text-white text-base tracking-tight whitespace-nowrap">
+                    {showBalance ? formatMoney(group.total) : '****'}
+                  </span>
+                </div>
+              </div>
+
+              {/* En pantallas medianas y grandes (tablets / desktop): diseño amplio horizontal */}
+              <div className="hidden sm:flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div className={`w-11 h-11 shrink-0 rounded-2xl flex items-center justify-center text-base font-bold shadow-sm ${group.isFullyPaid ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'}`}>
+                    <i className={`fa-solid ${group.isFullyPaid ? 'fa-check' : 'fa-hourglass-start'}`}></i>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-extrabold text-slate-800 dark:text-slate-100 capitalize text-lg tracking-tight">
+                      {group.title}
+                    </h3>
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+                      {group.bills.length} {group.bills.length === 1 ? 'movimiento' : 'movimientos'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="font-extrabold text-slate-900 dark:text-white text-xl whitespace-nowrap tracking-tight">
                     {showBalance ? formatMoney(group.total) : '****'}
                   </span>
 
-                  {/* Botones de exportar en pantallas medianas y grandes */}
-                  <div className="hidden sm:flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5">
                     <button
                       onClick={(e) => handleExportCSV(e, group)}
                       title="Exportar a Excel (CSV)"
@@ -178,7 +205,6 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                     </button>
                   </div>
 
-                  {/* Flecha desplegar SIEMPRE visible a la derecha */}
                   <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'text-slate-400'}`}>
                     <i className="fa-solid fa-chevron-down text-xs"></i>
                   </div>
@@ -189,7 +215,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
             {/* Lista de servicios del grupo */}
             <div className={`grid transition-all duration-300 ease-in-out ${isGroupOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
               <div className="overflow-hidden">
-                <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 space-y-2 rounded-b-3xl">
+                <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 space-y-2 rounded-b-3xl">
                   {group.bills.map(bill => {
                     const isExpanded = expandedBill === bill.id;
                     const dueDateFormatted = new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', {
@@ -204,33 +230,49 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                         key={bill.id}
                         className={`bg-white dark:bg-slate-800 rounded-2xl border transition-all duration-300 overflow-hidden ${isExpanded ? 'border-blue-200 dark:border-blue-500/30 shadow-lg shadow-blue-100/50 dark:shadow-blue-500/5' : 'border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md'}`}
                       >
-                        {/* Fila principal — clickeable */}
+                        {/* Fila principal — clickeable con layout de 2 filas en móvil */}
                         <div
-                          className="flex justify-between items-center p-4 cursor-pointer gap-3 select-none"
+                          className="p-3.5 sm:p-4 cursor-pointer select-none"
                           onClick={() => toggleBillDetail(bill.id)}
                         >
-                          <div className="flex items-center gap-3 flex-1 min-w-0">
-                            <div className={`w-10 h-10 flex-shrink-0 rounded-xl flex items-center justify-center shadow-inner transition-colors duration-300 ${isExpanded ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-500' : 'bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400'}`}>
+                          <div className="flex items-center gap-3">
+                            {/* Icono de categoría */}
+                            <div className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center shadow-inner transition-colors duration-300 ${isExpanded ? 'bg-blue-50 dark:bg-blue-500/15 text-blue-500' : 'bg-slate-100 dark:bg-slate-900 text-slate-500 dark:text-slate-400'}`}>
                               {getIcon(bill.category)}
                             </div>
-                            <div className="min-w-0">
-                              <span className="font-bold text-slate-700 dark:text-slate-200 text-xs tracking-tight truncate block">
-                                {bill.name}
-                              </span>
-                              {bill.isInstallments && (
-                                <span className="text-[9px] font-black text-purple-500 dark:text-purple-400 uppercase tracking-widest">
-                                  Cuota {bill.currentInstallment}/{bill.totalInstallments}
+
+                            {/* Contenido principal: Nombre completo + Monto + Badges */}
+                            <div className="flex-1 min-w-0">
+                              {/* Fila 1: Nombre del servicio (amplio, sin apretarse) y Monto a la derecha */}
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-slate-800 dark:text-slate-100 text-sm tracking-tight truncate">
+                                  {bill.name}
                                 </span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 flex-shrink-0">
-                            <Badge variant={bill.paid ? 'green' : 'red'}>{bill.paid ? 'PAGO' : 'IMPAGO'}</Badge>
-                            <span className="font-bold text-slate-800 dark:text-slate-100 whitespace-nowrap text-sm">
-                              {showBalance ? formatMoney(bill.amount) : '****'}
-                            </span>
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-transform duration-200 ${isExpanded ? 'rotate-180 text-blue-500' : 'text-slate-300 dark:text-slate-600'}`}>
-                              <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                <span className="font-extrabold text-slate-900 dark:text-white whitespace-nowrap text-sm shrink-0">
+                                  {showBalance ? formatMoney(bill.amount) : '****'}
+                                </span>
+                              </div>
+
+                              {/* Fila 2: Estado (PAGO/IMPAGO) + Fecha + Cuota + Flechita */}
+                              <div className="flex items-center justify-between gap-2 mt-1">
+                                <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                                  <Badge variant={bill.paid ? 'green' : 'red'}>
+                                    {bill.paid ? 'PAGO' : 'IMPAGO'}
+                                  </Badge>
+                                  <span className="text-[11px] text-slate-400 dark:text-slate-400 font-medium capitalize truncate">
+                                    {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
+                                  </span>
+                                  {bill.isInstallments && (
+                                    <span className="text-[9px] font-black text-purple-500 dark:text-purple-400 uppercase tracking-wider bg-purple-50 dark:bg-purple-500/10 px-1.5 py-0.5 rounded-md">
+                                      Cuota {bill.currentInstallment}/{bill.totalInstallments}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className={`w-5 h-5 shrink-0 rounded-full flex items-center justify-center transition-transform duration-200 ${isExpanded ? 'rotate-180 text-blue-500' : 'text-slate-300 dark:text-slate-600'}`}>
+                                  <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
