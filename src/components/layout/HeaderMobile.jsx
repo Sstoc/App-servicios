@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, toggleDarkMode, signOut, user, pushEnabled, requestPushPermission, syncStatus }) => {
+export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, toggleDarkMode, themeMode = 'light', setThemeMode, signOut, user, pushEnabled, requestPushPermission, syncStatus }) => {
   const [openSettings, setOpenSettings] = useState(false);
 
   React.useEffect(() => {
@@ -78,10 +78,35 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
                   <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Ajustes</p>
                   <p className="text-base font-bold text-slate-800 dark:text-white truncate mt-1">{user?.email}</p>
                 </div>
-                <button onClick={() => { toggleDarkMode(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <i className={`fa-solid w-6 text-center text-xl ${darkMode ? 'fa-sun text-yellow-500' : 'fa-moon text-blue-400'}`}></i>
-                  <span className="flex-1 text-left">{darkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
-                </button>
+                <div className="px-5 py-3 border-b border-slate-50 dark:border-slate-700/50 mb-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Tema de la app</p>
+                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 dark:bg-slate-700/60 rounded-2xl">
+                    <button
+                      type="button"
+                      onClick={() => setThemeMode ? setThemeMode('light') : toggleDarkMode()}
+                      className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'light' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                    >
+                      <i className="fa-solid fa-sun text-base text-yellow-500 mb-1"></i>
+                      <span>Claro</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setThemeMode ? setThemeMode('dark') : toggleDarkMode()}
+                      className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'dark' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                    >
+                      <i className="fa-solid fa-moon text-base text-blue-400 mb-1"></i>
+                      <span>Oscuro</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setThemeMode ? setThemeMode('system') : toggleDarkMode()}
+                      className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'system' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                    >
+                      <i className="fa-solid fa-circle-half-stroke text-base text-slate-400 mb-1"></i>
+                      <span>Sistema</span>
+                    </button>
+                  </div>
+                </div>
                 <button onClick={() => { requestPushPermission(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                   <i className={`fa-solid w-6 text-center text-xl ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
                   <span className="flex-1 text-left">Notificaciones</span>

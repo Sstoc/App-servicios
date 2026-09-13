@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, signOut, user, showBalance, syncStatus, pushEnabled, toggleNotifications }) => {
+export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, themeMode = 'light', setThemeMode, signOut, user, showBalance, syncStatus, pushEnabled, toggleNotifications }) => {
   const getSyncIcon = () => {
     switch (syncStatus) {
       case 'syncing':
@@ -74,23 +74,39 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
             <span className="flex-1 text-left">Historial</span>
           </button>
 
-          <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-700 space-y-2">
-            <button 
-              onClick={toggleDarkMode} 
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300"
-            >
-              {darkMode ? (
-                <>
-                  <i className="fa-solid fa-sun w-5 text-center text-yellow-500"></i>
-                  <span>Modo Claro</span>
-                </>
-              ) : (
-                <>
-                  <i className="fa-solid fa-moon w-5 text-center"></i>
-                  <span>Modo Oscuro</span>
-                </>
-              )}
-            </button>
+          <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-700 space-y-2">
+            <div className="px-1 py-1">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-1">Tema de la app</p>
+              <div className="grid grid-cols-3 gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/60 dark:border-slate-700/50">
+                <button 
+                  type="button"
+                  onClick={() => setThemeMode ? setThemeMode('light') : toggleDarkMode()} 
+                  className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'light' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                  title="Modo Claro"
+                >
+                  <i className="fa-solid fa-sun text-yellow-500 text-xs"></i>
+                  <span>Claro</span>
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setThemeMode ? setThemeMode('dark') : toggleDarkMode()} 
+                  className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'dark' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                  title="Modo Oscuro"
+                >
+                  <i className="fa-solid fa-moon text-blue-400 text-xs"></i>
+                  <span>Oscuro</span>
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setThemeMode ? setThemeMode('system') : toggleDarkMode()} 
+                  className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'system' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                  title="Predeterminado del sistema"
+                >
+                  <i className="fa-solid fa-circle-half-stroke text-slate-400 text-xs"></i>
+                  <span>Auto</span>
+                </button>
+              </div>
+            </div>
 
             <button 
               onClick={toggleNotifications} 

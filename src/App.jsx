@@ -29,7 +29,7 @@ function App() {
   } = useApp();
 
   const [view, setView] = useState('dashboard');
-  const [darkMode, toggleDarkMode] = useDarkMode();
+  const [darkMode, toggleDarkMode, themeMode, setThemeMode] = useDarkMode();
   const [showBalance, setShowBalance] = useState(true);
   const containerRef = useRef(null);
   const contentRef = useRef(null);
@@ -288,6 +288,8 @@ function App() {
         formatMoney={formatMoney}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
+        themeMode={themeMode}
+        setThemeMode={setThemeMode}
         showBalance={showBalance}
         user={user}
         signOut={signOut}
@@ -302,6 +304,8 @@ function App() {
           showBalance={showBalance}
           darkMode={darkMode}
           toggleDarkMode={toggleDarkMode}
+          themeMode={themeMode}
+          setThemeMode={setThemeMode}
           signOut={signOut}
           user={user}
           pushEnabled={pushEnabled}

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light dark" id="color-scheme-meta" />
     <meta name="theme-color" content="#f8fafc" id="theme-color-meta" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" id="apple-status-bar-meta" />
@@ -19,25 +19,60 @@
         window.dispatchEvent(new CustomEvent('pwa-prompt-captured'));
       });
       try {
-        var isDark = localStorage.getItem('darkMode');
-        var dark = isDark !== null ? JSON.parse(isDark) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var savedMode = localStorage.getItem('theme_mode');
+        if (!savedMode) {
+          var legacyDark = localStorage.getItem('darkMode');
+          if (legacyDark !== null) {
+            savedMode = JSON.parse(legacyDark) ? 'dark' : 'light';
+          } else {
+            savedMode = 'light'; // Predeterminado al descargar / abrir de cero: Modo Claro
+          }
+        }
+
+        var isDark = false;
+        if (savedMode === 'dark') {
+          isDark = true;
+        } else if (savedMode === 'system') {
+          isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } else {
+          isDark = false; // 'light'
+        }
+
         var root = document.documentElement;
-        root.style.colorScheme = dark ? 'dark' : 'light';
-        if (dark) {
+        root.style.colorScheme = isDark ? 'dark' : 'light';
+        if (isDark) {
           root.classList.add('dark');
         } else {
           root.classList.remove('dark');
         }
-        // Actualizar theme-color según el modo de la app (no del sistema)
-        var themeColorMeta = document.getElementById('theme-color-meta') || document.querySelector('meta[name="theme-color"]');
-        if (themeColorMeta) {
-          var targetColor = dark ? '#0f172a' : '#f8fafc';
-          themeColorMeta.setAttribute('content', targetColor);
-          themeColorMeta.content = targetColor;
+
+        // 1. Sincronizar meta color-scheme
+        var colorSchemeMeta = document.getElementById('color-scheme-meta') || document.querySelector('meta[name="color-scheme"]');
+        if (colorSchemeMeta) {
+          colorSchemeMeta.setAttribute('content', isDark ? 'dark' : 'light');
         }
+
+        // 2. Color idéntico al HeaderMobile: #f8fafc (bg-slate-50) en claro, #0f172a (bg-slate-900) en oscuro
+        var targetColor = isDark ? '#0f172a' : '#f8fafc';
+        var themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
+        if (themeColorMetas.length > 0) {
+          themeColorMetas.forEach(function(m) {
+            m.setAttribute('content', targetColor);
+            m.content = targetColor;
+          });
+        } else {
+          var newMeta = document.createElement('meta');
+          newMeta.name = 'theme-color';
+          newMeta.id = 'theme-color-meta';
+          newMeta.content = targetColor;
+          newMeta.setAttribute('content', targetColor);
+          document.head.appendChild(newMeta);
+        }
+
+        // 3. iOS status bar
         var appleMeta = document.getElementById('apple-status-bar-meta');
         if (appleMeta) {
-          appleMeta.setAttribute('content', dark ? 'black-translucent' : 'default');
+          appleMeta.setAttribute('content', isDark ? 'black-translucent' : 'default');
         }
       } catch (e) {}
     </script>
