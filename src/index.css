@@ -7,6 +7,12 @@
 @variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+  :root.dark {
+    color-scheme: dark;
+  }
   html, body, #root {
     margin: 0;
     padding: 0;
@@ -43,7 +49,7 @@ body {
   color: #e2e8f0;
 }
 
-/* --- Clases de Vidrio Líquido con Desenfoque Dinámico --- */
+/* --- Clases de Vidrio Lï¿½quido con Desenfoque Dinï¿½mico --- */
 @layer components {
   .glass {
       background: rgba(255, 255, 255, 0.88);

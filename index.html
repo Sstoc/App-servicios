@@ -2,9 +2,12 @@
 <html lang="es" translate="no">
   <head>
     <meta charset="UTF-8" />
-    <meta name="theme-color" content="#0f172a" id="theme-color-meta" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8fafc" id="theme-color-meta" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" id="apple-status-bar-meta" />
+    <meta name="apple-mobile-web-app-title" content="Home - Servicios" />
     <script>
       if (window.location.hostname.includes('netlify.app')) {
         window.location.replace('https://app-servicios-olive.vercel.app' + window.location.pathname + window.location.search + window.location.hash);
@@ -19,19 +22,30 @@
         var isDark = localStorage.getItem('darkMode');
         var dark = isDark !== null ? JSON.parse(isDark) : window.matchMedia('(prefers-color-scheme: dark)').matches;
         var themeColor = dark ? '#0f172a' : '#f8fafc';
+        var root = document.documentElement;
+        root.style.colorScheme = dark ? 'dark' : 'light';
+        if (dark) {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
         var meta = document.getElementById('theme-color-meta');
-        if (meta) meta.setAttribute('content', themeColor);
+        if (meta) {
+          meta.setAttribute('content', themeColor);
+          meta.remove();
+          document.head.appendChild(meta);
+        }
+        var appleMeta = document.getElementById('apple-status-bar-meta');
+        if (appleMeta) {
+          appleMeta.setAttribute('content', dark ? 'black-translucent' : 'default');
+        }
       } catch (e) {}
     </script>
     <meta name="google" content="notranslate" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="shortcut icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home - Servicios</title>
     <link rel="manifest" href="/manifest.json" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Home - Servicios">
     <link rel="apple-touch-icon" href="/pwa-192x192.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/pwa-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/pwa-192x192.png">
