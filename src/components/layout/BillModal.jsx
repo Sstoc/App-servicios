@@ -235,13 +235,17 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
       ></div>
 
       {/* Mobile: tarjeta centrada pill-style | Desktop: panel rectangular más ancho */}
-      <Card className={`
-        w-full relative z-50 border border-white/20 bg-white/70 dark:bg-slate-900/70
-        backdrop-blur-2xl shadow-2xl max-h-[90vh] flex flex-col transition-all duration-300
-        ${show ? 'animate-modal-in' : 'animate-modal-out'}
-        max-w-[400px] !rounded-[2.5rem] p-8
-        md:max-w-3xl md:!rounded-3xl md:p-0
-      `}>
+      <Card 
+        className={`
+          w-full relative z-50 border border-white/20 bg-white/70 dark:bg-slate-900/70
+          backdrop-blur-2xl shadow-2xl max-h-[90vh] flex flex-col transition-all duration-300
+          ${show ? 'animate-modal-in' : 'animate-modal-out'}
+          max-w-[400px] !rounded-[2.5rem] p-8
+          md:max-w-3xl md:!rounded-3xl md:p-0
+          scrollbar-none no-scrollbar
+        `}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
 
         {/* ─── HEADER ─────────────────────────────────── */}
         {/* Mobile: centrado vertical | Desktop: barra horizontal */}
@@ -270,7 +274,11 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
         </div>
 
         {/* ─── FORM ────────────────────────────────────── */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto flex flex-col text-left md:px-8 md:py-6">
+        <form 
+          onSubmit={handleSubmit} 
+          className="flex-1 overflow-y-auto scrollbar-none no-scrollbar flex flex-col text-left md:px-8 md:py-6"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           <div className="space-y-5">
 
             {/* Nombre — ocupa todo el ancho */}
