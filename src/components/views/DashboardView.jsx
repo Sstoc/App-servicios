@@ -272,28 +272,20 @@ export const DashboardView = ({
   useGSAP(() => {
     if (!container.current) return;
     
-    // Animación de reordenamiento
-    const cards = gsap.utils.toArray(".bill-card-item");
-    gsap.from(cards, {
-      y: (i, target) => {
-        const id = target.dataset.id;
-        const wasPaid = billStates.current[id];
-        const isPaid = bills.find(b => b.id === id)?.paid;
-        // Si cambió el estado de pago, animamos un pequeño salto
-        return wasPaid !== undefined && wasPaid !== isPaid ? (isPaid ? -15 : 15) : 0;
-      },
-      opacity: (i, target) => {
-        const id = target.dataset.id;
-        return billStates.current[id] !== bills.find(b => b.id === id)?.paid ? 0.7 : 1;
-      },
-      duration: 0.5,
-      stagger: 0.02,
-      ease: "power2.out",
-    });
-    
-    // Actualizar historial de estados
-    bills.forEach(b => {
-      billStates.current[b.id] = b.paid;
+    // Solo animar la tarjeta que realmente cambió su estado de pago
+    // No modifica la opacidad (gestionada limpiamente por CSS/Tailwind) para que todos los pendientes se vean siempre al 100%
+    bills.forEach(bill => {
+      const wasPaid = billStates.current[bill.id];
+      if (wasPaid !== undefined && wasPaid !== bill.paid) {
+        const target = container.current.querySelector(`.bill-card-item[data-id="${bill.id}"]`);
+        if (target) {
+          gsap.fromTo(target, 
+            { y: bill.paid ? -10 : 10 }, 
+            { y: 0, duration: 0.35, ease: "back.out(1.5)", clearProps: "transform" }
+          );
+        }
+      }
+      billStates.current[bill.id] = bill.paid;
     });
   }, { dependencies: [bills.map(b => b.paid).join(',')], scope: container });
 

@@ -390,10 +390,10 @@ function App() {
           </div>
         </div>
 
-        {/* Gradiente hacia arriba: funde el contenido con la nav sin blur */}
+        {/* Gradiente hacia arriba: sutil fade justo detrás de la nav flotante sin invadir las tarjetas */}
         <div 
-          className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-slate-50 dark:from-slate-900 to-transparent pointer-events-none z-30 transition-colors duration-300"
-          style={{ height: 'calc(9rem + env(safe-area-inset-bottom, 0px))' }}
+          className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-slate-50/90 dark:from-slate-900/90 to-transparent pointer-events-none z-30 transition-colors duration-300"
+          style={{ height: 'calc(4.5rem + env(safe-area-inset-bottom, 0px))' }}
         />
 
         {/* Mobile Navigation — píldora flotante 100% simétrica */}
