@@ -24,13 +24,13 @@ export const PendingView = ({
     <div className="space-y-4 sm:space-y-6">
       {/* Resumen de Deuda Total Compacto */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div className="bg-red-500/5 dark:bg-red-500/10 border border-red-500/30 !p-4 sm:!p-6 !rounded-2xl text-red-600 dark:text-red-400 relative overflow-hidden group">
+        <div className="bg-orange-500/5 dark:bg-orange-500/10 border border-orange-500/30 !p-4 sm:!p-6 !rounded-2xl text-orange-600 dark:text-orange-400 relative overflow-hidden group">
           <p className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">Deuda Total</p>
           <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-1">
             {showBalance ? formatMoney(totalDebt) : '****'}
           </h3>
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
             <p className="text-xs font-bold opacity-80 uppercase tracking-wider">Acumulado</p>
           </div>
         </div>

@@ -322,7 +322,7 @@ export const DashboardView = ({
         {/* Card 1: Pendiente Total */}
         <Card className={`!p-4 sm:!p-6 !rounded-2xl relative overflow-hidden transition-all duration-700 ${calculatePendingTotal() === 0 ? 'bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 border-none shadow-[0_20px_50px_rgba(245,158,11,0.3)]' : ''}`}>
           <div className="relative z-10">
-            <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-red-500'}`}>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-orange-500 dark:text-orange-400'}`}>
               {calculatePendingTotal() === 0 ? '¡Felicidades!' : 'Pendiente Total'}
             </p>
             <p className={`text-2xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
@@ -332,7 +332,7 @@ export const DashboardView = ({
               {calculatePendingTotal() === 0 ? 'Sin deudas este mes' : `${pendingCount} facturas sin pagar`}
             </p>
           </div>
-          <div className={`absolute right-0 bottom-0 w-20 sm:w-24 h-20 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-red-50 dark:bg-red-500/5 opacity-50'}`}></div>
+          <div className={`absolute right-0 bottom-0 w-20 sm:w-24 h-20 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-orange-50 dark:bg-orange-500/5 opacity-50'}`}></div>
           {calculatePendingTotal() === 0 && (
             <div className="absolute top-2 right-2 text-white/20 text-3xl sm:text-4xl rotate-12">
               <i className="fa-solid fa-star"></i>
