@@ -4,9 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" id="theme-color-light" />
-    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" id="theme-color-dark" />
-    <meta name="theme-color" content="#f8fafc" id="theme-color-default" />
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" id="apple-status-bar-meta" />
     <meta name="apple-mobile-web-app-title" content="Home - Servicios" />
@@ -23,17 +22,12 @@
       try {
         var isDark = localStorage.getItem('darkMode');
         var dark = isDark !== null ? JSON.parse(isDark) : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var themeColor = dark ? '#0f172a' : '#f8fafc';
         var root = document.documentElement;
         root.style.colorScheme = dark ? 'dark' : 'light';
         if (dark) {
           root.classList.add('dark');
         } else {
           root.classList.remove('dark');
-        }
-        var metas = document.querySelectorAll('meta[name="theme-color"]');
-        for (var i = 0; i < metas.length; i++) {
-          metas[i].setAttribute('content', themeColor);
         }
         var appleMeta = document.getElementById('apple-status-bar-meta');
         if (appleMeta) {
