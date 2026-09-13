@@ -1,0 +1,6 @@
+# Redirección global permanente desde Netlify hacia el nuevo dominio oficial en Vercel
+[[redirects]]
+  from = "/*"
+  to = "https://app-servicios-olive.vercel.app/:splat"
+  status = 301
+  force = true
