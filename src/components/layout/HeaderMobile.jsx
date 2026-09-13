@@ -41,7 +41,10 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
   return (
     <header className="md:hidden fixed top-0 left-0 right-0 z-40">
       {/* Barra sólida: mismo color que el fondo del app → sin backdrop-blur → sin lag en Android */}
-      <div className="bg-slate-50 dark:bg-slate-900 px-4 pt-4 pb-3 flex justify-between items-center">
+      <div 
+        className="bg-slate-50 dark:bg-slate-900 px-4 pb-3 flex justify-between items-center transition-colors"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 0.75rem)' }}
+      >
         <div className="flex items-center gap-3">
           <div className="relative">
             <img src="/logo-home.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg shadow-md border border-white/5" />

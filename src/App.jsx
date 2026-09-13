@@ -287,7 +287,7 @@ function App() {
           syncStatus={syncStatus}
         />
 
-        <div key={view} className="flex-1 p-3.5 sm:p-4 md:p-10 pt-[4.9rem] sm:pt-20 md:pt-10 overflow-y-auto page-enter" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div key={view} className="flex-1 p-3.5 sm:p-4 md:p-10 pt-[4.9rem] sm:pt-20 md:pt-10 overflow-y-auto page-enter" style={{ paddingTop: 'calc(4.9rem + env(safe-area-inset-top, 0px))', WebkitOverflowScrolling: 'touch' }}>
           <div className="max-w-5xl mx-auto space-y-3 sm:space-y-6 pb-32">
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-1 sm:gap-4 mb-1.5 sm:mb-4">
@@ -362,10 +362,16 @@ function App() {
         </div>
 
         {/* Gradiente hacia arriba: funde el contenido con la nav sin blur */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-slate-50 dark:from-slate-900 to-transparent pointer-events-none z-30" />
+        <div 
+          className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-slate-50 dark:from-slate-900 to-transparent pointer-events-none z-30 transition-colors duration-300"
+          style={{ height: 'calc(9rem + env(safe-area-inset-bottom, 0px))' }}
+        />
 
         {/* Mobile Navigation — fondo sólido, cero backdrop-blur */}
-        <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-1.5 flex items-center justify-between z-40 shadow-[0_4px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.50)] border border-slate-200 dark:border-white/10 transition-colors duration-300">
+        <nav 
+          className="md:hidden fixed left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-1.5 flex items-center justify-between z-40 shadow-[0_4px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.50)] border border-slate-200 dark:border-white/10 transition-colors duration-300"
+          style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}
+        >
           <div className="flex flex-1 items-center justify-around pr-2">
             {[
               { id: 'dashboard', icon: 'fa-chart-pie', label: 'Inicio' },
