@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useLayoutEffect, useEffect } from 'react';
 import { Card, Badge, Button } from '../ui';
 import { formatMoney, formatMoneyProtected, getIcon, getCategoryLabel, isOverdue } from '../../lib/utils';
 import gsap from 'gsap';
@@ -237,6 +237,46 @@ export const DashboardView = ({
 }) => {
   const container = useRef(null);
   const billStates = useRef({});
+  const cardPositionsRef = useRef(new Map());
+  const isAnimatingRef = useRef(false);
+
+  // Registrar posiciones de cada tarjeta de forma independiente del scroll
+  const recordCardPositions = () => {
+    if (!container.current) return;
+    const scrollEl = container.current.closest('.overflow-y-auto') || window;
+    const scrollTop = scrollEl === window ? window.scrollY : scrollEl.scrollTop;
+    const scrollLeft = scrollEl === window ? window.scrollX : scrollEl.scrollLeft;
+
+    const items = container.current.querySelectorAll('.bill-card-item');
+    items.forEach(el => {
+      const id = el.dataset.id;
+      if (id) {
+        const rect = el.getBoundingClientRect();
+        cardPositionsRef.current.set(id, {
+          x: rect.left + scrollLeft,
+          y: rect.top + scrollTop,
+          width: rect.width,
+          height: rect.height,
+        });
+      }
+    });
+  };
+
+  // Mantener actualizadas las posiciones en cada render mientras no haya animación activa
+  useLayoutEffect(() => {
+    if (!isAnimatingRef.current) {
+      recordCardPositions();
+    }
+  });
+
+  useEffect(() => {
+    recordCardPositions();
+    const handleResize = () => {
+      if (!isAnimatingRef.current) recordCardPositions();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   const [filter, setFilter] = useState('all'); // 'all' | 'pending' | 'overdue' | 'paid'
 
@@ -272,21 +312,139 @@ export const DashboardView = ({
   useGSAP(() => {
     if (!container.current) return;
     
-    // Solo animar la tarjeta que realmente cambió su estado de pago
-    // No modifica la opacidad (gestionada limpiamente por CSS/Tailwind) para que todos los pendientes se vean siempre al 100%
-    bills.forEach(bill => {
-      const wasPaid = billStates.current[bill.id];
-      if (wasPaid !== undefined && wasPaid !== bill.paid) {
-        const target = container.current.querySelector(`.bill-card-item[data-id="${bill.id}"]`);
-        if (target) {
-          gsap.fromTo(target, 
-            { y: bill.paid ? -10 : 10 }, 
-            { y: 0, duration: 0.35, ease: "back.out(1.5)", clearProps: "transform" }
+    // Detectar si alguna factura cambió de estado
+    const justPaidBill = bills.find(b => billStates.current[b.id] === false && b.paid === true);
+    const unPaidBill = bills.find(b => billStates.current[b.id] === true && b.paid === false);
+
+    if (justPaidBill) {
+      const paidEl = container.current.querySelector(`.bill-card-item[data-id="${justPaidBill.id}"]`);
+      const prevPos = cardPositionsRef.current.get(justPaidBill.id);
+
+      if (paidEl && prevPos) {
+        const scrollEl = container.current.closest('.overflow-y-auto') || window;
+        const scrollTop = scrollEl === window ? window.scrollY : scrollEl.scrollTop;
+        const scrollLeft = scrollEl === window ? window.scrollX : scrollEl.scrollLeft;
+
+        const currentRect = paidEl.getBoundingClientRect();
+        const currentPos = {
+          x: currentRect.left + scrollLeft,
+          y: currentRect.top + scrollTop,
+        };
+
+        const deltaX = prevPos.x - currentPos.x;
+        const deltaY = prevPos.y - currentPos.y;
+
+        // Si la tarjeta cambió de posición hacia el bloque de pagados
+        if (Math.abs(deltaY) > 5 || Math.abs(deltaX) > 5) {
+          isAnimatingRef.current = true;
+          const otherCards = Array.from(container.current.querySelectorAll('.bill-card-item')).filter(el => el !== paidEl);
+
+          // Estilo de vuelo (z-index 100 y resplandor esmeralda)
+          paidEl.classList.add('bill-card-flying');
+
+          // Tarjetas intermedias que suben para llenar el hueco dejado
+          const displacedCards = [];
+          otherCards.forEach(el => {
+            const p = cardPositionsRef.current.get(el.dataset.id);
+            if (p) {
+              const r = el.getBoundingClientRect();
+              const cPos = { x: r.left + scrollLeft, y: r.top + scrollTop };
+              const dy = p.y - cPos.y;
+              const dx = p.x - cPos.x;
+              if (Math.abs(dy) > 4 || Math.abs(dx) > 4) {
+                displacedCards.push({ el, dx, dy });
+              }
+            }
+          });
+
+          // Crear Timeline 3D cinematográfico
+          const tl = gsap.timeline({
+            onComplete: () => {
+              gsap.set(paidEl, { clearProps: 'transform,zIndex,filter,boxShadow' });
+              paidEl.classList.remove('bill-card-flying');
+              gsap.set(otherCards, { clearProps: 'transform,filter,opacity' });
+              isAnimatingRef.current = false;
+              recordCardPositions();
+            }
+          });
+
+          // 1. "Todas se vayan para atrás": las demás tarjetas retroceden en el plano Z
+          tl.to(otherCards, {
+            scale: 0.93,
+            z: -60,
+            filter: 'brightness(0.85)',
+            opacity: 0.88,
+            duration: 0.28,
+            ease: 'power2.out',
+          }, 0);
+
+          // La tarjeta pagada se eleva inmediatamente hacia el frente en su punto de partida
+          tl.fromTo(paidEl,
+            { x: deltaX, y: deltaY, scale: 1, z: 0 },
+            { scale: 1.05, z: 80, duration: 0.28, ease: 'power2.out' },
+            0
           );
+
+          // 2. "La pagada pase por encima de todas hasta llegar al final"
+          tl.to(paidEl, {
+            x: 0,
+            y: 0,
+            duration: 0.78,
+            ease: 'power3.inOut',
+          }, 0.2);
+
+          // 3. Las tarjetas intermedias suben fluidamente para acomodar la lista
+          displacedCards.forEach(({ el, dx, dy }) => {
+            tl.fromTo(el,
+              { x: dx, y: dy },
+              { x: 0, y: 0, duration: 0.7, ease: 'power2.out', clearProps: 'x,y' },
+              0.2
+            );
+          });
+
+          // 4. Auto-scroll suave para acompañar el vuelo hacia abajo
+          if (currentRect.bottom > window.innerHeight - 100 && scrollEl !== window) {
+            const scrollDelta = Math.min(Math.abs(deltaY), currentRect.bottom - window.innerHeight + 180);
+            scrollEl.scrollBy({ top: scrollDelta, behavior: 'smooth' });
+          }
+
+          // 5. Aterrizaje al final y las demás tarjetas regresan al frente
+          tl.to(paidEl, {
+            scale: 1,
+            z: 0,
+            duration: 0.32,
+            ease: 'back.out(2)',
+          }, 0.88);
+
+          tl.to(otherCards, {
+            scale: 1,
+            z: 0,
+            filter: 'brightness(1)',
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power2.out',
+          }, 0.88);
         }
       }
-      billStates.current[bill.id] = bill.paid;
+    } else if (unPaidBill) {
+      // Si se desmarca como pagado, animación suave de salto
+      const target = container.current.querySelector(`.bill-card-item[data-id="${unPaidBill.id}"]`);
+      if (target) {
+        gsap.fromTo(target,
+          { y: 15, scale: 0.98 },
+          { y: 0, scale: 1, duration: 0.35, ease: 'back.out(1.5)', clearProps: 'transform' }
+        );
+      }
+    }
+
+    // Actualizar historial de estados
+    bills.forEach(b => {
+      billStates.current[b.id] = b.paid;
     });
+
+    if (!isAnimatingRef.current) {
+      recordCardPositions();
+    }
   }, { dependencies: [bills.map(b => b.paid).join(',')], scope: container });
 
   const getRelativeDateString = (dateStr) => {
@@ -484,7 +642,7 @@ export const DashboardView = ({
         <span>Deslizá una tarjeta a la derecha para pagar rápido</span>
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+      <div className="bill-grid-3d grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
         {monthBills.map(bill => (
           <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
             <SwipeableBillCard bill={bill} onSwipePay={handleTogglePaid}>

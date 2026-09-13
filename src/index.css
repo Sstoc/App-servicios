@@ -103,6 +103,26 @@ body {
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
   }
 
+  /* Contenedor 3D y elementos para animación cinemática de pago */
+  .bill-grid-3d {
+      perspective: 1200px;
+      perspective-origin: center center;
+      transform-style: preserve-3d;
+  }
+
+  .bill-card-item {
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+  }
+
+  .bill-card-flying {
+      z-index: 100 !important;
+      pointer-events: none;
+      box-shadow: 0 25px 60px -10px rgba(16, 185, 129, 0.45), 0 15px 35px -10px rgba(0, 0, 0, 0.35) !important;
+      outline: 2px solid rgba(16, 185, 129, 0.7) !important;
+      outline-offset: -2px;
+  }
+
   .btn-bounce {
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
   }
