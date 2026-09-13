@@ -1,21 +1,30 @@
 {
   "name": "Home - Servicios",
   "short_name": "Home",
-  "description": "Tu gestor de finanzas personal Pro Max",
+  "description": "Tu gestor de finanzas y servicios",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/logo-notificacion.png",
+      "src": "/logo-home.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/logo-notificacion.png",
+      "src": "/pwa-192x192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-home.png",
+      "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "maskable"
     }

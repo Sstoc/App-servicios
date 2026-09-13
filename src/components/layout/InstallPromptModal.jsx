@@ -5,44 +5,41 @@ export const InstallPromptModal = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [showAndroidGuide, setShowAndroidGuide] = useState(false);
 
   useEffect(() => {
-    // Verificar si ya está corriendo como app instalada (PWA standalone)
+    // 1. Verificar si ya está corriendo como app instalada (PWA standalone)
     const standalone = window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
     setIsStandalone(standalone);
 
-    if (standalone) return; // Si ya está instalada, nunca mostrar nada
+    if (standalone) return; // Si ya está instalada, no mostramos nada
 
-    // Detección de iOS Safari
+    // 2. Detección de iOS Safari
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
     setIsIOS(isAppleDevice);
 
-    // Capturar el evento nativo de instalación en Android / Chrome / Edge
+    // 3. Capturar el evento nativo de instalación en Android / Chrome / Edge
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-
-      // Si el usuario no lo descartó en las últimas 24hs, mostrar automáticamente
-      const dismissed = localStorage.getItem('home_pwa_dismissed');
-      if (!dismissed || Date.now() - Number(dismissed) > 24 * 60 * 60 * 1000) {
-        setShowPrompt(true);
-      }
+      // Siempre mostrar el prompt cuando el navegador confirme que la app es instalable
+      setShowPrompt(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    // En iOS, como Safari no tiene beforeinstallprompt, lo mostramos tras 2 segundos si no fue descartado
-    if (isAppleDevice && !standalone) {
-      const dismissed = localStorage.getItem('home_pwa_dismissed');
-      if (!dismissed || Date.now() - Number(dismissed) > 24 * 60 * 60 * 1000) {
-        const timer = setTimeout(() => setShowPrompt(true), 2500);
-        return () => clearTimeout(timer);
-      }
+    // 4. Temporizador de apertura automática para cualquier navegador no instalado
+    const dismissed = sessionStorage.getItem('home_pwa_dismissed');
+    let timer;
+    if (!dismissed) {
+      timer = setTimeout(() => {
+        setShowPrompt(true);
+      }, 1500);
     }
 
-    // Ocultar si se completa la instalación
+    // 5. Ocultar si el usuario completa la instalación
     const handleAppInstalled = () => {
       setShowPrompt(false);
       setDeferredPrompt(null);
@@ -51,10 +48,15 @@ export const InstallPromptModal = () => {
 
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    const handleCustomTrigger = () => setShowPrompt(true);
+    // 6. Permitir abrir el prompt desde el menú de Ajustes manualmente
+    const handleCustomTrigger = () => {
+      setShowAndroidGuide(false);
+      setShowPrompt(true);
+    };
     window.addEventListener('trigger-pwa-install', handleCustomTrigger);
 
     return () => {
+      if (timer) clearTimeout(timer);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
       window.removeEventListener('trigger-pwa-install', handleCustomTrigger);
@@ -62,23 +64,27 @@ export const InstallPromptModal = () => {
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) {
-      // Si no hay evento nativo disponible (ej: Firefox o navegador restringido), alertar cómo hacerlo
-      alert("Para instalar la app: abrí el menú de tu navegador (los 3 puntitos arriba a la derecha) y seleccioná 'Instalar aplicación' o 'Agregar a la pantalla principal'.");
-      return;
+    if (deferredPrompt) {
+      try {
+        await deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          setShowPrompt(false);
+          setIsStandalone(true);
+        }
+      } catch (err) {
+        console.error('Error al solicitar instalación PWA:', err);
+      }
+      setDeferredPrompt(null);
+    } else {
+      // Si el navegador aún no preparó el evento nativo o lo bloqueó por política interna, guiamos al usuario
+      setShowAndroidGuide(true);
     }
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setShowPrompt(false);
-    }
-    setDeferredPrompt(null);
   };
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    localStorage.setItem('home_pwa_dismissed', String(Date.now()));
+    sessionStorage.setItem('home_pwa_dismissed', 'true');
   };
 
   if (!showPrompt || isStandalone) return null;
@@ -86,7 +92,7 @@ export const InstallPromptModal = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div className="w-full max-w-md bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-2xl border border-slate-100 dark:border-white/10 popup-animate relative overflow-hidden">
-        {/* Glow decorativo de fondo */}
+        {/* Glow decorativo */}
         <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div className="flex items-start justify-between gap-3 mb-4">
@@ -95,11 +101,11 @@ export const InstallPromptModal = () => {
               <img
                 src="/logo-home.png"
                 alt="Home"
-                className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl object-contain shadow-lg border border-slate-100 dark:border-white/10"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-contain shadow-lg border border-slate-100 dark:border-white/10"
               />
-              <span className="absolute -bottom-1 -right-1 flex h-4 w-4">
+              <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-blue-500"></span>
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-blue-500"></span>
               </span>
             </div>
             <div>
@@ -126,7 +132,7 @@ export const InstallPromptModal = () => {
         </p>
 
         {isIOS ? (
-          /* Instrucciones específicas para iPhone / iPad */
+          /* Instrucciones para iPhone / iPad */
           <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl p-4 border border-slate-100 dark:border-white/5 space-y-2.5 mb-4">
             <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
               Cómo instalar en tu iPhone:
@@ -138,6 +144,22 @@ export const InstallPromptModal = () => {
             <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
               <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">2</span>
               <span>Buscá y seleccioná <strong>"Agregar a pantalla de inicio"</strong>.</span>
+            </div>
+          </div>
+        ) : showAndroidGuide ? (
+          /* Guía de instalación manual en Android si el navegador no disparó el diálogo */
+          <div className="bg-blue-50/70 dark:bg-blue-500/10 rounded-2xl p-4 border border-blue-200/50 dark:border-blue-500/20 space-y-2.5 mb-4 animate-fade-in">
+            <p className="text-xs font-bold text-blue-900 dark:text-blue-200 flex items-center gap-2">
+              <i className="fa-solid fa-circle-info text-blue-500"></i>
+              Instalación rápida en Android:
+            </p>
+            <div className="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-[11px] shrink-0">1</span>
+              <span>Tocá los <strong>3 puntitos (⋮)</strong> arriba a la derecha en Chrome.</span>
+            </div>
+            <div className="flex items-center gap-3 text-xs text-slate-700 dark:text-slate-300">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-[11px] shrink-0">2</span>
+              <span>Elegí <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</span>
             </div>
           </div>
         ) : (

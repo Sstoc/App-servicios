@@ -101,6 +101,14 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
               {pushEnabled && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
             </button>
 
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent('trigger-pwa-install'))} 
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300"
+            >
+              <i className="fa-solid fa-download w-5 text-center text-lg text-blue-500"></i>
+              <span className="flex-1 text-left">Instalar App</span>
+            </button>
+
             {user && (
               <button 
                 onClick={signOut} 
