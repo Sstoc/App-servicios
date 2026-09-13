@@ -105,7 +105,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
         const isGroupOpen = isSearching || !!openHistoryGroups[group.key];
 
         return (
-          <Card key={group.key} className="p-0 overflow-hidden !translate-y-0 border-none shadow-md !rounded-3xl">
+          <Card key={group.key} className="p-0 overflow-hidden !translate-y-0 border !border-slate-200 dark:!border-slate-700/80 shadow-md !rounded-3xl">
             {/* Cabecera del grupo (mes) */}
             <div
               onClick={() => toggleHistoryGroup(group.key)}
@@ -215,7 +215,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
             {/* Lista de servicios del grupo */}
             <div className={`grid transition-all duration-300 ease-in-out ${isGroupOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
               <div className="overflow-hidden">
-                <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 space-y-2 rounded-b-3xl">
+                <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/80 space-y-2 rounded-b-3xl">
                   {group.bills.map(bill => {
                     const isExpanded = expandedBill === bill.id;
                     const dueDateFormatted = new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', {
