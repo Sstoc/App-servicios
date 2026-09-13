@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const THEME_COLOR_LIGHT = '#f8fafc'; // bg-slate-50 — mismo que el header en modo claro
-const THEME_COLOR_DARK  = '#0f172a'; // bg-slate-900 — mismo que el header en modo oscuro
+const THEME_COLOR_LIGHT = '#f8fafc'; // bg-slate-50 — exacto del HeaderMobile en claro
+const THEME_COLOR_DARK  = '#0f172a'; // bg-slate-900 — exacto del HeaderMobile en oscuro
 
 const applyThemeToDOM = (isDark) => {
   const root = window.document.documentElement;
@@ -22,18 +22,16 @@ const applyThemeToDOM = (isDark) => {
   }
 
   // 3. Actualizar theme-color para la barra de notificaciones en Android/Chrome y iOS PWA
+  // Forzar re-lectura en Chrome Android eliminando y recreando el meta tag
   const themeColor = isDark ? THEME_COLOR_DARK : THEME_COLOR_LIGHT;
-  const themeColorMeta = document.getElementById('theme-color-meta')
+  const existing = document.getElementById('theme-color-meta')
     || document.querySelector('meta[name="theme-color"]');
-  if (themeColorMeta) {
-    themeColorMeta.setAttribute('content', themeColor);
-  } else {
-    const meta = document.createElement('meta');
-    meta.name = 'theme-color';
-    meta.id = 'theme-color-meta';
-    meta.content = themeColor;
-    document.head.appendChild(meta);
-  }
+  if (existing) existing.remove();
+  const meta = document.createElement('meta');
+  meta.name = 'theme-color';
+  meta.id = 'theme-color-meta';
+  meta.content = themeColor;
+  document.head.appendChild(meta);
 };
 
 export const useDarkMode = () => {
