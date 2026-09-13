@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8fafc" id="theme-color-meta" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" id="apple-status-bar-meta" />
     <meta name="apple-mobile-web-app-title" content="Home - Servicios" />
@@ -28,6 +27,11 @@
           root.classList.add('dark');
         } else {
           root.classList.remove('dark');
+        }
+        // Actualizar theme-color según el modo de la app (no del sistema)
+        var themeColorMeta = document.getElementById('theme-color-meta');
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute('content', dark ? '#0f172a' : '#f8fafc');
         }
         var appleMeta = document.getElementById('apple-status-bar-meta');
         if (appleMeta) {
