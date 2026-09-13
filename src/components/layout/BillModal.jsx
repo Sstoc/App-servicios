@@ -9,12 +9,17 @@ const DEFAULT_CATEGORIES = [
 ];
 
 export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
-  const { customCategories = [], saveCustomCategories } = useApp() || {};
+  const { customCategories = [], saveCustomCategories, bills = [], saveBill } = useApp() || {};
   const [show, setShow] = useState(false);
   const [formError, setFormError] = useState('');
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [newCategoryIcon, setNewCategoryIcon] = useState('fa-tag');
+
+  // Estado del flujo de eliminación de categoría personalizada
+  const [deletingCatId, setDeletingCatId] = useState(null);      // cat a borrar
+  const [deleteStep, setDeleteStep] = useState(null);             // 'confirm' | 'reassign'
+  const [reassignTarget, setReassignTarget] = useState('otro');   // cat destino
 
   // Referencia y estado de scroll para difuminar bordes izquierdo/derecho en mobile
   const categoryScrollRef = useRef(null);
@@ -146,20 +151,54 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
     setIsAddingCategory(false);
   };
 
+  // Paso 1: el botón × abre el flujo de confirmación
   const handleDeleteCustomCategory = (e, catId) => {
     e.stopPropagation();
-    const updated = customCategories.filter(c => c.id !== catId);
-    if (saveCustomCategories) {
-      saveCustomCategories(updated);
+    setDeletingCatId(catId);
+    setReassignTarget('otro');
+    setDeleteStep('confirm');
+  };
+
+  // Paso 2a: cancelar en cualquier paso
+  const cancelDelete = () => {
+    setDeletingCatId(null);
+    setDeleteStep(null);
+  };
+
+  // Paso 2b: confirmar — si hay servicios afectados → pedir reasignación, si no → borrar directo
+  const confirmDeleteStep = () => {
+    const affected = bills.filter(b => b.category === deletingCatId);
+    if (affected.length > 0) {
+      setDeleteStep('reassign');
     } else {
-      try {
-        localStorage.setItem('home_custom_categories', JSON.stringify(updated));
-      } catch {}
-    }
-    if (form.category === catId) {
-      setForm(prev => ({ ...prev, category: 'otro' }));
+      executeDelete(null);
     }
   };
+
+  // Paso 3: ejecutar borrado y reasignación en masa
+  const executeDelete = async (targetCat) => {
+    const affected = bills.filter(b => b.category === deletingCatId);
+    const destination = targetCat || reassignTarget;
+
+    // Reasignar servicios afectados
+    if (affected.length > 0 && saveBill) {
+      for (const bill of affected) {
+        await saveBill({ ...bill, category: destination }, true);
+      }
+    }
+
+    // Borrar la categoría
+    const updated = customCategories.filter(c => c.id !== deletingCatId);
+    if (saveCustomCategories) saveCustomCategories(updated);
+
+    // Si el form tenía esa categoría, cambiarla
+    if (form.category === deletingCatId) {
+      setForm(prev => ({ ...prev, category: destination }));
+    }
+
+    cancelDelete();
+  };
+
 
   const handleClose = () => {
     setShow(false);
@@ -530,6 +569,114 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
         {/* Padding inferior en desktop para el form */}
         <div className="hidden md:block md:pb-2" />
       </Card>
+
+      {/* ─── Mini-modal de eliminación de categoría ───────────────────── */}
+      {deleteStep && deletingCatId && (() => {
+        const deletingCat = customCategories.find(c => c.id === deletingCatId);
+        const affected = bills.filter(b => b.category === deletingCatId);
+        const allCats = [...DEFAULT_CATEGORIES, ...customCategories.filter(c => c.id !== deletingCatId)];
+
+        return (
+          <div className="absolute inset-0 z-[200] flex items-center justify-center p-6 rounded-[2.5rem] md:rounded-3xl overflow-hidden">
+            {/* Fondo difuminado */}
+            <div
+              className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm rounded-[2.5rem] md:rounded-3xl"
+              onClick={cancelDelete}
+            />
+
+            <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-white/10 p-6 animate-in fade-in zoom-in-95 duration-200">
+
+              {deleteStep === 'confirm' && (
+                <>
+                  {/* Ícono de advertencia */}
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center">
+                    <i className="fa-solid fa-trash-can text-red-500 text-xl" />
+                  </div>
+                  <h4 className="text-base font-black text-slate-800 dark:text-white text-center mb-1">
+                    ¿Eliminar categoría?
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 text-center mb-1 font-medium">
+                    Vas a eliminar la categoría <span className="font-black text-slate-700 dark:text-slate-200">"{deletingCat?.label}"</span>.
+                  </p>
+                  {affected.length > 0 && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400 font-bold text-center mb-4 bg-amber-50 dark:bg-amber-500/10 py-2 px-3 rounded-xl border border-amber-200 dark:border-amber-500/20">
+                      <i className="fa-solid fa-triangle-exclamation mr-1" />
+                      {affected.length} {affected.length === 1 ? 'servicio usa' : 'servicios usan'} esta categoría
+                    </p>
+                  )}
+                  <div className="flex gap-3 mt-4">
+                    <button
+                      type="button"
+                      onClick={cancelDelete}
+                      className="flex-1 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition active:scale-95"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={confirmDeleteStep}
+                      className="flex-1 py-3 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-black text-sm shadow-lg shadow-red-500/20 transition active:scale-95"
+                    >
+                      {affected.length > 0 ? 'Continuar' : 'Eliminar'}
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {deleteStep === 'reassign' && (
+                <>
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
+                    <i className="fa-solid fa-folder-open text-blue-500 text-xl" />
+                  </div>
+                  <h4 className="text-base font-black text-slate-800 dark:text-white text-center mb-1">
+                    ¿A dónde mover los servicios?
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 text-center mb-4 font-medium">
+                    Los <span className="font-black text-slate-700 dark:text-slate-200">{affected.length} servicios</span> de <span className="font-black">"{deletingCat?.label}"</span> serán reasignados a:
+                  </p>
+
+                  {/* Selector de categoría destino */}
+                  <div className="grid grid-cols-3 gap-2 mb-5">
+                    {allCats.map(cat => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setReassignTarget(cat.id)}
+                        className={`p-2.5 rounded-2xl border flex flex-col items-center gap-1.5 transition-all text-center ${
+                          reassignTarget === cat.id
+                            ? 'bg-blue-600 border-blue-600 text-white shadow-md scale-[1.03]'
+                            : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-500 hover:border-blue-400'
+                        }`}
+                      >
+                        <i className={`fa-solid ${cat.icon} text-sm`} />
+                        <span className="text-[9px] font-bold uppercase tracking-wide truncate w-full">{cat.label}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={cancelDelete}
+                      className="flex-1 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition active:scale-95"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => executeDelete(reassignTarget)}
+                      className="flex-1 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-lg shadow-blue-500/20 transition active:scale-95"
+                    >
+                      <i className="fa-solid fa-check mr-1.5" />
+                      Confirmar
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };

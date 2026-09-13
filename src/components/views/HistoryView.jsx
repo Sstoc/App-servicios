@@ -105,7 +105,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
         const isGroupOpen = isSearching || !!openHistoryGroups[group.key];
 
         return (
-          <Card key={group.key} className="p-0 overflow-hidden !translate-y-0 border !border-slate-200 dark:!border-slate-700/80 shadow-md !rounded-3xl">
+          <Card key={group.key} className="p-0 overflow-hidden !translate-y-0 border !border-slate-200 dark:!border-slate-700/80 shadow-md !rounded-3xl !bg-slate-100 dark:!bg-slate-800">
             {/* Cabecera del grupo (mes) */}
             <div
               onClick={() => toggleHistoryGroup(group.key)}
@@ -215,7 +215,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
             {/* Lista de servicios del grupo */}
             <div className={`grid transition-all duration-300 ease-in-out ${isGroupOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
               <div className="overflow-hidden">
-                <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/80 space-y-2 rounded-b-3xl">
+                <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-800/40 border-t border-slate-200 dark:border-slate-700/50 space-y-2 rounded-b-3xl ring-1 ring-inset ring-slate-200 dark:ring-slate-700/40">
                   {group.bills.map(bill => {
                     const isExpanded = expandedBill === bill.id;
                     const dueDateFormatted = new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', {
@@ -228,7 +228,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                     return (
                       <div
                         key={bill.id}
-                        className={`bg-white dark:bg-slate-800 rounded-2xl border transition-all duration-300 overflow-hidden ${isExpanded ? 'border-blue-200 dark:border-blue-500/30 shadow-lg shadow-blue-100/50 dark:shadow-blue-500/5' : 'border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md'}`}
+                        className={`bg-white dark:bg-slate-800/70 rounded-2xl border transition-all duration-300 overflow-hidden ${isExpanded ? 'border-blue-200 dark:border-blue-500/40 shadow-lg shadow-blue-100/50 dark:shadow-blue-500/5' : 'border-slate-200/70 dark:border-slate-700/60 shadow-sm hover:shadow-md'}`}
                       >
                         {/* Fila principal — clickeable con layout de 2 filas en móvil */}
                         <div
@@ -280,11 +280,11 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                         {/* Desplegable de detalle */}
                         <div className={`grid transition-all duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                           <div className="overflow-hidden">
-                            <div className="px-4 pb-4 pt-1 border-t border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/30">
+                            <div className="px-4 pb-4 pt-1 border-t border-slate-100 dark:border-slate-700/40 bg-slate-50/50 dark:bg-transparent">
                               {/* Grid de 3 mini-tarjetas de datos */}
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 my-3">
                                 {/* Vencimiento */}
-                                <div className="bg-slate-50 dark:bg-slate-900/60 rounded-xl p-3 flex items-start gap-2.5">
+                                <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl p-3 flex items-start gap-2.5">
                                   <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px]">
                                     <i className="fa-solid fa-calendar-day"></i>
                                   </div>
@@ -300,8 +300,8 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                                 </div>
 
                                 {/* Categoría */}
-                                <div className="bg-slate-50 dark:bg-slate-900/60 rounded-xl p-3 flex items-start gap-2.5">
-                                  <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5 text-slate-500 dark:text-slate-400 text-[11px]">
+                                <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl p-3 flex items-start gap-2.5">
+                                  <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center flex-shrink-0 mt-0.5 text-slate-500 dark:text-slate-400 text-[11px]">
                                     {getIcon(bill.category)}
                                   </div>
                                   <div>
@@ -311,8 +311,8 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                                 </div>
 
                                 {/* Tipo de monto */}
-                                <div className="bg-slate-50 dark:bg-slate-900/60 rounded-xl p-3 flex items-start gap-2.5">
-                                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${bill.isFixed ? 'bg-amber-100 dark:bg-amber-500/10' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                                <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl p-3 flex items-start gap-2.5">
+                                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${bill.isFixed ? 'bg-amber-100 dark:bg-amber-500/10' : 'bg-slate-100 dark:bg-slate-700/60'}`}>
                                     <i className={`fa-solid ${bill.isFixed ? 'fa-lock text-amber-500' : 'fa-arrows-up-down text-slate-400'} text-[11px]`}></i>
                                   </div>
                                   <div>

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+const THEME_COLOR_LIGHT = '#f8fafc'; // bg-slate-50 — mismo que el header en modo claro
+const THEME_COLOR_DARK  = '#0f172a'; // bg-slate-900 — mismo que el header en modo oscuro
+
 const applyThemeToDOM = (isDark) => {
   const root = window.document.documentElement;
   
@@ -16,6 +19,20 @@ const applyThemeToDOM = (isDark) => {
   let appleMeta = document.getElementById('apple-status-bar-meta') || document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
   if (appleMeta) {
     appleMeta.setAttribute('content', isDark ? 'black-translucent' : 'default');
+  }
+
+  // 3. Actualizar theme-color para la barra de notificaciones en Android/Chrome y iOS PWA
+  const themeColor = isDark ? THEME_COLOR_DARK : THEME_COLOR_LIGHT;
+  // Buscar ambos meta tags (con y sin media query) y actualizarlos
+  document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+    meta.setAttribute('content', themeColor);
+  });
+  // Si no existe ninguno, crearlo dinámicamente
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    const meta = document.createElement('meta');
+    meta.name = 'theme-color';
+    meta.content = themeColor;
+    document.head.appendChild(meta);
   }
 };
 
