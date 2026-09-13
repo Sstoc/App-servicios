@@ -345,8 +345,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                 {/* Carrusel deslizable horizontal en mobile con bordes difuminados / Grilla en desktop */}
                 <div
                   ref={categoryScrollRef}
-                  style={getMaskStyle()}
-                  className="category-carousel-container flex overflow-x-auto gap-3 py-3 px-4 scroll-px-4 scrollbar-none snap-x snap-mandatory scroll-smooth touch-pan-x md:grid md:grid-cols-4 md:overflow-x-visible md:gap-2 md:px-0 md:py-0 md:scroll-px-0 transition-[mask-image] duration-200"
+                  style={{ ...getMaskStyle(), touchAction: 'pan-x pan-y' }}
+                  className="category-carousel-container flex overflow-x-auto gap-3 py-3 px-4 scroll-px-4 scrollbar-none snap-x scroll-smooth md:grid md:grid-cols-4 md:overflow-x-visible md:gap-2 md:px-0 md:py-0 md:scroll-px-0 transition-[mask-image] duration-200"
                 >
                   {[...DEFAULT_CATEGORIES, ...customCategories].map(cat => {
                     const isSelected = form.category === cat.id;
@@ -448,7 +448,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                     </div>
 
                     {/* Selector de icono rápido */}
-                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" style={{ touchAction: 'pan-x pan-y' }}>
                       <span className="text-[8px] font-bold text-slate-400 uppercase mr-1">Icono:</span>
                       {[
                         'fa-tag', 'fa-utensils', 'fa-heart-pulse', 'fa-graduation-cap',

@@ -203,6 +203,11 @@ form,
 
 
 /* Soporte y reset para carrusel de categorías */
+.category-carousel-container {
+  touch-action: pan-x pan-y !important;
+  -webkit-overflow-scrolling: touch;
+}
+
 @media (min-width: 768px) {
   .category-carousel-container {
     mask-image: none !important;
