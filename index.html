@@ -29,9 +29,11 @@
           root.classList.remove('dark');
         }
         // Actualizar theme-color según el modo de la app (no del sistema)
-        var themeColorMeta = document.getElementById('theme-color-meta');
+        var themeColorMeta = document.getElementById('theme-color-meta') || document.querySelector('meta[name="theme-color"]');
         if (themeColorMeta) {
-          themeColorMeta.setAttribute('content', dark ? '#0f172a' : '#f8fafc');
+          var targetColor = dark ? '#0f172a' : '#f8fafc';
+          themeColorMeta.setAttribute('content', targetColor);
+          themeColorMeta.content = targetColor;
         }
         var appleMeta = document.getElementById('apple-status-bar-meta');
         if (appleMeta) {

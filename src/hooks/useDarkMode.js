@@ -16,22 +16,27 @@ const applyThemeToDOM = (isDark) => {
   }
 
   // 2. Actualizar meta apple-mobile-web-app-status-bar-style para iOS Safari
-  let appleMeta = document.getElementById('apple-status-bar-meta') || document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+  const appleMeta = document.getElementById('apple-status-bar-meta') || document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
   if (appleMeta) {
     appleMeta.setAttribute('content', isDark ? 'black-translucent' : 'default');
   }
 
-  // 3. Actualizar theme-color para la barra de notificaciones en Android/Chrome y iOS PWA
-  // Forzar re-lectura en Chrome Android eliminando y recreando el meta tag
+  // 3. Actualizar theme-color para la barra de notificaciones en Android/Chrome y PWA
   const themeColor = isDark ? THEME_COLOR_DARK : THEME_COLOR_LIGHT;
-  const existing = document.getElementById('theme-color-meta')
-    || document.querySelector('meta[name="theme-color"]');
-  if (existing) existing.remove();
-  const meta = document.createElement('meta');
-  meta.name = 'theme-color';
-  meta.id = 'theme-color-meta';
-  meta.content = themeColor;
-  document.head.appendChild(meta);
+  const metas = document.querySelectorAll('meta[name="theme-color"]');
+  if (metas.length > 0) {
+    metas.forEach(meta => {
+      meta.setAttribute('content', themeColor);
+      meta.content = themeColor;
+    });
+  } else {
+    const meta = document.createElement('meta');
+    meta.name = 'theme-color';
+    meta.id = 'theme-color-meta';
+    meta.content = themeColor;
+    meta.setAttribute('content', themeColor);
+    document.head.appendChild(meta);
+  }
 };
 
 export const useDarkMode = () => {
@@ -41,11 +46,13 @@ export const useDarkMode = () => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Escuchar cambios de tema del sistema operativo del teléfono en tiempo real
+  // Escuchar cambios de tema del sistema operativo solo si el usuario no eligió manualmente
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemChange = (e) => {
-      setDarkMode(e.matches);
+      if (localStorage.getItem('darkMode') === null) {
+        setDarkMode(e.matches);
+      }
     };
 
     mediaQuery.addEventListener('change', handleSystemChange);
