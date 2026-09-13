@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Card, Badge, Button } from './components/ui';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Button } from './components/ui';
 import { Sidebar } from './components/layout/Sidebar';
 import { HeaderMobile } from './components/layout/HeaderMobile';
 import { Auth } from './components/layout/Auth';
@@ -7,7 +7,6 @@ import { BillModal } from './components/layout/BillModal';
 import { PayConfirmModal } from './components/layout/PayConfirmModal';
 import { DeleteConfirmModal } from './components/layout/DeleteConfirmModal';
 import { InstallPromptModal } from './components/layout/InstallPromptModal';
-import { Celebration } from './components/ui/Celebration';
 import { DashboardView } from './components/views/DashboardView';
 import { PendingView } from './components/views/PendingView';
 import { HistoryView } from './components/views/HistoryView';
@@ -31,8 +30,6 @@ function App() {
   const [view, setView] = useState('dashboard');
   const [darkMode, toggleDarkMode, themeMode, setThemeMode] = useDarkMode();
   const [showBalance, setShowBalance] = useState(true);
-  const containerRef = useRef(null);
-  const contentRef = useRef(null);
   const [pushEnabled, setPushEnabled] = useState(() => {
     return localStorage.getItem('home_notify_enabled') === 'true';
   });
@@ -56,7 +53,7 @@ function App() {
   });
 
   const setBudget = (value) => {
-    const num = value === '' || value === null ? null : Number(value);
+    const num = (value === '' || value === null || isNaN(Number(value)) || Number(value) < 0) ? null : Number(value);
     setBudgetState(num);
     if (budgetKey) {
       if (num === null) localStorage.removeItem(budgetKey);
@@ -282,8 +279,6 @@ function App() {
         view={view}
         setView={setView}
         pendingCount={pendingCount}
-        overdueCount={overdueCount}
-        paidCount={paidCount}
         calculateMonthTotal={() => stats.monthTotal}
         formatMoney={formatMoney}
         darkMode={darkMode}
@@ -347,7 +342,6 @@ function App() {
             {view === 'dashboard' && (
               <DashboardView
                 bills={currentMonthBills}
-                allBills={bills}
                 showBalance={showBalance}
                 calculatePendingTotal={() => stats.pendingTotal}
                 calculatePaidThisMonth={() => stats.paidThisMonth}
@@ -370,7 +364,6 @@ function App() {
             {view === 'pending' && (
               <PendingView
                 bills={pendingBills}
-                hasBillsThisMonth={currentMonthBills.length > 0}
                 handleEdit={handleEdit}
                 handleDeleteClick={handleDeleteClick}
                 handleTogglePaid={handleTogglePaid}

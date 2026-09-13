@@ -23,11 +23,13 @@ export const DeleteConfirmModal = ({ isOpen, bill, onConfirm, onClose }) => {
   }, [isOpen, bill]);
 
   const handleClose = () => {
+    if (!show) return;
     setShow(false);
     setTimeout(onClose, 300);
   };
 
   const handleConfirm = () => {
+    if (!show) return;
     setShow(false);
     setTimeout(() => {
       onConfirm();

@@ -31,7 +31,7 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
   };
 
   return (
-    <aside className="hidden md:flex w-72 glass border-r border-slate-200/50 dark:border-white/10 flex-col justify-between p-6 z-20 shadow-weightless">
+    <aside className="hidden md:flex w-72 glass border-r border-slate-200/50 dark:border-white/10 flex-col justify-between p-6 z-20">
       <div>
         <div className="flex items-center gap-3 mb-10">
           <div className="relative">
@@ -138,7 +138,7 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
         </nav>
       </div>
       
-      <div className="bg-slate-900 rounded-[2.5rem] p-7 text-white relative overflow-hidden group shadow-weightless mx-1">
+      <div className="bg-slate-900 rounded-[2.5rem] p-7 text-white relative overflow-hidden group shadow-xl mx-1">
         <div className="absolute -right-6 -top-6 w-32 h-32 bg-blue-500 rounded-full blur-3xl opacity-30 group-hover:scale-125 transition-transform duration-700"></div>
         <p className="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-widest">Estimado Mensual</p>
         <p className="text-3xl font-bold">{showBalance ? formatMoney(calculateMonthTotal()) : '$ ***'}</p>

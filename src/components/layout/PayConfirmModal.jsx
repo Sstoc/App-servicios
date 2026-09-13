@@ -25,11 +25,13 @@ export const PayConfirmModal = ({ bill, onConfirm, onClose }) => {
   }, [bill]);
 
   const handleClose = () => {
+    if (!show) return;
     setShow(false);
     setTimeout(onClose, 300);
   };
 
   const handleConfirm = () => {
+    if (!show) return;
     setShow(false);
     setTimeout(() => {
       onConfirm();

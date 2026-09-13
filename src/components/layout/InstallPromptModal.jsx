@@ -32,11 +32,21 @@ export const InstallPromptModal = () => {
       }
     };
 
+    const isDismissed = () => {
+      try {
+        return sessionStorage.getItem('home_pwa_dismissed') === 'true';
+      } catch {
+        return false;
+      }
+    };
+
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       window.__pwaDeferredPrompt = e;
       setDeferredPrompt(e);
-      setShowPrompt(true);
+      if (!isDismissed()) {
+        setShowPrompt(true);
+      }
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -44,7 +54,9 @@ export const InstallPromptModal = () => {
 
     // 5. Temporizador de apertura automática para dispositivos no instalados
     const timer = setTimeout(() => {
-      setShowPrompt(true);
+      if (!isDismissed()) {
+        setShowPrompt(true);
+      }
     }, 1200);
 
     // 6. Ocultar si se completa la instalación

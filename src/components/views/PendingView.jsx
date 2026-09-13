@@ -4,7 +4,6 @@ import { formatMoney, isOverdue, getCategoryLabel, getIcon } from '../../lib/uti
 
 export const PendingView = ({ 
   bills, 
-  hasBillsThisMonth,
   handleEdit, 
   handleDeleteClick, 
   handleTogglePaid,
@@ -13,7 +12,7 @@ export const PendingView = ({
   showBalance
 }) => {
   const pendingBills = React.useMemo(() => {
-    return [...bills].sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate));
+    return [...bills].sort((a,b) => new Date(a.dueDate + 'T12:00:00') - new Date(b.dueDate + 'T12:00:00'));
   }, [bills]);
 
   const totalDebt = React.useMemo(() => {

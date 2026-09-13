@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { Card, Button } from '../ui';
+import { Card } from '../ui';
 import { useApp } from '../../context/AppContext';
 
 const DEFAULT_CATEGORIES = [
@@ -9,7 +9,7 @@ const DEFAULT_CATEGORIES = [
 ];
 
 export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
-  const { customCategories = [], saveCustomCategories, bills = [], saveBill } = useApp() || {};
+  const { customCategories = [], saveCustomCategories, bills = [], saveBill, saveBillsBatch } = useApp() || {};
   const [show, setShow] = useState(false);
   const [formError, setFormError] = useState('');
   const [isAddingCategory, setIsAddingCategory] = useState(false);
@@ -176,10 +176,15 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
     const affected = bills.filter(b => b.category === deletingCatId);
     const destination = targetCat || reassignTarget;
 
-    // Reasignar servicios afectados
-    if (affected.length > 0 && saveBill) {
-      for (const bill of affected) {
-        await saveBill({ ...bill, category: destination }, true);
+    // Reasignar servicios afectados en lote atómicamente
+    if (affected.length > 0) {
+      const updatedBills = affected.map(b => ({ ...b, category: destination }));
+      if (saveBillsBatch) {
+        await saveBillsBatch(updatedBills);
+      } else if (saveBill) {
+        for (const b of updatedBills) {
+          await saveBill(b, true);
+        }
       }
     }
 

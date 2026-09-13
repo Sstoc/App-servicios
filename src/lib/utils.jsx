@@ -40,11 +40,13 @@ export const isOverdue = (dateStr) => {
   today.setHours(0, 0, 0, 0);
   const due = new Date(dateStr + 'T12:00:00');
   if (isNaN(due.getTime())) return false;
-  return due < today;
+  due.setHours(0, 0, 0, 0);
+  return due.getTime() < today.getTime();
 };
 
 /**
  * Obtiene la diferencia de días entre hoy y una fecha.
+ * 0 = hoy, 1 = mañana, -1 = ayer, 2 = en dos días.
  */
 export const getDiffDays = (dateStr) => {
   if (!dateStr) return 999;
@@ -52,8 +54,9 @@ export const getDiffDays = (dateStr) => {
   today.setHours(0, 0, 0, 0);
   const dueDate = new Date(dateStr + 'T12:00:00');
   if (isNaN(dueDate.getTime())) return 999;
-  const diffTime = dueDate - today;
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  dueDate.setHours(0, 0, 0, 0);
+  const diffTime = dueDate.getTime() - today.getTime();
+  return Math.round(diffTime / (1000 * 60 * 60 * 24));
 };
 
 /**

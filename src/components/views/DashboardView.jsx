@@ -24,9 +24,53 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
 
   // Si no hay presupuesto, mostrar un CTA discreto y compacto
   if (budget === null) {
+    if (editing) {
+      return (
+        <div className="mb-3 sm:mb-6">
+          <div className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-blue-300 dark:border-blue-500/40 bg-blue-50/40 dark:bg-blue-500/5 transition-all flex items-center justify-between text-xs font-semibold">
+            <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+              <i className="fa-solid fa-bullseye text-sm text-blue-500"></i>
+              <span>Presupuesto:</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <input
+                type="number"
+                autoFocus
+                value={inputVal}
+                onChange={e => setInputVal(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleSave();
+                  if (e.key === 'Escape') setEditing(false);
+                }}
+                placeholder="Ej: 50000"
+                min="0"
+                className="w-24 sm:w-28 px-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-blue-500"
+              />
+              <button
+                type="button"
+                onClick={handleSave}
+                className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold hover:bg-blue-700 transition"
+              >
+                Guardar
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditing(false)}
+                className="px-1.5 py-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs"
+                title="Cancelar"
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="mb-3 sm:mb-6">
         <button
+          type="button"
           onClick={() => { setInputVal(''); setEditing(true); }}
           className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all flex items-center justify-between text-xs font-semibold group"
         >
@@ -34,23 +78,7 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
             <i className="fa-solid fa-bullseye text-sm group-hover:scale-110 transition-transform text-blue-500/70"></i>
             <span>Establecer presupuesto mensual</span>
           </div>
-          {editing ? (
-            <div className="flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
-              <input
-                type="number"
-                autoFocus
-                value={inputVal}
-                onChange={e => setInputVal(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleSave()}
-                placeholder="Ej: 50000"
-                min="0"
-                className="w-24 sm:w-28 px-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-blue-500"
-              />
-              <button onClick={handleSave} className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold">Guardar</button>
-            </div>
-          ) : (
-            <i className="fa-solid fa-plus text-[10px] opacity-60"></i>
-          )}
+          <i className="fa-solid fa-plus text-[10px] opacity-60"></i>
         </button>
       </div>
     );
