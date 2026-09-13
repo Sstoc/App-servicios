@@ -71,13 +71,13 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
       {/* Barra de búsqueda interactiva */}
       <div className="relative">
         <div className="relative flex items-center">
-          <i className="fa-solid fa-magnifying-glass absolute left-4 text-slate-400 text-sm pointer-events-none"></i>
+          <i className="fa-solid fa-magnifying-glass absolute left-4 text-slate-600 dark:text-slate-400 text-sm pointer-events-none"></i>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar por nombre o categoría (ej: Luz, Internet, Auto)..."
-            className="w-full pl-11 pr-10 py-3.5 bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-semibold text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all backdrop-blur-md shadow-sm"
+            className="w-full pl-11 pr-10 py-3.5 bg-white/90 dark:bg-slate-800/80 border border-slate-300 dark:border-white/10 rounded-2xl text-sm font-semibold text-slate-800 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all backdrop-blur-md shadow-sm"
           />
           {searchQuery && (
             <button
@@ -124,7 +124,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                     </h3>
                   </div>
 
-                  <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-500/15 text-blue-500' : 'text-slate-400'}`}>
+                  <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-500/15 text-blue-500' : 'text-slate-600 dark:text-slate-400'}`}>
                     <i className="fa-solid fa-chevron-down text-xs"></i>
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                     <button
                       onClick={(e) => handleExportCSV(e, group)}
                       title="Exportar a Excel (CSV)"
-                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-500/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
                     >
                       <i className="fa-solid fa-file-excel text-xs"></i>
                     </button>
@@ -196,7 +196,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                       onClick={(e) => handleExportPDF(e, group)}
                       title="Exportar a PDF"
                       disabled={exportingPDF === group.key}
-                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-500/20 hover:text-rose-600 dark:hover:text-rose-400 transition-all disabled:opacity-50"
+                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-500 hover:bg-rose-50 dark:hover:bg-rose-500/20 hover:text-rose-600 dark:hover:text-rose-400 transition-all disabled:opacity-50"
                     >
                       {exportingPDF === group.key
                         ? <i className="fa-solid fa-spinner animate-spin text-xs"></i>
@@ -205,7 +205,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                     </button>
                   </div>
 
-                  <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'text-slate-400'}`}>
+                  <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-400'}`}>
                     <i className="fa-solid fa-chevron-down text-xs"></i>
                   </div>
                 </div>
@@ -259,7 +259,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                                   <Badge variant={bill.paid ? 'green' : 'red'}>
                                     {bill.paid ? 'PAGO' : 'IMPAGO'}
                                   </Badge>
-                                  <span className="text-[11px] text-slate-400 dark:text-slate-400 font-medium capitalize truncate">
+                                  <span className="text-[11px] text-slate-600 dark:text-slate-400 font-semibold capitalize truncate">
                                     {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
                                   </span>
                                   {bill.isInstallments && (
@@ -289,7 +289,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                                     <i className="fa-solid fa-calendar-day"></i>
                                   </div>
                                   <div className="min-w-0">
-                                    <p className="text-[8px] uppercase font-black text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">Vencimiento</p>
+                                    <p className="text-[8px] uppercase font-black text-slate-600 dark:text-slate-400 tracking-widest mb-0.5">Vencimiento</p>
                                     <p className="text-[11px] font-bold text-slate-700 dark:text-slate-200 capitalize truncate">{dueDateFormatted}</p>
                                     {bill.paid && bill.paidAt && (
                                       <p className="text-[9px] text-green-600 dark:text-green-400 font-semibold mt-0.5">
@@ -301,11 +301,11 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
 
                                 {/* Categoría */}
                                 <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl p-3 flex items-start gap-2.5">
-                                  <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center flex-shrink-0 mt-0.5 text-slate-500 dark:text-slate-400 text-[11px]">
+                                  <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center flex-shrink-0 mt-0.5 text-slate-600 dark:text-slate-400 text-[11px]">
                                     {getIcon(bill.category)}
                                   </div>
                                   <div>
-                                    <p className="text-[8px] uppercase font-black text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">Categoría</p>
+                                    <p className="text-[8px] uppercase font-black text-slate-600 dark:text-slate-400 tracking-widest mb-0.5">Categoría</p>
                                     <p className="text-[11px] font-bold text-slate-700 dark:text-slate-200">{getCategoryLabel(bill.category)}</p>
                                   </div>
                                 </div>
@@ -316,7 +316,7 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
                                     <i className={`fa-solid ${bill.isFixed ? 'fa-lock text-amber-500' : 'fa-arrows-up-down text-slate-400'} text-[11px]`}></i>
                                   </div>
                                   <div>
-                                    <p className="text-[8px] uppercase font-black text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">Tipo</p>
+                                    <p className="text-[8px] uppercase font-black text-slate-600 dark:text-slate-400 tracking-widest mb-0.5">Tipo</p>
                                     <p className={`text-[11px] font-bold ${bill.isFixed ? 'text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'}`}>
                                       {bill.isFixed ? 'Monto fijo' : 'Variable'}
                                     </p>

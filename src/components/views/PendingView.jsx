@@ -41,8 +41,8 @@ export const PendingView = ({
               <i className="fa-solid fa-list-check"></i>
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-none">Por pagar</p>
-              <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white leading-tight mt-1">{pendingBills.length} <span className="text-xs font-bold text-slate-400">ítems</span></p>
+              <p className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider leading-none">Por pagar</p>
+              <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white leading-tight mt-1">{pendingBills.length} <span className="text-xs font-bold text-slate-600 dark:text-slate-400">ítems</span></p>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const PendingView = ({
               {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
               <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-0.5">
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                     {getIcon(bill.category)}
                   </div>
                   <div className="min-w-0 flex-1">
@@ -73,7 +73,7 @@ export const PendingView = ({
                         </span>
                       )}
                     </h4>
-                    <p className="text-xs text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
                   </div>
                 </div>
 
@@ -86,7 +86,7 @@ export const PendingView = ({
                   <div className="relative">
                     <button 
                       onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                      className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                      className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
                     >
                       <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                     </button>
@@ -126,8 +126,8 @@ export const PendingView = ({
                       >
                         {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
                       </Badge>
-                      <span className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1.5">
-                        <i className="fa-regular fa-calendar text-[11px] opacity-60"></i>
+                      <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold truncate flex items-center gap-1.5">
+                        <i className="fa-regular fa-calendar text-[11px] text-slate-500 dark:text-slate-400"></i>
                         {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
                       </span>
                     </>

@@ -89,18 +89,40 @@ function App() {
     });
   }, [bills]);
 
+  const overdueBills = useMemo(() => {
+    return pendingBills
+      .filter(b => getDiffDays(b.dueDate) < 0)
+      .sort((a, b) => new Date(a.dueDate + 'T12:00:00') - new Date(b.dueDate + 'T12:00:00'));
+  }, [pendingBills]);
+
+  const upcomingBills = useMemo(() => {
+    return pendingBills
+      .filter(b => getDiffDays(b.dueDate) >= 0)
+      .sort((a, b) => new Date(a.dueDate + 'T12:00:00') - new Date(b.dueDate + 'T12:00:00'));
+  }, [pendingBills]);
+
+  const urgentBill = useMemo(() => {
+    return overdueBills.length > 0 ? overdueBills[0] : (upcomingBills[0] || null);
+  }, [overdueBills, upcomingBills]);
+
+  const isOverdueAlert = overdueBills.length > 0;
+
   const stats = useMemo(() => {
     const monthTotal = currentMonthBills.reduce((sum, b) => sum + Number(b.amount), 0);
     const paidThisMonth = currentMonthBills.filter(b => b.paid).reduce((sum, b) => sum + Number(b.amount), 0);
     const pendingTotal = currentMonthBills.filter(b => !b.paid).reduce((sum, b) => sum + Number(b.amount), 0);
     const progress = monthTotal === 0 ? 0 : (paidThisMonth / monthTotal) * 100;
 
-    const nextDue = pendingBills
-      .filter(b => getDiffDays(b.dueDate) >= 0)
-      .sort((a, b) => new Date(a.dueDate + 'T12:00:00') - new Date(b.dueDate + 'T12:00:00'))[0];
-
-    return { monthTotal, pendingTotal, paidThisMonth, progress, nextDue };
-  }, [currentMonthBills, pendingBills]);
+    return { 
+      monthTotal, 
+      pendingTotal, 
+      paidThisMonth, 
+      progress, 
+      urgentBill,
+      isOverdueAlert,
+      overdueCount: overdueBills.length
+    };
+  }, [currentMonthBills, overdueBills, urgentBill, isOverdueAlert]);
 
   // Sincronizar estado real de suscripción push con el navegador al montar
   useEffect(() => {
@@ -326,7 +348,10 @@ function App() {
                 calculatePendingTotal={() => stats.pendingTotal}
                 calculatePaidThisMonth={() => stats.paidThisMonth}
                 currentMonthProgress={() => stats.progress}
-                getNextDueBill={() => stats.nextDue}
+                getNextDueBill={() => stats.urgentBill}
+                urgentBill={stats.urgentBill}
+                isOverdueAlert={stats.isOverdueAlert}
+                overdueCount={stats.overdueCount}
                 handleEdit={handleEdit}
                 handleDeleteClick={handleDeleteClick}
                 handleTogglePaid={handleTogglePaid}
@@ -367,12 +392,12 @@ function App() {
           style={{ height: 'calc(9rem + env(safe-area-inset-bottom, 0px))' }}
         />
 
-        {/* Mobile Navigation — fondo sólido, cero backdrop-blur */}
+        {/* Mobile Navigation — píldora flotante 100% simétrica */}
         <nav 
-          className="md:hidden fixed left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-1.5 flex items-center justify-between z-40 shadow-[0_4px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.50)] border border-slate-200 dark:border-white/10 transition-colors duration-300"
+          className="md:hidden fixed left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-1.5 flex items-center z-40 shadow-[0_4px_24px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.50)] border border-slate-200 dark:border-white/10 transition-colors duration-300"
           style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}
         >
-          <div className="flex flex-1 items-center justify-around pr-2">
+          <div className="grid grid-cols-3 w-full items-center">
             {[
               { id: 'dashboard', icon: 'fa-chart-pie', label: 'Inicio' },
               { id: 'pending', icon: 'fa-clock', label: 'Pendientes' },
@@ -381,24 +406,34 @@ function App() {
               <button
                 key={item.id}
                 onClick={() => setView(item.id)}
-                className={`relative flex flex-col items-center gap-1 px-4 py-2.5 transition-all duration-300 rounded-[2.1rem] ${view === item.id ? 'text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-white/10 shadow-inner' : 'text-slate-400 dark:text-slate-300 hover:text-blue-500 dark:hover:text-white'}`}
+                className={`relative flex flex-col items-center justify-center gap-1 py-2 px-2 transition-all duration-300 rounded-[2rem] ${
+                  view === item.id 
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-white/10 shadow-inner' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-white'
+                }`}
               >
                 <i className={`fa-solid ${item.icon} text-xl`}></i>
                 {item.id === 'pending' && pendingCount > 0 && (
-                  <div className="absolute top-2.5 right-4 w-2 h-2 bg-red-500 rounded-full border border-slate-50 dark:border-slate-900 shadow-sm animate-pulse"></div>
+                  <div className="absolute top-2 right-6 w-2 h-2 bg-red-500 rounded-full border border-slate-50 dark:border-slate-900 shadow-sm animate-pulse"></div>
                 )}
-                <span className={`text-[9px] font-black uppercase tracking-widest leading-none ${view === item.id ? 'opacity-100' : 'opacity-60'}`}>{item.label}</span>
+                <span className={`text-[9px] font-black uppercase tracking-widest leading-none ${view === item.id ? 'opacity-100' : 'opacity-70'}`}>
+                  {item.label}
+                </span>
               </button>
             ))}
           </div>
-          <div className="w-px h-8 bg-slate-200 dark:bg-white/10 mx-1"></div>
-          <button
-            onClick={() => { setEditingBill(null); setIsModalOpen(true); }}
-            className="w-14 h-14 bg-blue-600 dark:bg-blue-500 text-white rounded-[1.75rem] flex items-center justify-center shadow-xl shadow-blue-500/30 active:scale-90 transition-all ml-1 border border-white/20"
-          >
-            <i className="fa-solid fa-plus text-xl"></i>
-          </button>
         </nav>
+
+        {/* Botón de acción flotante (FAB) despegado en la esquina inferior derecha, por encima del nav (estilo app de referencia) */}
+        <button
+          onClick={() => { setEditingBill(null); setIsModalOpen(true); }}
+          className="md:hidden fixed right-5 w-14 h-14 bg-gradient-to-tr from-blue-600 to-blue-500 text-white rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(37,99,235,0.45)] active:scale-90 hover:scale-105 transition-all z-40 border border-white/25"
+          style={{ bottom: 'calc(6.25rem + env(safe-area-inset-bottom, 0px))' }}
+          aria-label="Agregar servicio"
+          title="Agregar servicio"
+        >
+          <i className="fa-solid fa-plus text-2xl"></i>
+        </button>
       </main>
 
       <BillModal

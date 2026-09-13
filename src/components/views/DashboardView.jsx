@@ -223,6 +223,9 @@ export const DashboardView = ({
   calculatePaidThisMonth,
   currentMonthProgress,
   getNextDueBill,
+  urgentBill: propUrgentBill,
+  isOverdueAlert: propIsOverdueAlert,
+  overdueCount: propOverdueCount,
   handleEdit,
   handleDeleteClick,
   handleTogglePaid,
@@ -236,13 +239,15 @@ export const DashboardView = ({
   const billStates = useRef({});
   
   const [filter, setFilter] = useState('all'); // 'all' | 'pending' | 'overdue' | 'paid'
-  const [sortBy, setSortBy] = useState('dueDate'); // 'dueDate' | 'amountDesc' | 'amountAsc' | 'name'
 
   const pendingCount = useMemo(() => bills?.filter(b => !b.paid).length || 0, [bills]);
-  const overdueCount = useMemo(() => bills?.filter(b => !b.paid && isOverdue(b.dueDate)).length || 0, [bills]);
+  const overdueCount = propOverdueCount !== undefined ? propOverdueCount : (bills?.filter(b => !b.paid && isOverdue(b.dueDate)).length || 0);
   const paidCount = useMemo(() => bills?.filter(b => b.paid).length || 0, [bills]);
 
-  // Lógica de filtrado y ordenado
+  const targetUrgentBill = propUrgentBill !== undefined ? propUrgentBill : (getNextDueBill ? getNextDueBill() : null);
+  const hasOverdueAlert = propIsOverdueAlert !== undefined ? propIsOverdueAlert : (overdueCount > 0);
+
+  // Lógica de filtrado y ordenado cronológico natural
   const monthBills = useMemo(() => {
     let list = [...bills];
 
@@ -255,26 +260,14 @@ export const DashboardView = ({
       list = list.filter(b => b.paid);
     }
 
-    // Aplicar orden
+    // Orden cronológico natural por vencimiento (impagos primero)
     return list.sort((a, b) => {
-      if (sortBy === 'dueDate') {
-        if (a.paid !== b.paid) return a.paid ? 1 : -1;
-        const timeA = a.dueDate ? new Date(a.dueDate + 'T12:00:00').getTime() : 0;
-        const timeB = b.dueDate ? new Date(b.dueDate + 'T12:00:00').getTime() : 0;
-        return timeA - timeB;
-      }
-      if (sortBy === 'amountDesc') {
-        return Number(b.amount) - Number(a.amount);
-      }
-      if (sortBy === 'amountAsc') {
-        return Number(a.amount) - Number(b.amount);
-      }
-      if (sortBy === 'name') {
-        return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
-      }
-      return 0;
+      if (a.paid !== b.paid) return a.paid ? 1 : -1;
+      const timeA = a.dueDate ? new Date(a.dueDate + 'T12:00:00').getTime() : 0;
+      const timeB = b.dueDate ? new Date(b.dueDate + 'T12:00:00').getTime() : 0;
+      return timeA - timeB;
     });
-  }, [bills, filter, sortBy]);
+  }, [bills, filter]);
 
   useGSAP(() => {
     if (!container.current) return;
@@ -305,6 +298,7 @@ export const DashboardView = ({
   }, { dependencies: [bills.map(b => b.paid).join(',')], scope: container });
 
   const getRelativeDateString = (dateStr) => {
+    if (!dateStr) return '';
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const date = new Date(dateStr + 'T12:00:00');
@@ -316,6 +310,8 @@ export const DashboardView = ({
     if (diffDays === 0) return 'Vence hoy';
     if (diffDays === 1) return 'Vence mañana';
     if (diffDays === -1) return 'Venció ayer';
+    if (diffDays < -1) return `Venció hace ${Math.abs(diffDays)} días`;
+    if (diffDays > 1 && diffDays <= 7) return `Vence en ${diffDays} días`;
     
     return `Vence el ${date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}`;
   };
@@ -332,7 +328,7 @@ export const DashboardView = ({
             <p className={`text-2xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
               {calculatePendingTotal() === 0 ? '¡Todo al día!' : formatMoneyProtected(calculatePendingTotal(), showBalance)}
             </p>
-            <p className={`text-xs sm:text-sm mt-1 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-400'}`}>
+            <p className={`text-xs sm:text-sm mt-1 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'}`}>
               {calculatePendingTotal() === 0 ? 'Sin deudas este mes' : `${pendingCount} facturas sin pagar`}
             </p>
           </div>
@@ -349,7 +345,7 @@ export const DashboardView = ({
           <div className="relative z-10 w-full">
             <div className="flex justify-between items-center mb-1">
               <p className="text-xs font-bold uppercase tracking-wider text-green-600">Pagado (Mes)</p>
-              <span className="text-xs font-bold text-slate-400">{Math.round(currentMonthProgress())}%</span>
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">{Math.round(currentMonthProgress())}%</span>
             </div>
             <p className="text-2xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">
               {formatMoneyProtected(calculatePaidThisMonth(), showBalance)}
@@ -363,19 +359,74 @@ export const DashboardView = ({
           </div>
         </Card>
 
-        {/* Card 3: Próximo Vencimiento */}
-        <Card className="col-span-2 md:col-span-1 !p-3.5 sm:!p-6 !rounded-2xl relative overflow-hidden border-blue-100 dark:border-blue-500/20">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-[50px] opacity-10"></div>
-          <div className="relative z-10 flex items-center justify-between gap-3 md:block">
-            <div className="min-w-0">
-              <p className="text-slate-400 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Próximo Vencimiento</p>
-              <p className="text-base sm:text-xl font-bold mt-1 truncate text-slate-800 dark:text-white">
-                {getNextDueBill() ? getNextDueBill().name : 'Nada pendiente'}
-              </p>
+        {/* Card 3: Próximo Vencimiento / Alerta Vencida */}
+        <Card className={`col-span-2 md:col-span-1 !p-3.5 sm:!p-5 !rounded-2xl relative overflow-hidden transition-all duration-300 ${
+          hasOverdueAlert && targetUrgentBill
+            ? 'border-red-200 dark:border-red-500/30 bg-red-50/40 dark:bg-red-500/5' 
+            : 'border-blue-100 dark:border-blue-500/20'
+        }`}>
+          <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[50px] pointer-events-none ${
+            hasOverdueAlert && targetUrgentBill ? 'bg-red-500 opacity-15' : 'bg-blue-500 opacity-10'
+          }`}></div>
+
+          <div className="relative z-10 flex flex-col justify-between h-full">
+            {/* Header de la tarjeta */}
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                {hasOverdueAlert && targetUrgentBill && (
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0"></span>
+                )}
+                <p className={`text-[11px] sm:text-xs font-bold uppercase tracking-wider truncate ${
+                  hasOverdueAlert && targetUrgentBill ? 'text-red-500 font-black' : 'text-slate-600 dark:text-slate-400'
+                }`}>
+                  {hasOverdueAlert && targetUrgentBill
+                    ? `Tenés ${overdueCount} ${overdueCount === 1 ? 'factura vencida' : 'facturas vencidas'}`
+                    : 'Próximo Vencimiento'}
+                </p>
+              </div>
+              <span className={`text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-lg shrink-0 ${
+                hasOverdueAlert && targetUrgentBill
+                  ? 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300'
+                  : 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400'
+              }`}>
+                {targetUrgentBill ? getRelativeDateString(targetUrgentBill.dueDate) : 'Todo al día'}
+              </span>
             </div>
-            <p className="text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-500/10 shrink-0 md:mt-1 md:inline-block">
-              {getNextDueBill() ? getRelativeDateString(getNextDueBill().dueDate) : 'Todo al día'}
-            </p>
+
+            {/* Contenido principal: Título, Monto y Botón de pago rápido */}
+            {targetUrgentBill ? (
+              <div className="flex items-center justify-between gap-3 pt-1">
+                <div className="min-w-0 flex-1">
+                  <p className="text-base sm:text-lg font-black truncate text-slate-800 dark:text-white" title={targetUrgentBill.name}>
+                    {targetUrgentBill.name}
+                  </p>
+                  <p className="text-sm sm:text-base font-black text-slate-900 dark:text-slate-100 mt-0.5">
+                    {targetUrgentBill.amount > 0 
+                      ? (showBalance ? formatMoney(targetUrgentBill.amount) : '••••••')
+                      : <span className="text-xs text-amber-500 font-bold">Sin monto</span>
+                    }
+                  </p>
+                </div>
+                <Button
+                  variant={hasOverdueAlert ? 'danger' : 'secondary'}
+                  className={`!px-3.5 !py-1.5 !text-xs font-bold !rounded-xl shrink-0 shadow-sm transition-transform active:scale-95 ${
+                    hasOverdueAlert ? '!bg-red-600 hover:!bg-red-700 !text-white border-none shadow-red-500/25' : ''
+                  }`}
+                  onClick={() => handleTogglePaid(targetUrgentBill)}
+                  title="Pagar factura urgente"
+                >
+                  <i className="fa-solid fa-bolt mr-1 text-[10px]"></i>
+                  {targetUrgentBill.amount > 0 ? 'Pagar' : 'Definir'}
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between gap-2 py-1">
+                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Sin facturas pendientes</p>
+                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-0.5 rounded-lg">
+                  ¡Todo al día!
+                </span>
+              </div>
+            )}
           </div>
         </Card>
       </div>
@@ -388,28 +439,13 @@ export const DashboardView = ({
         onSetBudget={onSetBudget}
       />
 
-      {/* Encabezado de sección con Filtros y Orden */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+      {/* Encabezado de sección */}
+      <div className="flex items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Este Mes</h3>
-          <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-200/80 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
             {monthBills.length}
           </span>
-        </div>
-
-        {/* Selector de Orden */}
-        <div className="relative inline-block self-start sm:self-auto">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 pr-7 outline-none focus:border-blue-500 appearance-none cursor-pointer shadow-sm"
-          >
-            <option value="dueDate">📅 Próximos a vencer</option>
-            <option value="amountDesc">💰 Mayor monto</option>
-            <option value="amountAsc">🪙 Menor monto</option>
-            <option value="name">🔤 Nombre (A - Z)</option>
-          </select>
-          <i className="fa-solid fa-chevron-down text-[10px] text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
       </div>
 
@@ -429,7 +465,7 @@ export const DashboardView = ({
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap active:scale-95 ${
                 isActive
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25'
-                  : 'bg-white/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-white/5'
+                  : 'bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-300/80 dark:border-white/10'
               }`}
             >
               {chip.alert && !isActive && (
@@ -440,7 +476,7 @@ export const DashboardView = ({
                 className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
                   isActive
                     ? 'bg-white/20 text-white'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+                    : 'bg-slate-200/80 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                 }`}
               >
                 {chip.count}
@@ -451,8 +487,8 @@ export const DashboardView = ({
       </div>
 
       {/* Hint para mobile swipe */}
-      <p className="md:hidden text-[10px] font-semibold text-slate-400 dark:text-slate-500 mb-3 flex items-center gap-1.5">
-        <i className="fa-solid fa-hand-point-right text-blue-500"></i>
+      <p className="md:hidden text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-3 flex items-center gap-1.5">
+        <i className="fa-solid fa-hand-point-right text-blue-600 dark:text-blue-400"></i>
         <span>Deslizá una tarjeta a la derecha para pagar rápido</span>
       </p>
 
@@ -470,7 +506,7 @@ export const DashboardView = ({
                 {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
                 <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-0.5">
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                       {getIcon(bill.category)}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -482,7 +518,7 @@ export const DashboardView = ({
                           </span>
                         )}
                       </h4>
-                      <p className="text-xs text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
                     </div>
                   </div>
 
@@ -495,7 +531,7 @@ export const DashboardView = ({
                     <div className="relative">
                       <button 
                         onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                        className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                        className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
                       >
                         <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                       </button>
@@ -535,8 +571,8 @@ export const DashboardView = ({
                         >
                           {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
                         </Badge>
-                        <span className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1.5">
-                          <i className="fa-regular fa-calendar text-[11px] opacity-60"></i>
+                        <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold truncate flex items-center gap-1.5">
+                          <i className="fa-regular fa-calendar text-[11px] text-slate-500 dark:text-slate-400"></i>
                           {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
                         </span>
                       </>

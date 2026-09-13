@@ -19,7 +19,7 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
         );
       case 'synced':
         return (
-          <span className="flex items-center text-slate-400/40 dark:text-slate-500/40 transition-opacity duration-500" title="Sincronizado con Supabase">
+          <span className="flex items-center text-slate-500 dark:text-slate-400 transition-opacity duration-500" title="Sincronizado con Supabase">
             <i className="fa-solid fa-cloud text-[10px]"></i>
           </span>
         );
@@ -31,7 +31,7 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
         );
       default:
         return (
-          <span className="flex items-center text-slate-300/30 dark:text-slate-700/30" title="Listo">
+          <span className="flex items-center text-slate-400 dark:text-slate-600" title="Listo">
             <i className="fa-solid fa-cloud text-[10px]"></i>
           </span>
         );
@@ -58,7 +58,7 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
         <div className="flex items-center gap-2">
           <button
             onClick={toggleBalance}
-            className="text-slate-500 dark:text-slate-400 w-10 h-10 rounded-2xl flex items-center justify-center active:scale-90 transition bg-slate-200/60 dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-white/5"
+            className="text-slate-700 dark:text-slate-200 w-10 h-10 rounded-2xl flex items-center justify-center active:scale-90 transition bg-white dark:bg-slate-800 shadow-sm border border-slate-300/80 dark:border-white/10 hover:text-slate-900 dark:hover:text-white"
           >
             <i className={showBalance ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}></i>
           </button>
@@ -67,7 +67,7 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
             <button
               id="mobile-settings-btn"
               onClick={(e) => { e.stopPropagation(); setOpenSettings(!openSettings); }}
-              className="text-slate-500 dark:text-slate-400 w-10 h-10 rounded-2xl flex items-center justify-center active:scale-90 transition bg-slate-200/60 dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-white/5"
+              className="text-slate-700 dark:text-slate-200 w-10 h-10 rounded-2xl flex items-center justify-center active:scale-90 transition bg-white dark:bg-slate-800 shadow-sm border border-slate-300/80 dark:border-white/10 hover:text-slate-900 dark:hover:text-white"
             >
               <i className="fa-solid fa-gear"></i>
             </button>
