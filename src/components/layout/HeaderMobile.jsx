@@ -83,6 +83,10 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
                   <i className={`fa-solid w-6 text-center text-xl ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
                   <span className="flex-1 text-left">Notificaciones</span>
                 </button>
+                <button onClick={() => { window.dispatchEvent(new CustomEvent('trigger-pwa-install')); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <i className="fa-solid fa-download w-6 text-center text-xl text-blue-500"></i>
+                  <span className="flex-1 text-left">Instalar App</span>
+                </button>
                 <div className="border-t border-slate-100 dark:border-slate-700 my-2 mx-5"></div>
                 {user && (
                   <button onClick={() => { signOut(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">

@@ -6,6 +6,7 @@ import { Auth } from './components/layout/Auth';
 import { BillModal } from './components/layout/BillModal';
 import { PayConfirmModal } from './components/layout/PayConfirmModal';
 import { DeleteConfirmModal } from './components/layout/DeleteConfirmModal';
+import { InstallPromptModal } from './components/layout/InstallPromptModal';
 import { Celebration } from './components/ui/Celebration';
 import { DashboardView } from './components/views/DashboardView';
 import { PendingView } from './components/views/PendingView';
@@ -416,6 +417,8 @@ function App() {
           setServiceToDelete(null);
         }}
       />
+
+      <InstallPromptModal />
     </div>
   );
 }

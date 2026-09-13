@@ -109,42 +109,79 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
             {/* Cabecera del grupo (mes) */}
             <div
               onClick={() => toggleHistoryGroup(group.key)}
-              className={`w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer ${isGroupOpen ? 'rounded-t-3xl' : 'rounded-3xl'}`}
+              className={`w-full p-4 sm:p-5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer select-none ${isGroupOpen ? 'rounded-t-3xl' : 'rounded-3xl'}`}
             >
-              <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-sm ${group.isFullyPaid ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'}`}>
-                  <i className={`fa-solid ${group.isFullyPaid ? 'fa-check' : 'fa-hourglass-start'}`}></i>
+              <div className="flex items-center justify-between gap-3 min-w-0">
+                {/* Izquierda: Icono de estado + Título del mes + Cantidad de movimientos y botones de exportación */}
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className={`w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center text-sm font-bold shadow-sm ${group.isFullyPaid ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400'}`}>
+                    <i className={`fa-solid ${group.isFullyPaid ? 'fa-check' : 'fa-hourglass-start'}`}></i>
+                  </div>
+                  <div className="min-w-0 flex-1 text-left">
+                    <h3 className="font-bold text-slate-800 dark:text-slate-100 capitalize text-base sm:text-lg tracking-tight truncate">
+                      {group.title}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-[10px] text-slate-400 dark:text-slate-400 font-bold uppercase tracking-wider whitespace-nowrap">
+                        {group.bills.length} {group.bills.length === 1 ? 'movimiento' : 'movimientos'}
+                      </span>
+                      {/* Botones de exportar en móvil (junto a movimientos para no apretar la derecha) */}
+                      <div className="flex sm:hidden items-center gap-1.5 ml-1">
+                        <button
+                          onClick={(e) => handleExportCSV(e, group)}
+                          title="Exportar a Excel (CSV)"
+                          className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:text-emerald-500 active:scale-90 transition-all"
+                        >
+                          <i className="fa-solid fa-file-excel text-[11px]"></i>
+                        </button>
+                        <button
+                          onClick={(e) => handleExportPDF(e, group)}
+                          title="Exportar a PDF"
+                          disabled={exportingPDF === group.key}
+                          className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:text-rose-500 active:scale-90 transition-all disabled:opacity-50"
+                        >
+                          {exportingPDF === group.key
+                            ? <i className="fa-solid fa-spinner animate-spin text-[11px]"></i>
+                            : <i className="fa-solid fa-file-pdf text-[11px]"></i>
+                          }
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <h3 className="font-bold text-slate-800 dark:text-slate-100 capitalize text-lg tracking-tight">{group.title}</h3>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase">{group.bills.length} movimientos</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-800 dark:text-slate-100 text-lg whitespace-nowrap">
-                  {showBalance ? formatMoney(group.total) : '****'}
-                </span>
-                {/* Botones de exportación */}
-                <button
-                  onClick={(e) => handleExportCSV(e, group)}
-                  title="Exportar a Excel (CSV)"
-                  className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-500/20 dark:hover:text-green-400 transition-all"
-                >
-                  <i className="fa-solid fa-file-excel text-xs"></i>
-                </button>
-                <button
-                  onClick={(e) => handleExportPDF(e, group)}
-                  title="Exportar a PDF"
-                  disabled={exportingPDF === group.key}
-                  className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-500/20 dark:hover:text-red-400 transition-all disabled:opacity-50"
-                >
-                  {exportingPDF === group.key
-                    ? <i className="fa-solid fa-spinner animate-spin text-xs"></i>
-                    : <i className="fa-solid fa-file-pdf text-xs"></i>
-                  }
-                </button>
-                <div className={`w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-50 dark:bg-blue-500/20 text-blue-600' : 'text-slate-400'}`}>
-                  <i className="fa-solid fa-chevron-down text-xs"></i>
+
+                {/* Derecha: Total del mes + Botones de exportar (escritorio) + Flecha de desplegar */}
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                  <span className="font-extrabold text-slate-900 dark:text-white text-base sm:text-xl whitespace-nowrap tracking-tight">
+                    {showBalance ? formatMoney(group.total) : '****'}
+                  </span>
+
+                  {/* Botones de exportar en pantallas medianas y grandes */}
+                  <div className="hidden sm:flex items-center gap-1.5">
+                    <button
+                      onClick={(e) => handleExportCSV(e, group)}
+                      title="Exportar a Excel (CSV)"
+                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                    >
+                      <i className="fa-solid fa-file-excel text-xs"></i>
+                    </button>
+                    <button
+                      onClick={(e) => handleExportPDF(e, group)}
+                      title="Exportar a PDF"
+                      disabled={exportingPDF === group.key}
+                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-500/20 hover:text-rose-600 dark:hover:text-rose-400 transition-all disabled:opacity-50"
+                    >
+                      {exportingPDF === group.key
+                        ? <i className="fa-solid fa-spinner animate-spin text-xs"></i>
+                        : <i className="fa-solid fa-file-pdf text-xs"></i>
+                      }
+                    </button>
+                  </div>
+
+                  {/* Flecha desplegar SIEMPRE visible a la derecha */}
+                  <div className={`w-8 h-8 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700/80 flex items-center justify-center transition-transform duration-300 ${isGroupOpen ? 'rotate-180 bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'text-slate-400'}`}>
+                    <i className="fa-solid fa-chevron-down text-xs"></i>
+                  </div>
                 </div>
               </div>
             </div>
