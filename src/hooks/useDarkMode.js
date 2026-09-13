@@ -9,15 +9,19 @@ export const useDarkMode = () => {
 
   useEffect(() => {
     const root = window.document.documentElement;
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    const metaThemeColors = document.querySelectorAll('meta[name="theme-color"]');
+    const color = darkMode ? '#0f172a' : '#f8fafc';
     
     if (darkMode) {
       root.classList.add('dark');
-      if (metaThemeColor) metaThemeColor.setAttribute('content', '#0f172a'); // Background color of dark header
     } else {
       root.classList.remove('dark');
-      if (metaThemeColor) metaThemeColor.setAttribute('content', '#ffffff'); // Background color of light header
     }
+
+    metaThemeColors.forEach(meta => {
+      meta.setAttribute('content', color);
+    });
+
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 

@@ -23,72 +23,72 @@ export const PendingView = ({
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Resumen de Deuda Total Compacto */}
-      <div className="grid grid-cols-2 gap-2.5 sm:gap-4 mb-3 sm:mb-6">
-        <div className="bg-red-500/5 dark:bg-red-500/10 border border-red-500/30 !p-3.5 sm:!p-6 !rounded-2xl text-red-600 dark:text-red-400 relative overflow-hidden group">
-          <p className="text-[10px] font-black uppercase tracking-wider opacity-70 mb-0.5">Deuda Total</p>
-          <h3 className="text-xl sm:text-3xl font-black tracking-tight mb-1">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div className="bg-red-500/5 dark:bg-red-500/10 border border-red-500/30 !p-4 sm:!p-6 !rounded-2xl text-red-600 dark:text-red-400 relative overflow-hidden group">
+          <p className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">Deuda Total</p>
+          <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-1">
             {showBalance ? formatMoney(totalDebt) : '****'}
           </h3>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>
-            <p className="text-[10px] font-bold opacity-80 uppercase tracking-wider">Acumulado</p>
+            <p className="text-xs font-bold opacity-80 uppercase tracking-wider">Acumulado</p>
           </div>
         </div>
 
-        <div className="bg-white/40 dark:bg-white/5 backdrop-blur-xl !p-3.5 sm:!p-6 !rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-center shadow-sm">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-base sm:text-xl shrink-0">
+        <div className="bg-white/40 dark:bg-white/5 backdrop-blur-xl !p-4 sm:!p-6 !rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-center shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg sm:text-xl shrink-0">
               <i className="fa-solid fa-list-check"></i>
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-none">Por pagar</p>
-              <p className="text-base sm:text-xl font-black text-slate-800 dark:text-white leading-tight mt-0.5">{pendingBills.length} <span className="text-xs font-bold text-slate-400">ítems</span></p>
+              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-none">Por pagar</p>
+              <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white leading-tight mt-1">{pendingBills.length} <span className="text-xs font-bold text-slate-400">ítems</span></p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 mb-24">
         {pendingBills.map(bill => (
           <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
             <Card 
-              className={`group !overflow-visible !p-3.5 sm:!p-4.5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
+              className={`group !overflow-visible !p-4 sm:!p-5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
             >
               <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
                 <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all ${bill.paid ? 'bg-green-500' : isOverdue(bill.dueDate) ? 'bg-red-500' : bill.amount > 0 ? 'bg-orange-400' : 'bg-blue-500'}`}></div>
               </div>
 
               {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
-              <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-1">
+              <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-0.5">
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
                     {getIcon(bill.category)}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-tight truncate" title={bill.name}>
+                    <h4 className="font-bold text-slate-800 dark:text-slate-100 text-[15px] sm:text-base leading-tight truncate" title={bill.name}>
                       {bill.name}
                       {bill.isInstallments && (
-                        <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
+                        <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
                           {bill.currentInstallment}/{bill.totalInstallments}
                         </span>
                       )}
                     </h4>
-                    <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1.5 shrink-0">
                   {bill.amount >= 0 && (
-                    <span className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                    <span className="font-black text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight">
                       {showBalance ? formatMoney(bill.amount) : '****'}
                     </span>
                   )}
                   <div className="relative">
                     <button 
                       onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                      className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                      className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
                     >
-                      <i className="fa-solid fa-ellipsis-vertical text-xs sm:text-sm"></i>
+                      <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                     </button>
                     {activeMenu === bill.id && (
                       <>
@@ -116,34 +116,34 @@ export const PendingView = ({
               </div>
 
               {/* Fila Inferior: Estado / Vencimiento + Botón Pagar */}
-              <div className="flex justify-between items-center gap-2 pt-2 border-t border-slate-100 dark:border-white/5 pl-1">
+              <div className="flex justify-between items-center gap-2 pt-2.5 mt-0.5 border-t border-slate-100 dark:border-white/5 pl-0.5">
                 <div className="flex items-center gap-2 min-w-0">
                   {bill.amount > 0 ? (
                     <>
                       <Badge 
                         variant={bill.paid ? 'green' : isOverdue(bill.dueDate) ? 'red' : 'default'}
-                        className="!text-[9px] !px-2 !py-0.5 shrink-0"
+                        className="!text-[10px] !px-2.5 !py-0.5 font-bold shrink-0"
                       >
                         {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
                       </Badge>
-                      <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1">
-                        <i className="fa-regular fa-calendar text-[10px] opacity-60"></i>
+                      <span className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1.5">
+                        <i className="fa-regular fa-calendar text-[11px] opacity-60"></i>
                         {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
                       </span>
                     </>
                   ) : (
-                    <Badge variant="blue" className="animate-pulse !text-[9px] !px-2 !py-0.5">Falta monto</Badge>
+                    <Badge variant="blue" className="animate-pulse !text-[10px] !px-2.5 !py-0.5 font-bold">Falta monto</Badge>
                   )}
                 </div>
 
                 <div>
                   <Button 
                     variant={bill.paid ? 'ghost' : 'secondary'} 
-                    className={`!px-3.5 !py-1 !text-xs font-bold !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50 hover:opacity-80' : 'shadow-sm'}`}
+                    className={`!px-4 !py-1.5 !text-xs font-bold !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50 hover:opacity-80' : 'shadow-sm'}`}
                     onClick={() => handleTogglePaid(bill)}
                   >
                     {bill.paid ? (
-                      <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[10px]"></i> Pagado</span>
+                      <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[11px]"></i> Pagado</span>
                     ) : bill.amount === 0 ? (
                       'Definir'
                     ) : (

@@ -12,6 +12,15 @@
         window.__pwaDeferredPrompt = e;
         window.dispatchEvent(new CustomEvent('pwa-prompt-captured'));
       });
+      try {
+        var isDark = localStorage.getItem('darkMode');
+        var dark = isDark !== null ? JSON.parse(isDark) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var themeColor = dark ? '#0f172a' : '#f8fafc';
+        var meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = themeColor;
+        document.head.appendChild(meta);
+      } catch (e) {}
     </script>
     <meta name="google" content="notranslate" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -19,9 +28,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home - Servicios</title>
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#0f172a" id="theme-color-meta" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Home - Servicios">
     <link rel="apple-touch-icon" href="/pwa-192x192.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/pwa-192x192.png">

@@ -322,39 +322,39 @@ export const DashboardView = ({
 
   return (
     <div ref={container}>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 mb-3 sm:mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
         {/* Card 1: Pendiente Total */}
-        <Card className={`!p-3 sm:!p-5 !rounded-2xl relative overflow-hidden transition-all duration-700 ${calculatePendingTotal() === 0 ? 'bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 border-none shadow-[0_20px_50px_rgba(245,158,11,0.3)]' : ''}`}>
+        <Card className={`!p-4 sm:!p-6 !rounded-2xl relative overflow-hidden transition-all duration-700 ${calculatePendingTotal() === 0 ? 'bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 border-none shadow-[0_20px_50px_rgba(245,158,11,0.3)]' : ''}`}>
           <div className="relative z-10">
-            <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-red-500'}`}>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-red-500'}`}>
               {calculatePendingTotal() === 0 ? '¡Felicidades!' : 'Pendiente Total'}
             </p>
-            <p className={`text-xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
+            <p className={`text-2xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
               {calculatePendingTotal() === 0 ? '¡Todo al día!' : formatMoneyProtected(calculatePendingTotal(), showBalance)}
             </p>
-            <p className={`text-[11px] sm:text-sm mt-0.5 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-400'}`}>
+            <p className={`text-xs sm:text-sm mt-1 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-400'}`}>
               {calculatePendingTotal() === 0 ? 'Sin deudas este mes' : `${pendingCount} facturas sin pagar`}
             </p>
           </div>
-          <div className={`absolute right-0 bottom-0 w-16 sm:w-24 h-16 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-red-50 dark:bg-red-500/5 opacity-50'}`}></div>
+          <div className={`absolute right-0 bottom-0 w-20 sm:w-24 h-20 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-red-50 dark:bg-red-500/5 opacity-50'}`}></div>
           {calculatePendingTotal() === 0 && (
-            <div className="absolute top-2 right-2 text-white/20 text-2xl sm:text-4xl rotate-12">
+            <div className="absolute top-2 right-2 text-white/20 text-3xl sm:text-4xl rotate-12">
               <i className="fa-solid fa-star"></i>
             </div>
           )}
         </Card>
 
         {/* Card 2: Pagado (Mes) */}
-        <Card className="!p-3 sm:!p-5 !rounded-2xl relative overflow-hidden">
+        <Card className="!p-4 sm:!p-6 !rounded-2xl relative overflow-hidden">
           <div className="relative z-10 w-full">
-            <div className="flex justify-between items-center mb-0.5">
-              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-green-600">Pagado (Mes)</p>
-              <span className="text-[10px] sm:text-xs font-bold text-slate-400">{Math.round(currentMonthProgress())}%</span>
+            <div className="flex justify-between items-center mb-1">
+              <p className="text-xs font-bold uppercase tracking-wider text-green-600">Pagado (Mes)</p>
+              <span className="text-xs font-bold text-slate-400">{Math.round(currentMonthProgress())}%</span>
             </div>
-            <p className="text-xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">
+            <p className="text-2xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">
               {formatMoneyProtected(calculatePaidThisMonth(), showBalance)}
             </p>
-            <div className="w-full bg-slate-100 dark:bg-slate-700 h-1.5 sm:h-2 mt-2 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-100 dark:bg-slate-700 h-2 mt-2.5 rounded-full overflow-hidden">
               <div 
                 className={`h-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all duration-1000 ${currentMonthProgress() >= 100 ? 'animate-pulse' : ''}`} 
                 style={{ width: `${Math.min(100, currentMonthProgress())}%` }}
@@ -363,17 +363,17 @@ export const DashboardView = ({
           </div>
         </Card>
 
-        {/* Card 3: Próximo Vencimiento - En mobile horizontal abarcando 2 columnas, en desktop 3ra columna */}
-        <Card className="col-span-2 md:col-span-1 !p-3 sm:!p-5 !rounded-2xl relative overflow-hidden border-blue-100 dark:border-blue-500/20">
+        {/* Card 3: Próximo Vencimiento */}
+        <Card className="col-span-2 md:col-span-1 !p-3.5 sm:!p-6 !rounded-2xl relative overflow-hidden border-blue-100 dark:border-blue-500/20">
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-[50px] opacity-10"></div>
-          <div className="relative z-10 flex items-center justify-between gap-2 md:block">
+          <div className="relative z-10 flex items-center justify-between gap-3 md:block">
             <div className="min-w-0">
-              <p className="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider">Próximo Vencimiento</p>
-              <p className="text-sm sm:text-xl font-bold mt-0.5 truncate text-slate-800 dark:text-white">
+              <p className="text-slate-400 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Próximo Vencimiento</p>
+              <p className="text-base sm:text-xl font-bold mt-1 truncate text-slate-800 dark:text-white">
                 {getNextDueBill() ? getNextDueBill().name : 'Nada pendiente'}
               </p>
             </div>
-            <p className="text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400 shrink-0 md:mt-1">
+            <p className="text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-500/10 shrink-0 md:mt-1 md:inline-block">
               {getNextDueBill() ? getRelativeDateString(getNextDueBill().dueDate) : 'Todo al día'}
             </p>
           </div>
@@ -461,43 +461,43 @@ export const DashboardView = ({
           <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
             <SwipeableBillCard bill={bill} onSwipePay={handleTogglePaid}>
               <Card 
-                className={`group !overflow-visible !p-3.5 sm:!p-4.5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                className={`group !overflow-visible !p-4 sm:!p-5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
               >
                 <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
                   <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all ${bill.paid ? 'bg-green-500' : isOverdue(bill.dueDate) ? 'bg-red-500' : bill.amount > 0 ? 'bg-orange-400' : 'bg-blue-500'}`}></div>
                 </div>
 
                 {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
-                <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-1">
+                <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-0.5">
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
                       {getIcon(bill.category)}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-tight truncate" title={bill.name}>
+                      <h4 className="font-bold text-slate-800 dark:text-slate-100 text-[15px] sm:text-base leading-tight truncate" title={bill.name}>
                         {bill.name}
                         {bill.isInstallments && (
-                          <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
+                          <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
                             {bill.currentInstallment}/{bill.totalInstallments}
                           </span>
                         )}
                       </h4>
-                      <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     {bill.amount >= 0 && (
-                      <span className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                      <span className="font-black text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight">
                         {showBalance ? formatMoney(bill.amount) : '****'}
                       </span>
                     )}
                     <div className="relative">
                       <button 
                         onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                        className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                        className="text-slate-400 dark:text-slate-500 hover:text-blue-500 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
                       >
-                        <i className="fa-solid fa-ellipsis-vertical text-xs sm:text-sm"></i>
+                        <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                       </button>
                       {activeMenu === bill.id && (
                         <>
@@ -525,34 +525,34 @@ export const DashboardView = ({
                 </div>
 
                 {/* Fila Inferior: Estado / Vencimiento + Botón Pagar */}
-                <div className="flex justify-between items-center gap-2 pt-2 border-t border-slate-100 dark:border-white/5 pl-1">
+                <div className="flex justify-between items-center gap-2 pt-2.5 mt-0.5 border-t border-slate-100 dark:border-white/5 pl-0.5">
                   <div className="flex items-center gap-2 min-w-0">
                     {bill.amount > 0 ? (
                       <>
                         <Badge 
                           variant={bill.paid ? 'green' : isOverdue(bill.dueDate) ? 'red' : 'default'}
-                          className="!text-[9px] !px-2 !py-0.5 shrink-0"
+                          className="!text-[10px] !px-2.5 !py-0.5 font-bold shrink-0"
                         >
                           {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
                         </Badge>
-                        <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1">
-                          <i className="fa-regular fa-calendar text-[10px] opacity-60"></i>
+                        <span className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate flex items-center gap-1.5">
+                          <i className="fa-regular fa-calendar text-[11px] opacity-60"></i>
                           {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
                         </span>
                       </>
                     ) : (
-                      <Badge variant="blue" className="animate-pulse !text-[9px] !px-2 !py-0.5">Falta monto</Badge>
+                      <Badge variant="blue" className="animate-pulse !text-[10px] !px-2.5 !py-0.5 font-bold">Falta monto</Badge>
                     )}
                   </div>
 
                   <div>
                     <Button 
                       variant={bill.paid ? 'ghost' : 'secondary'} 
-                      className={`!px-3.5 !py-1 !text-xs font-bold !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50 hover:opacity-80' : 'shadow-sm'}`}
+                      className={`!px-4 !py-1.5 !text-xs font-bold !rounded-full transition-all duration-300 ${bill.paid ? 'opacity-50 hover:opacity-80' : 'shadow-sm'}`}
                       onClick={() => handleTogglePaid(bill)}
                     >
                       {bill.paid ? (
-                        <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[10px]"></i> Pagado</span>
+                        <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[11px]"></i> Pagado</span>
                       ) : bill.amount === 0 ? (
                         'Definir'
                       ) : (
