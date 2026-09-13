@@ -42,15 +42,11 @@ Resize-ImageFile $originalImg 128 128 (Join-Path $publicDir "favicon-optimized.p
 # 3. favicon.ico: 48x48
 Resize-ImageFile $originalImg 48 48 (Join-Path $publicDir "favicon-optimized.ico") ([System.Drawing.Imaging.ImageFormat]::Icon)
 
-# 4. logo-notificacion.png: 192x192 cuadrado perfecto para web push
-Resize-ImageFile $originalImg 192 192 (Join-Path $publicDir "logo-notificacion-optimized.png") ([System.Drawing.Imaging.ImageFormat]::Png)
-
 $originalImg.Dispose()
 
 # Ahora reemplazamos los archivos pesados originales por las versiones ultra-optimizadas
 Move-Item (Join-Path $publicDir "logo-home-optimized.png") (Join-Path $publicDir "logo-home.png") -Force
 Move-Item (Join-Path $publicDir "favicon-optimized.png") (Join-Path $publicDir "favicon.png") -Force
 Move-Item (Join-Path $publicDir "favicon-optimized.ico") (Join-Path $publicDir "favicon.ico") -Force
-Move-Item (Join-Path $publicDir "logo-notificacion-optimized.png") (Join-Path $publicDir "logo-notificacion.png") -Force
 
 Write-Host "¡Todas las imágenes fueron optimizadas con éxito!"
