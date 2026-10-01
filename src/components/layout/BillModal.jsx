@@ -226,9 +226,20 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
       }
     }
 
-    onSave(form, !!bill);
+    // HARDENING [M-3]: Sanitizar campos de texto antes de persistir.
+    // Previene XSS almacenado: el nombre puede terminar en notificaciones push
+    // o en cualquier renderer futuro que no escape HTML.
+    const sanitizedForm = {
+      ...form,
+      name: (form.name || '').trim().slice(0, 100).replace(/[<>"'&]/g, ''),
+      category: (form.category || 'otro').replace(/[^a-z0-9_-]/gi, '').slice(0, 50),
+      amount: Math.max(0, Number(form.amount) || 0),
+    };
+
+    onSave(sanitizedForm, !!bill);
     handleClose();
   };
+
 
   const inputClass = "w-full p-4 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-bold text-slate-800 dark:text-white text-base transition-all";
 

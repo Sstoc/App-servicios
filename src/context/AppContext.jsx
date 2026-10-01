@@ -7,6 +7,39 @@ const AppContext = createContext();
 const SUPABASE_TABLE = 'bills';
 const DEFAULT_HOUSE_ID = 'casa_1';
 
+// ---------------------------------------------------------------------------
+// sanitizeBillFromStorage — Valida y normaliza un objeto crudo desde localStorage.
+// HARDENING [M-1]: Previene que datos corruptos, truncados o malformados
+//   causen crashes o inyecten valores inválidos al estado de React.
+//   Retorna null si el objeto no cumple los requisitos mínimos.
+// ---------------------------------------------------------------------------
+const sanitizeBillFromStorage = (raw) => {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  if (!raw.id || !raw.name) return null;
+
+  const dueDate = typeof raw.dueDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.dueDate)
+    ? raw.dueDate
+    : null;
+
+  return {
+    id: String(raw.id),
+    name: String(raw.name || '').trim().slice(0, 100),
+    amount: Math.max(0, Number(raw.amount) || 0),
+    dueDate,
+    category: typeof raw.category === 'string'
+      ? raw.category.replace(/[^a-z0-9_-]/gi, '').slice(0, 50)
+      : 'otro',
+    paid: !!raw.paid,
+    paidAt: raw.paidAt || null,
+    isFixed: !!raw.isFixed,
+    isInstallments: !!raw.isInstallments,
+    totalInstallments: Math.max(0, Number(raw.totalInstallments) || 0),
+    currentInstallment: Math.max(0, Number(raw.currentInstallment) || 0),
+  };
+};
+
+
+
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [ownerId, setOwnerId] = useState(null);
@@ -113,29 +146,36 @@ export const AppProvider = ({ children }) => {
     };
   }, []);
 
+  // Retorna null si no hay ownerId para evitar mezclar datos entre sesiones/usuarios
   const storageKey = useCallback(() => {
-    return ownerId ? `homehq_v4_${ownerId}_${houseId}` : `homehq_v4_${houseId}`;
+    if (!ownerId) return null;
+    return `homehq_v4_${ownerId}_${houseId}`;
   }, [ownerId, houseId]);
 
-  // Sincronización segura de facturas a Supabase (solo sube/actualiza los registros solicitados)
+  // ---------------------------------------------------------------------------
+  // syncToSupabase — Persiste bills en Supabase.
+  // HARDENING [C-2]: owner_id se OMITE del payload cliente.
+  //   El servidor lo asigna via trigger enforce_owner_id() + RLS.
+  //   Nunca confiar en que el cliente envíe el owner_id correcto.
+  // ---------------------------------------------------------------------------
   const syncToSupabase = useCallback(async (billsToUpsert) => {
     if (!ownerId || !billsToUpsert || billsToUpsert.length === 0) return;
     setSyncStatus('syncing');
 
     const payload = billsToUpsert.map(b => ({
       id: String(b.id),
-      owner_id: ownerId,
+      // owner_id: asignado por trigger enforce_owner_id() en PostgreSQL — no enviado desde cliente
       house_id: houseId,
-      name: (b.name || '').trim(),
+      name: (b.name || '').trim().slice(0, 100).replace(/[<>"'&]/g, ''),
       amount: Math.max(0, Number(b.amount) || 0),
       due_date: b.dueDate,
-      category: b.category || 'otro',
+      category: (b.category || 'otro').replace(/[^a-z0-9_-]/gi, '').slice(0, 50),
       paid: !!b.paid,
       paid_at: b.paidAt || null,
       is_fixed: !!b.isFixed,
       is_installments: !!b.isInstallments,
-      total_installments: Number(b.totalInstallments) || 0,
-      current_installment: Number(b.currentInstallment) || 0
+      total_installments: Math.max(0, Number(b.totalInstallments) || 0),
+      current_installment: Math.max(0, Number(b.currentInstallment) || 0)
     }));
 
     const { error: upsertError } = await supabase
@@ -175,12 +215,26 @@ export const AppProvider = ({ children }) => {
     if (error) {
       console.error('Error loading bills:', error);
       if (!isSilent) {
-        // Fallback a datos locales si Supabase falla
-        try {
-          const stored = localStorage.getItem(storageKey());
-          if (stored) setBills(JSON.parse(stored));
-        } catch (parseErr) {
-          console.warn('localStorage corrupto o inválido, se ignora:', parseErr);
+        // HARDENING [M-1]: Fallback defensivo con validación de esquema.
+        // Un localStorage corrupto o manipulado nunca debe crashear la app ni
+        // cargar datos inválidos. Se valida cada registro antes de usarlo.
+        const key = storageKey();
+        if (key) {
+          try {
+            const stored = localStorage.getItem(key);
+            if (stored) {
+              const parsed = JSON.parse(stored);
+              if (Array.isArray(parsed)) {
+                const valid = parsed
+                  .map(sanitizeBillFromStorage)
+                  .filter(Boolean);
+                setBills(valid);
+              }
+            }
+          } catch (parseErr) {
+            console.warn('localStorage corrupto, eliminando clave:', parseErr);
+            try { localStorage.removeItem(key); } catch {}
+          }
         }
         setIsDataLoading(false);
         setSyncStatus('error');
@@ -233,8 +287,15 @@ export const AppProvider = ({ children }) => {
   }, [storageKey]);
 
   // Suscripción a Supabase Realtime (sincronización multi-dispositivo en vivo)
+  //
+  // HARDENING [M-4]: Debounce de 500ms antes de fetchBills(true).
+  //   Evita que un evento Realtime llegado mientras un upsert optimista
+  //   está en vuelo sobreescriba el estado local con un snapshot stale.
+  //   El clearTimeout en cleanup garantiza que no queden timers huérfanos.
   useEffect(() => {
     if (!ownerId) return;
+
+    let debounceTimer = null;
 
     // Canal con identificador limpio para evitar colisiones entre pestañas/sesiones
     const channelName = `realtime_bills_${ownerId}_${Date.now()}`;
@@ -248,109 +309,140 @@ export const AppProvider = ({ children }) => {
           table: SUPABASE_TABLE,
         },
         (payload) => {
-          // Si el cambio afecta a este usuario o si se modificó algún servicio relevante
           const rowOwnerId = payload.new?.owner_id || payload.old?.owner_id;
           if (!rowOwnerId || rowOwnerId === ownerId) {
-            fetchBills(true); // Refresco silencioso de datos
+            // Debounce: esperar 500ms de inactividad para evitar race condition
+            // con optimistic updates locales que aún no commitearon en Supabase.
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => fetchBills(true), 500);
           }
         }
       )
       .subscribe();
 
     return () => {
+      clearTimeout(debounceTimer);
       supabase.removeChannel(channel);
     };
   }, [ownerId, fetchBills]);
 
-  // Auto-generate new month logic
-  useEffect(() => {
+  // ---------------------------------------------------------------------------
+  // reconcileMonthlyBills — Auto-generación granular (diff por nombre)
+  //
+  // DISEÑO ANTI-DUPLICACIÓN:
+  //   1. Construye un Set con los nombres normalizados de las facturas que YA
+  //      existen en el mes actual. Un servicio ya clonado siempre estará en el
+  //      Set → nunca se duplica, sin importar cuántas veces se llame.
+  //   2. Clave versionada "month_reconciled_v2_*" reemplaza a la anterior
+  //      "month_generated_*" (que podía quedar envenenada). Solo se marca como
+  //      'done' cuando el diff arroja 0 faltantes, garantizando que una sesión
+  //      parcialmente inicializada pueda reconciliarse en la siguiente ejecución.
+  //   3. Con force=true se omite la clave de control (útil desde UI para rescate
+  //      manual), pero el Set sigue siendo la guarda definitiva contra duplicados.
+  // ---------------------------------------------------------------------------
+  const reconcileMonthlyBills = useCallback(async ({ force = false } = {}) => {
     if (isDataLoading || bills.length === 0) return;
 
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
     const monthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-    const genKey = ownerId ? `month_generated_${ownerId}_${houseId}_${monthKey}` : `month_generated_${houseId}_${monthKey}`;
 
-    const hasBillsThisMonth = bills.some(b => {
+    // v2: clave nueva para invalidar el localStorage "envenenado" de la versión anterior
+    const genKey = ownerId
+      ? `month_reconciled_v2_${ownerId}_${houseId}_${monthKey}`
+      : `month_reconciled_v2_${houseId}_${monthKey}`;
+
+    // Salir temprano solo si está marcado como completo Y no se fuerza la ejecución
+    if (!force && localStorage.getItem(genKey) === 'done') return;
+
+    // ── 1. Agrupar todas las facturas por mes ─────────────────────────────────
+    const billsByMonth = {};
+    bills.forEach(b => {
       const d = new Date(b.dueDate + 'T12:00:00');
-      return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+      const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      if (!billsByMonth[mKey]) billsByMonth[mKey] = [];
+      billsByMonth[mKey].push(b);
     });
 
-    if (hasBillsThisMonth) {
-      // Si el mes ya tiene facturas (cargadas o creadas), registramos que está inicializado
-      // para evitar que se autogenere si el usuario borra todas las facturas
-      localStorage.setItem(genKey, 'true');
-      return;
-    }
+    // ── 2. Set de nombres ya presentes en el mes actual (guarda anti-duplicados) ─
+    const currentMonthBills = billsByMonth[monthKey] || [];
+    const existingNamesThisMonth = new Set(
+      currentMonthBills.map(b => (b.name || '').trim().toLowerCase())
+    );
 
-    const isMonthAlreadyGenerated = localStorage.getItem(genKey) === 'true';
-
-    if (!hasBillsThisMonth && !isMonthAlreadyGenerated) {
-      // Encontrar el último mes que tiene facturas
-      const billsByMonth = {};
-      bills.forEach(b => {
-        const d = new Date(b.dueDate + 'T12:00:00');
-        const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-        if (!billsByMonth[mKey]) billsByMonth[mKey] = [];
-        billsByMonth[mKey].push(b);
-      });
-
-      const sortedMonths = Object.keys(billsByMonth).sort().reverse();
-      const lastMonthKey = sortedMonths.find(m => {
+    // ── 3. Encontrar el último mes anterior con facturas (plantilla) ──────────
+    const lastMonthKey = Object.keys(billsByMonth)
+      .sort()
+      .reverse()
+      .find(m => {
         const [y, mm] = m.split('-').map(Number);
         return y < currentYear || (y === currentYear && mm - 1 < currentMonth);
       });
 
-      if (!lastMonthKey) return;
-
-      const lastMonthBills = billsByMonth[lastMonthKey];
-      let generated = [];
-      
-      lastMonthBills.forEach(template => {
-        // Solo clonar si NO es una cuota terminada
-        const isInstallment = !!template.isInstallments;
-        const total = Number(template.totalInstallments) || 0;
-        const current = Number(template.currentInstallment) || 0;
-
-        if (isInstallment && current >= total && total > 0) {
-          return;
-        }
-
-        const oldDate = new Date(template.dueDate + 'T12:00:00');
-        const oldDay = isNaN(oldDate.getDate()) ? 1 : oldDate.getDate();
-        // Clampear al último día del mes actual para evitar desbordes (ej: 31 de enero en febrero -> 28/29)
-        const daysInTargetMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        const targetDay = Math.min(oldDay, daysInTargetMonth);
-        const isoDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(targetDay).padStart(2, '0')}`;
-
-        const newItem = {
-          id: crypto.randomUUID(),
-          name: (template.name || '').trim(),
-          amount: (template.isFixed || isInstallment) ? Math.max(0, Number(template.amount) || 0) : 0,
-          dueDate: isoDate,
-          category: template.category || 'otro',
-          paid: false,
-          paidAt: null,
-          isFixed: !!template.isFixed,
-          isInstallments: isInstallment,
-          totalInstallments: total,
-          currentInstallment: isInstallment ? (current + 1) : 0
-        };
-
-        generated.push(newItem);
-      });
-      
-      if (generated.length > 0) {
-        const newBills = [...bills, ...generated];
-        setBills(newBills);
-        setAutoGeneratedCount(generated.length);
-        localStorage.setItem(storageKey(), JSON.stringify(newBills));
-        localStorage.setItem(genKey, 'true');
-        syncToSupabase(generated);
-      }
+    if (!lastMonthKey) {
+      // No hay mes anterior: si hay facturas este mes, marcar como completo
+      if (currentMonthBills.length > 0) localStorage.setItem(genKey, 'done');
+      return;
     }
+
+    // ── 4. Diff granular: clonar solo los servicios ausentes en el mes actual ─
+    const daysInTargetMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const generated = [];
+
+    billsByMonth[lastMonthKey].forEach(template => {
+      const isInstallment = !!template.isInstallments;
+      const total = Number(template.totalInstallments) || 0;
+      const current = Number(template.currentInstallment) || 0;
+
+      // Saltar cuotas ya finalizadas
+      if (isInstallment && total > 0 && current >= total) return;
+
+      // Saltar si el servicio ya existe este mes (comparación normalizada)
+      const normalizedName = (template.name || '').trim().toLowerCase();
+      if (existingNamesThisMonth.has(normalizedName)) return;
+
+      // Calcular fecha destino con clamping anti-overflow (ej: 31-ene → 28-feb)
+      const oldDate = new Date(template.dueDate + 'T12:00:00');
+      const oldDay = isNaN(oldDate.getDate()) ? 1 : oldDate.getDate();
+      const targetDay = Math.min(oldDay, daysInTargetMonth);
+      const isoDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(targetDay).padStart(2, '0')}`;
+
+      generated.push({
+        id: crypto.randomUUID(),
+        name: (template.name || '').trim(),
+        // Servicios variables se clonan con amount=0 para forzar ingreso manual
+        amount: (template.isFixed || isInstallment)
+          ? Math.max(0, Number(template.amount) || 0)
+          : 0,
+        dueDate: isoDate,
+        category: template.category || 'otro',
+        paid: false,
+        paidAt: null,
+        isFixed: !!template.isFixed,
+        isInstallments: isInstallment,
+        totalInstallments: total,
+        currentInstallment: isInstallment ? current + 1 : 0,
+      });
+    });
+
+    // ── 5. Persistir solo si hay faltantes ────────────────────────────────────
+    if (generated.length > 0) {
+      const newBills = [...bills, ...generated];
+      setBills(newBills);
+      setAutoGeneratedCount(generated.length);
+      localStorage.setItem(storageKey(), JSON.stringify(newBills));
+      await syncToSupabase(generated);
+    }
+
+    // Marcar como completo DESPUÉS de la operación (o inmediatamente si diff=0)
+    localStorage.setItem(genKey, 'done');
   }, [bills, isDataLoading, ownerId, houseId, storageKey, syncToSupabase]);
+
+  // Ejecución automática al cargar datos — sin force para respetar la clave de control
+  useEffect(() => {
+    reconcileMonthlyBills({ force: false });
+  }, [reconcileMonthlyBills]);
 
   const saveBillsBatch = useCallback(async (billsToSave) => {
     if (!billsToSave || billsToSave.length === 0) return;
@@ -371,18 +463,22 @@ export const AppProvider = ({ children }) => {
   }, [storageKey, syncToSupabase]);
 
   const saveBill = useCallback(async (form, isEditing) => {
+    // HARDENING [M-3]: Sanitización defensiva de campos de texto.
+    // Previene XSS almacenado en notificaciones y futura renderización.
     const sanitizedAmount = Math.max(0, Number(form.amount) || 0);
-    const sanitizedName = (form.name || '').trim();
+    const sanitizedName = (form.name || '').trim().slice(0, 100).replace(/[<>"'&]/g, '');
+    const sanitizedCategory = (form.category || 'otro').replace(/[^a-z0-9_-]/gi, '').slice(0, 50);
     let billToSync;
 
     if (isEditing) {
-      billToSync = { ...form, name: sanitizedName, amount: sanitizedAmount };
+      billToSync = { ...form, name: sanitizedName, amount: sanitizedAmount, category: sanitizedCategory };
     } else {
       billToSync = {
         ...form,
         id: crypto.randomUUID(),
         name: sanitizedName,
         amount: sanitizedAmount,
+        category: sanitizedCategory,
         paid: false,
         paidAt: null
       };
@@ -392,7 +488,8 @@ export const AppProvider = ({ children }) => {
       const newBills = isEditing
         ? prev.map(b => String(b.id) === String(form.id) ? billToSync : b)
         : [...prev, billToSync];
-      localStorage.setItem(storageKey(), JSON.stringify(newBills));
+      const key = storageKey();
+      if (key) localStorage.setItem(key, JSON.stringify(newBills));
       return newBills;
     });
 
@@ -482,8 +579,8 @@ export const AppProvider = ({ children }) => {
   const value = useMemo(() => ({
     user, bills, isDataLoading, isCheckingAuth, autoGeneratedCount, setAutoGeneratedCount,
     saveBill, saveBillsBatch, deleteService, togglePaid, signOut, houseId, syncStatus,
-    customCategories, saveCustomCategories
-  }), [user, bills, isDataLoading, isCheckingAuth, autoGeneratedCount, saveBill, saveBillsBatch, deleteService, togglePaid, signOut, houseId, syncStatus, customCategories, saveCustomCategories]);
+    customCategories, saveCustomCategories, reconcileMonthlyBills
+  }), [user, bills, isDataLoading, isCheckingAuth, autoGeneratedCount, saveBill, saveBillsBatch, deleteService, togglePaid, signOut, houseId, syncStatus, customCategories, saveCustomCategories, reconcileMonthlyBills]);
 
   return (
     <AppContext.Provider value={value}>
