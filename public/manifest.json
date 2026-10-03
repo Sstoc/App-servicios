@@ -1,7 +1,7 @@
 {
-  "name": "Home - Servicios",
-  "short_name": "Home",
-  "description": "Tu gestor de finanzas y servicios",
+  "name": "Homefy Servicios - Control de Gastos y Facturas",
+  "short_name": "Homefy",
+  "description": "Tu gestor inteligente de finanzas, servicios, impuestos y presupuestos del hogar.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -9,6 +9,7 @@
   "orientation": "portrait-primary",
   "background_color": "#f8fafc",
   "theme_color": "#f8fafc",
+  "categories": ["finance", "productivity", "utilities"],
   "icons": [
     {
       "src": "/pwa-192.png",
