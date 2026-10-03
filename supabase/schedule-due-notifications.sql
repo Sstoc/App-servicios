@@ -12,7 +12,10 @@ delete from vault.secrets where name in ('push_project_url', 'push_cron_secret')
 
 -- 3. Guardar la URL del proyecto y el secreto del cron de forma segura en Vault
 select vault.create_secret('https://crxnuxqiguudwxlmswxe.supabase.co', 'push_project_url');
-select vault.create_secret('eJeZptZqV2qktHnQBp0TFhd2JjGvLD3K5z4BCnfnRgc', 'push_cron_secret');
+-- ⚠️ SEGURIDAD: No incluir el secreto real aquí. Generarlo con:
+--   node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+-- y ejecutar manualmente en el SQL Editor de Supabase:
+--   SELECT vault.create_secret('TU_SECRETO_GENERADO', 'push_cron_secret');
 
 -- 4. Desprogramar cualquier versión previa del job si existía
 do $$
