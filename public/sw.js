@@ -51,7 +51,20 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close();
-  const destination = event.notification.data?.url || '/';
+
+  // HARDENING [SW-1]: Validación estricta de origen para prevenir Open Redirect.
+  // Si la URL apunta a un dominio externo o es inválida, se redirige a '/' de forma segura.
+  let destination = '/';
+  try {
+    const rawUrl = event.notification.data?.url || '/';
+    const parsed = new URL(rawUrl, self.location.origin);
+    if (parsed.origin === self.location.origin) {
+      destination = parsed.pathname + parsed.search + parsed.hash;
+    }
+    // Si el origen no coincide, destination permanece '/' (default seguro)
+  } catch {
+    // URL inválida o malformada → default seguro '/'
+  }
 
   event.waitUntil((async () => {
     const windows = await clients.matchAll({ type: 'window', includeUncontrolled: true });

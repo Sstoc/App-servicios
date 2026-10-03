@@ -6,6 +6,9 @@ const AppContext = createContext();
 
 const SUPABASE_TABLE = 'bills';
 const DEFAULT_HOUSE_ID = 'casa_1';
+// HARDENING [A-1]: Patrón permitido para houseId leído desde URL.
+// Previene inyección de valores arbitrarios como namespace de datos.
+const ALLOWED_HOUSE_ID_PATTERN = /^[a-z0-9_-]{1,30}$/;
 
 // ---------------------------------------------------------------------------
 // sanitizeBillFromStorage — Valida y normaliza un objeto crudo desde localStorage.
@@ -48,7 +51,9 @@ export const AppProvider = ({ children }) => {
   // Un mismo usuario puede tener múltiples casas usando el parámetro ?house=.
   const [houseId] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    return (params.get('house') || DEFAULT_HOUSE_ID).trim().toLowerCase();
+    const raw = (params.get('house') || DEFAULT_HOUSE_ID).trim().toLowerCase();
+    // HARDENING [A-1]: Si el valor no cumple el patrón, se usa el default seguro.
+    return ALLOWED_HOUSE_ID_PATTERN.test(raw) ? raw : DEFAULT_HOUSE_ID;
   });
   const [bills, setBills] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
@@ -277,8 +282,14 @@ export const AppProvider = ({ children }) => {
     const handleStorage = (e) => {
       if (e.key === storageKey() && e.newValue) {
         try {
-          const freshBills = JSON.parse(e.newValue);
-          setBills(freshBills);
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed)) {
+            // HARDENING [C-1]: Validar esquema antes de actualizar el estado.
+            // Previene que datos corruptos o manipulados en localStorage causen
+            // crashes, montos negativos o inyecciones en el estado de React.
+            const valid = parsed.map(sanitizeBillFromStorage).filter(Boolean);
+            setBills(valid);
+          }
         } catch {}
       }
     };
@@ -340,103 +351,118 @@ export const AppProvider = ({ children }) => {
   //   3. Con force=true se omite la clave de control (útil desde UI para rescate
   //      manual), pero el Set sigue siendo la guarda definitiva contra duplicados.
   // ---------------------------------------------------------------------------
+  // HARDENING [G-1]: Mutex para serializar ejecuciones concurrentes.
+  // Previene race conditions (TOCTOU) que generarían duplicados al llamar
+  // reconcileMonthlyBills({ force: true }) desde múltiples contextos en paralelo.
+  const isReconciling = useRef(false);
+
   const reconcileMonthlyBills = useCallback(async ({ force = false } = {}) => {
-    if (isDataLoading || bills.length === 0) return;
-
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
-    const monthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-
-    // v2: clave nueva para invalidar el localStorage "envenenado" de la versión anterior
-    const genKey = ownerId
-      ? `month_reconciled_v2_${ownerId}_${houseId}_${monthKey}`
-      : `month_reconciled_v2_${houseId}_${monthKey}`;
-
-    // Salir temprano solo si está marcado como completo Y no se fuerza la ejecución
-    if (!force && localStorage.getItem(genKey) === 'done') return;
-
-    // ── 1. Agrupar todas las facturas por mes ─────────────────────────────────
-    const billsByMonth = {};
-    bills.forEach(b => {
-      const d = new Date(b.dueDate + 'T12:00:00');
-      const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      if (!billsByMonth[mKey]) billsByMonth[mKey] = [];
-      billsByMonth[mKey].push(b);
-    });
-
-    // ── 2. Set de nombres ya presentes en el mes actual (guarda anti-duplicados) ─
-    const currentMonthBills = billsByMonth[monthKey] || [];
-    const existingNamesThisMonth = new Set(
-      currentMonthBills.map(b => (b.name || '').trim().toLowerCase())
-    );
-
-    // ── 3. Encontrar el último mes anterior con facturas (plantilla) ──────────
-    const lastMonthKey = Object.keys(billsByMonth)
-      .sort()
-      .reverse()
-      .find(m => {
-        const [y, mm] = m.split('-').map(Number);
-        return y < currentYear || (y === currentYear && mm - 1 < currentMonth);
-      });
-
-    if (!lastMonthKey) {
-      // No hay mes anterior: si hay facturas este mes, marcar como completo
-      if (currentMonthBills.length > 0) localStorage.setItem(genKey, 'done');
+    if (isReconciling.current) return;
+    isReconciling.current = true;
+    if (isDataLoading || bills.length === 0) {
+      isReconciling.current = false;
       return;
     }
 
-    // ── 4. Diff granular: clonar solo los servicios ausentes en el mes actual ─
-    const daysInTargetMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const generated = [];
+    try {
+      const today = new Date();
+      const currentMonth = today.getMonth();
+      const currentYear = today.getFullYear();
+      const monthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
 
-    billsByMonth[lastMonthKey].forEach(template => {
-      const isInstallment = !!template.isInstallments;
-      const total = Number(template.totalInstallments) || 0;
-      const current = Number(template.currentInstallment) || 0;
+      // v2: clave nueva para invalidar el localStorage "envenenado" de la versión anterior
+      const genKey = ownerId
+        ? `month_reconciled_v2_${ownerId}_${houseId}_${monthKey}`
+        : `month_reconciled_v2_${houseId}_${monthKey}`;
 
-      // Saltar cuotas ya finalizadas
-      if (isInstallment && total > 0 && current >= total) return;
+      // Salir temprano solo si está marcado como completo Y no se fuerza la ejecución
+      if (!force && localStorage.getItem(genKey) === 'done') return;
 
-      // Saltar si el servicio ya existe este mes (comparación normalizada)
-      const normalizedName = (template.name || '').trim().toLowerCase();
-      if (existingNamesThisMonth.has(normalizedName)) return;
-
-      // Calcular fecha destino con clamping anti-overflow (ej: 31-ene → 28-feb)
-      const oldDate = new Date(template.dueDate + 'T12:00:00');
-      const oldDay = isNaN(oldDate.getDate()) ? 1 : oldDate.getDate();
-      const targetDay = Math.min(oldDay, daysInTargetMonth);
-      const isoDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(targetDay).padStart(2, '0')}`;
-
-      generated.push({
-        id: crypto.randomUUID(),
-        name: (template.name || '').trim(),
-        // Servicios variables se clonan con amount=0 para forzar ingreso manual
-        amount: (template.isFixed || isInstallment)
-          ? Math.max(0, Number(template.amount) || 0)
-          : 0,
-        dueDate: isoDate,
-        category: template.category || 'otro',
-        paid: false,
-        paidAt: null,
-        isFixed: !!template.isFixed,
-        isInstallments: isInstallment,
-        totalInstallments: total,
-        currentInstallment: isInstallment ? current + 1 : 0,
+      // ── 1. Agrupar todas las facturas por mes ─────────────────────────────────
+      const billsByMonth = {};
+      bills.forEach(b => {
+        const d = new Date(b.dueDate + 'T12:00:00');
+        const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        if (!billsByMonth[mKey]) billsByMonth[mKey] = [];
+        billsByMonth[mKey].push(b);
       });
-    });
 
-    // ── 5. Persistir solo si hay faltantes ────────────────────────────────────
-    if (generated.length > 0) {
-      const newBills = [...bills, ...generated];
-      setBills(newBills);
-      setAutoGeneratedCount(generated.length);
-      localStorage.setItem(storageKey(), JSON.stringify(newBills));
-      await syncToSupabase(generated);
+      // ── 2. Set de nombres ya presentes en el mes actual (guarda anti-duplicados) ─
+      const currentMonthBills = billsByMonth[monthKey] || [];
+      const existingNamesThisMonth = new Set(
+        currentMonthBills.map(b => (b.name || '').trim().toLowerCase())
+      );
+
+      // ── 3. Encontrar el último mes anterior con facturas (plantilla) ──────────
+      const lastMonthKey = Object.keys(billsByMonth)
+        .sort()
+        .reverse()
+        .find(m => {
+          const [y, mm] = m.split('-').map(Number);
+          return y < currentYear || (y === currentYear && mm - 1 < currentMonth);
+        });
+
+      if (!lastMonthKey) {
+        // No hay mes anterior: si hay facturas este mes, marcar como completo
+        if (currentMonthBills.length > 0) localStorage.setItem(genKey, 'done');
+        return;
+      }
+
+      // ── 4. Diff granular: clonar solo los servicios ausentes en el mes actual ─
+      const daysInTargetMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const generated = [];
+
+      billsByMonth[lastMonthKey].forEach(template => {
+        const isInstallment = !!template.isInstallments;
+        const total = Number(template.totalInstallments) || 0;
+        const current = Number(template.currentInstallment) || 0;
+
+        // Saltar cuotas ya finalizadas
+        if (isInstallment && total > 0 && current >= total) return;
+
+        // Saltar si el servicio ya existe este mes (comparación normalizada)
+        const normalizedName = (template.name || '').trim().toLowerCase();
+        if (existingNamesThisMonth.has(normalizedName)) return;
+
+        // Calcular fecha destino con clamping anti-overflow (ej: 31-ene → 28-feb)
+        const oldDate = new Date(template.dueDate + 'T12:00:00');
+        const oldDay = isNaN(oldDate.getDate()) ? 1 : oldDate.getDate();
+        const targetDay = Math.min(oldDay, daysInTargetMonth);
+        const isoDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(targetDay).padStart(2, '0')}`;
+
+        generated.push({
+          id: crypto.randomUUID(),
+          name: (template.name || '').trim(),
+          // Servicios variables se clonan con amount=0 para forzar ingreso manual
+          amount: (template.isFixed || isInstallment)
+            ? Math.max(0, Number(template.amount) || 0)
+            : 0,
+          dueDate: isoDate,
+          category: template.category || 'otro',
+          paid: false,
+          paidAt: null,
+          isFixed: !!template.isFixed,
+          isInstallments: isInstallment,
+          totalInstallments: total,
+          currentInstallment: isInstallment ? current + 1 : 0,
+        });
+      });
+
+      // ── 5. Persistir solo si hay faltantes ────────────────────────────────────
+      if (generated.length > 0) {
+        const newBills = [...bills, ...generated];
+        setBills(newBills);
+        setAutoGeneratedCount(generated.length);
+        localStorage.setItem(storageKey(), JSON.stringify(newBills));
+        await syncToSupabase(generated);
+      }
+
+      // Marcar como completo DESPUÉS de la operación (o inmediatamente si diff=0)
+      localStorage.setItem(genKey, 'done');
+    } finally {
+      // Liberar mutex siempre, incluso si ocurre un error inesperado
+      isReconciling.current = false;
     }
-
-    // Marcar como completo DESPUÉS de la operación (o inmediatamente si diff=0)
-    localStorage.setItem(genKey, 'done');
   }, [bills, isDataLoading, ownerId, houseId, storageKey, syncToSupabase]);
 
   // Ejecución automática al cargar datos — sin force para respetar la clave de control
