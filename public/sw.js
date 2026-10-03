@@ -1,4 +1,4 @@
-const CACHE_NAME = 'home-finance-v31';
+const CACHE_NAME = 'home-finance-v32';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -81,6 +81,17 @@ self.addEventListener('notificationclick', event => {
 });
 
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // HARDENING [SW-2]: Nunca interceptar peticiones cross-origin.
+  // Si el SW cachea respuestas "opacas" de CDNs externos (Font Awesome, Google Fonts),
+  // puede servir respuestas corruptas/fallidas en cargas normales.
+  // Ctrl+Shift+R bypasea el SW y las trae frescas, reproduciendo el bug.
+  // Solución: dejar que el navegador maneje peticiones externas directamente.
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
   // Estrategia Network-First para HTML principal y manifest
   if (event.request.mode === 'navigate' || 
       event.request.url.endsWith('/') || 
@@ -98,7 +109,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Estrategia Cache-First para el resto (imágenes estáticas, assets)
+  // Estrategia Cache-First para assets del mismo origen (imágenes estáticas, assets)
   event.respondWith(
     caches.match(event.request)
       .then(response => response || fetch(event.request))
