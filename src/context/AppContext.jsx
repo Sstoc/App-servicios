@@ -359,12 +359,11 @@ export const AppProvider = ({ children }) => {
   const reconcileMonthlyBills = useCallback(async ({ force = false } = {}) => {
     if (isReconciling.current) return;
     isReconciling.current = true;
-    if (isDataLoading || bills.length === 0) {
-      isReconciling.current = false;
-      return;
-    }
 
     try {
+      // ── Early exits dentro del try para garantizar que finally siempre libere el mutex ──
+      if (isDataLoading || bills.length === 0) return;
+
       const today = new Date();
       const currentMonth = today.getMonth();
       const currentYear = today.getFullYear();
@@ -460,7 +459,7 @@ export const AppProvider = ({ children }) => {
       // Marcar como completo DESPUÉS de la operación (o inmediatamente si diff=0)
       localStorage.setItem(genKey, 'done');
     } finally {
-      // Liberar mutex siempre, incluso si ocurre un error inesperado
+      // Liberar mutex siempre: cubre todos los return anticipados y errores inesperados
       isReconciling.current = false;
     }
   }, [bills, isDataLoading, ownerId, houseId, storageKey, syncToSupabase]);
