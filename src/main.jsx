@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { AppProvider } from './context/AppContext'
 import { SpeedInsights } from '@vercel/speed-insights/react'
+import { Analytics } from '@vercel/analytics/react'
 
 class RootErrorBoundary extends React.Component {
   state = { error: null }
@@ -46,6 +47,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AppProvider>
         <App />
         <SpeedInsights />
+        <Analytics />
       </AppProvider>
     </RootErrorBoundary>
   </React.StrictMode>,
