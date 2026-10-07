@@ -1,0 +1,29 @@
+# Archivos de configuración que no aportan al grafo de código
+package.json
+package-lock.json
+tsconfig*.json
+postcss.config.*
+tailwind.config.*
+vite.config.*
+vercel.json
+netlify.toml
+config.toml
+*.toml
+
+# Assets públicos (no código)
+public/manifest.json
+public/sitemap.xml
+public/sw.js
+public/*.ico
+public/*.png
+public/*.webp
+public/*.svg
+
+# Scripts de utilidad aislados
+scripts/resize-icons.ps1
+scripts/optimize-images.js
+
+# Artefactos de build
+graphify-out/
+dist/
+node_modules/

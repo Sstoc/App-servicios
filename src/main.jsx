@@ -5,6 +5,10 @@ import './index.css'
 import { AppProvider } from './context/AppContext'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Analytics } from '@vercel/analytics/react'
+import { initSentry, captureError } from './lib/sentry'
+
+// Inicializar Sentry antes de renderizar (solo en producción con VITE_SENTRY_DSN)
+initSentry();
 
 class RootErrorBoundary extends React.Component {
   state = { error: null }
@@ -13,8 +17,9 @@ class RootErrorBoundary extends React.Component {
     return { error }
   }
 
-  componentDidCatch(error) {
+  componentDidCatch(error, errorInfo) {
     console.error('Application startup error:', error)
+    captureError(error, { componentStack: errorInfo?.componentStack })
   }
 
   render() {

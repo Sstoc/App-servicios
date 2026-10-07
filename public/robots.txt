@@ -1,6 +1,7 @@
-# https://www.robotstxt.org/robotstxt.html
+# App de gestión de servicios — requiere autenticación.
+# No hay contenido público que los buscadores deban indexar.
 User-agent: *
-Allow: /
+Disallow: /
 
 # Sitemap
 Sitemap: https://homefy-servicios.vercel.app/sitemap.xml

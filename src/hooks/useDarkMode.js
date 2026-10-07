@@ -24,7 +24,6 @@ export const applyThemeToDOM = (isDark) => {
     colorSchemeMeta = document.createElement('meta');
     colorSchemeMeta.name = 'color-scheme';
     colorSchemeMeta.id = 'color-scheme-meta';
-    colorSchemeMeta.content = isDark ? 'dark' : 'light';
     colorSchemeMeta.setAttribute('content', isDark ? 'dark' : 'light');
     document.head.appendChild(colorSchemeMeta);
   }
@@ -40,13 +39,11 @@ export const applyThemeToDOM = (isDark) => {
   if (metas.length > 0) {
     metas.forEach(meta => {
       meta.setAttribute('content', themeColor);
-      meta.content = themeColor;
     });
   } else {
     const meta = document.createElement('meta');
     meta.name = 'theme-color';
     meta.id = 'theme-color-meta';
-    meta.content = themeColor;
     meta.setAttribute('content', themeColor);
     document.head.appendChild(meta);
   }

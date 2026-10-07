@@ -46,11 +46,16 @@ function App() {
 
   // Presupuesto mensual (persiste en localStorage por usuario)
   const budgetKey = user ? `home_budget_${user.id}` : null;
-  const [budget, setBudgetState] = useState(() => {
-    if (!user) return null;
-    const stored = localStorage.getItem(`home_budget_${user?.id}`);
-    return stored ? Number(stored) : null;
-  });
+  // FIX [M-2]: el useState initializer siempre corre con user=null (la auth es async),
+  // por lo que el presupuesto nunca se leía de localStorage al montar.
+  // Se mueve la lectura a un useEffect que reacciona cuando user está disponible.
+  const [budget, setBudgetState] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+    const stored = localStorage.getItem(`home_budget_${user.id}`);
+    if (stored !== null) setBudgetState(Number(stored));
+  }, [user]);
 
   const setBudget = (value) => {
     const num = (value === '' || value === null || isNaN(Number(value)) || Number(value) < 0) ? null : Number(value);
@@ -183,7 +188,7 @@ function App() {
     };
 
     notify();
-  }, [pushEnabled, bills, pendingBills]);
+  }, [pushEnabled, pendingBills]);
 
   const toggleNotifications = async () => {
     try {
@@ -191,8 +196,20 @@ function App() {
         ? await disablePushNotifications()
         : await enablePushNotifications();
 
-      // Mostrar el mensaje primero, luego actualizar el estado local
       window.alert(message);
+
+      // FIX [A-2]: Confirmar con el navegador si la suscripción está realmente activa
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        try {
+          const reg = await navigator.serviceWorker.ready;
+          const sub = await reg.pushManager.getSubscription();
+          const isSubscribed = !!sub && Notification.permission === 'granted';
+          setPushEnabled(isSubscribed);
+          localStorage.setItem('home_notify_enabled', String(isSubscribed));
+          return;
+        } catch {}
+      }
+
       const nextValue = !pushEnabled;
       setPushEnabled(nextValue);
       localStorage.setItem('home_notify_enabled', String(nextValue));
@@ -346,7 +363,6 @@ function App() {
                 calculatePendingTotal={() => stats.pendingTotal}
                 calculatePaidThisMonth={() => stats.paidThisMonth}
                 currentMonthProgress={() => stats.progress}
-                getNextDueBill={() => stats.urgentBill}
                 urgentBill={stats.urgentBill}
                 isOverdueAlert={stats.isOverdueAlert}
                 overdueCount={stats.overdueCount}
