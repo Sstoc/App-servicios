@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { modalDrillInVariants, backdropFadeVariants } from '../../utils/fluentMotion';
 
 export const InstallPromptModal = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(() => window.__pwaDeferredPrompt || null);
@@ -112,96 +114,115 @@ export const InstallPromptModal = () => {
     sessionStorage.setItem('home_pwa_dismissed', 'true');
   };
 
-  if (!showPrompt || isStandalone) return null;
+  const isVisible = showPrompt && !isStandalone;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-md bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-2xl border border-slate-100 dark:border-white/10 popup-animate relative overflow-hidden">
-        {/* Glow decorativo */}
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="flex items-center gap-3.5">
-            <div className="relative">
-              <img
-                src="/logo-home.png"
-                alt="Home"
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-contain shadow-lg border border-slate-100 dark:border-white/10"
-              />
-              <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-blue-500"></span>
-              </span>
-            </div>
-            <div>
-              <h3 className="font-extrabold text-slate-900 dark:text-white text-lg leading-tight">
-                Instalar Home
-              </h3>
-              <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">
-                Gestión de Servicios & Alertas
-              </p>
-            </div>
-          </div>
-
-          <button
+    <AnimatePresence>
+      {isVisible && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4">
+          <motion.div
+            variants={backdropFadeVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={handleDismiss}
-            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-400 hover:text-slate-600 dark:hover:text-white flex items-center justify-center transition active:scale-90"
-            title="Cerrar"
+          />
+          <motion.div
+            variants={modalDrillInVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full max-w-md bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-2xl border border-slate-100 dark:border-white/10 relative overflow-hidden z-10"
           >
-            <i className="fa-solid fa-xmark text-sm"></i>
-          </button>
-        </div>
+            {/* Glow decorativo */}
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-        <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-5 leading-relaxed">
-          Instalá la aplicación en tu pantalla de inicio para abrirla al instante y recibir <strong className="text-slate-900 dark:text-white">notificaciones de vencimiento</strong> automáticamente.
-        </p>
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3.5">
+                <div className="relative">
+                  <img
+                    src="/logo-home.png"
+                    alt="Home"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-contain shadow-lg border border-slate-100 dark:border-white/10"
+                  />
+                  <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-blue-500"></span>
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-slate-900 dark:text-white text-lg leading-tight">
+                    Instalar Home
+                  </h3>
+                  <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                    Gestión de Servicios & Alertas
+                  </p>
+                </div>
+              </div>
 
-        {isIOS ? (
-          /* Instrucciones para iPhone / iPad */
-          <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl p-4 border border-slate-100 dark:border-white/5 space-y-2.5 mb-4">
-            <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
-              Cómo instalar en tu iPhone:
+              <button
+                onClick={handleDismiss}
+                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-400 hover:text-slate-600 dark:hover:text-white flex items-center justify-center transition active:scale-90"
+                title="Cerrar"
+              >
+                <i className="fa-solid fa-xmark text-sm"></i>
+              </button>
+            </div>
+
+            <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-5 leading-relaxed">
+              Instalá la aplicación en tu pantalla de inicio para abrirla al instante y recibir <strong className="text-slate-900 dark:text-white">notificaciones de vencimiento</strong> automáticamente.
             </p>
-            <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
-              <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">1</span>
-              <span>Tocá el botón <strong>Compartir</strong> <i className="fa-solid fa-arrow-up-from-bracket text-blue-500 ml-1"></i> en Safari.</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
-              <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">2</span>
-              <span>Buscá y seleccioná <strong>"Agregar a pantalla de inicio"</strong>.</span>
-            </div>
-          </div>
-        ) : (
-          /* Botón de instalación nativa Android / Chrome / PC */
-          <div className="space-y-3">
-            <button
-              onClick={handleInstallClick}
-              className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 text-base transition-all cursor-pointer"
-            >
-              <i className="fa-solid fa-download"></i>
-              <span>Instalar Aplicación</span>
-            </button>
 
-            {showAndroidGuide && (
-              <div className="bg-blue-50/80 dark:bg-blue-500/10 rounded-2xl p-3.5 border border-blue-200/60 dark:border-blue-500/20 text-xs text-slate-600 dark:text-slate-300 animate-fade-in space-y-1.5">
-                <p className="font-bold text-blue-900 dark:text-blue-200">
-                  Si tu navegador no abrió el diálogo:
+            {isIOS ? (
+              /* Instrucciones para iPhone / iPad */
+              <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl p-4 border border-slate-100 dark:border-white/5 space-y-2.5 mb-4">
+                <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                  Cómo instalar en tu iPhone:
                 </p>
-                <p>
-                  Tocá los <strong>3 puntitos (⋮)</strong> arriba a la derecha en Chrome y seleccioná <strong>"Instalar aplicación"</strong> o <strong>"Agregar a pantalla principal"</strong>.
-                </p>
+                <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
+                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">1</span>
+                  <span>Tocá el botón <strong>Compartir</strong> <i className="fa-solid fa-arrow-up-from-bracket text-blue-500 ml-1"></i> en Safari.</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
+                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">2</span>
+                  <span>Buscá y seleccioná <strong>"Agregar a pantalla de inicio"</strong>.</span>
+                </div>
+              </div>
+            ) : (
+              /* Botón de instalación nativa Android / Chrome / PC */
+              <div className="space-y-3">
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleInstallClick}
+                  className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 text-base transition-colors cursor-pointer"
+                >
+                  <i className="fa-solid fa-download"></i>
+                  <span>Instalar Aplicación</span>
+                </motion.button>
+
+                {showAndroidGuide && (
+                  <div className="bg-blue-50/80 dark:bg-blue-500/10 rounded-2xl p-3.5 border border-blue-200/60 dark:border-blue-500/20 text-xs text-slate-600 dark:text-slate-300 animate-fade-in space-y-1.5">
+                    <p className="font-bold text-blue-900 dark:text-blue-200">
+                      Si tu navegador no abrió el diálogo:
+                    </p>
+                    <p>
+                      Tocá los <strong>3 puntitos (⋮)</strong> arriba a la derecha en Chrome y seleccioná <strong>"Instalar aplicación"</strong> o <strong>"Agregar a pantalla principal"</strong>.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        )}
 
-        <button
-          onClick={handleDismiss}
-          className="w-full mt-2 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-center"
-        >
-          Quizás más tarde
-        </button>
-      </div>
-    </div>
+            <button
+              onClick={handleDismiss}
+              className="w-full mt-2 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-center"
+            >
+              Quizás más tarde
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };

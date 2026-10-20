@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fluentPillSpring } from '../../utils/fluentMotion';
 
 export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonthTotal, formatMoney, darkMode, toggleDarkMode, themeMode = 'light', setThemeMode, signOut, user, showBalance, syncStatus, pushEnabled, toggleNotifications }) => {
   const getSyncIcon = () => {
@@ -45,94 +47,151 @@ export const Sidebar = React.memo(({ view, setView, pendingCount, calculateMonth
         </div>
 
         <nav className="space-y-2">
-          <button 
+          <motion.button 
+            type="button"
+            whileTap={{ scale: 0.97 }}
             onClick={() => setView('dashboard')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'dashboard' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
+            className={`w-full relative flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-colors duration-200 ${view === 'dashboard' ? 'text-blue-700 dark:text-blue-400' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
-            <i className="fa-solid fa-chart-pie w-5 text-center"></i> 
-            <span className="flex-1 text-left">General</span>
-          </button>
+            {view === 'dashboard' && (
+              <motion.div
+                layoutId="activeSidebarNav"
+                transition={fluentPillSpring}
+                className="absolute inset-0 bg-blue-50 dark:bg-blue-500/10 rounded-xl pointer-events-none"
+              />
+            )}
+            <i className="fa-solid fa-chart-pie w-5 text-center relative z-10"></i> 
+            <span className="flex-1 text-left relative z-10">General</span>
+          </motion.button>
           
-          <button 
+          <motion.button 
+            type="button"
+            whileTap={{ scale: 0.97 }}
             onClick={() => setView('pending')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'pending' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
+            className={`w-full relative flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-colors duration-200 ${view === 'pending' ? 'text-blue-700 dark:text-blue-400' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
-            <i className="fa-solid fa-clock w-5 text-center"></i> 
-            <span className="flex-1 text-left">Pendientes</span>
+            {view === 'pending' && (
+              <motion.div
+                layoutId="activeSidebarNav"
+                transition={fluentPillSpring}
+                className="absolute inset-0 bg-blue-50 dark:bg-blue-500/10 rounded-xl pointer-events-none"
+              />
+            )}
+            <i className="fa-solid fa-clock w-5 text-center relative z-10"></i> 
+            <span className="flex-1 text-left relative z-10">Pendientes</span>
             {pendingCount > 0 && (
-              <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg shadow-red-200 dark:shadow-none">
+              <span className="relative z-10 bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg shadow-red-200 dark:shadow-none">
                 {pendingCount}
               </span>
             )}
-          </button>
+          </motion.button>
           
-          <button 
+          <motion.button 
+            type="button"
+            whileTap={{ scale: 0.97 }}
             onClick={() => setView('history')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 ${view === 'history' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 translate-x-1' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
+            className={`w-full relative flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-colors duration-200 ${view === 'history' ? 'text-blue-700 dark:text-blue-400' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
-            <i className="fa-solid fa-receipt w-5 text-center"></i> 
-            <span className="flex-1 text-left">Historial</span>
-          </button>
+            {view === 'history' && (
+              <motion.div
+                layoutId="activeSidebarNav"
+                transition={fluentPillSpring}
+                className="absolute inset-0 bg-blue-50 dark:bg-blue-500/10 rounded-xl pointer-events-none"
+              />
+            )}
+            <i className="fa-solid fa-receipt w-5 text-center relative z-10"></i> 
+            <span className="flex-1 text-left relative z-10">Historial</span>
+          </motion.button>
 
           <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-700 space-y-2">
             <div className="px-1 py-1">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-1">Tema de la app</p>
               <div className="grid grid-cols-3 gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/60 dark:border-slate-700/50">
-                <button 
+                <motion.button 
                   type="button"
+                  whileTap={{ scale: 0.94 }}
                   onClick={() => setThemeMode ? setThemeMode('light') : toggleDarkMode()} 
-                  className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'light' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                  className={`relative flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-colors ${themeMode === 'light' ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
                   title="Modo Claro"
                 >
-                  <i className="fa-solid fa-sun text-yellow-500 text-xs"></i>
-                  <span>Claro</span>
-                </button>
-                <button 
+                  {themeMode === 'light' && (
+                    <motion.div
+                      layoutId="activeSidebarTheme"
+                      transition={fluentPillSpring}
+                      className="absolute inset-0 bg-white dark:bg-slate-700 rounded-xl shadow-sm pointer-events-none"
+                    />
+                  )}
+                  <i className="fa-solid fa-sun text-yellow-500 text-xs relative z-10"></i>
+                  <span className="relative z-10">Claro</span>
+                </motion.button>
+                <motion.button 
                   type="button"
+                  whileTap={{ scale: 0.94 }}
                   onClick={() => setThemeMode ? setThemeMode('dark') : toggleDarkMode()} 
-                  className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'dark' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                  className={`relative flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-colors ${themeMode === 'dark' ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
                   title="Modo Oscuro"
                 >
-                  <i className="fa-solid fa-moon text-blue-400 text-xs"></i>
-                  <span>Oscuro</span>
-                </button>
-                <button 
+                  {themeMode === 'dark' && (
+                    <motion.div
+                      layoutId="activeSidebarTheme"
+                      transition={fluentPillSpring}
+                      className="absolute inset-0 bg-white dark:bg-slate-700 rounded-xl shadow-sm pointer-events-none"
+                    />
+                  )}
+                  <i className="fa-solid fa-moon text-blue-400 text-xs relative z-10"></i>
+                  <span className="relative z-10">Oscuro</span>
+                </motion.button>
+                <motion.button 
                   type="button"
+                  whileTap={{ scale: 0.94 }}
                   onClick={() => setThemeMode ? setThemeMode('system') : toggleDarkMode()} 
-                  className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'system' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                  className={`relative flex items-center justify-center gap-1.5 py-2 px-1 rounded-xl text-xs font-bold transition-colors ${themeMode === 'system' ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
                   title="Predeterminado del sistema"
                 >
-                  <i className="fa-solid fa-circle-half-stroke text-slate-400 text-xs"></i>
-                  <span>Auto</span>
-                </button>
+                  {themeMode === 'system' && (
+                    <motion.div
+                      layoutId="activeSidebarTheme"
+                      transition={fluentPillSpring}
+                      className="absolute inset-0 bg-white dark:bg-slate-700 rounded-xl shadow-sm pointer-events-none"
+                    />
+                  )}
+                  <i className="fa-solid fa-circle-half-stroke text-slate-400 text-xs relative z-10"></i>
+                  <span className="relative z-10">Auto</span>
+                </motion.button>
               </div>
             </div>
 
-            <button 
+            <motion.button 
+              type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={toggleNotifications} 
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200"
             >
               <i className={`fa-solid w-5 text-center text-lg ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
               <span className="flex-1 text-left">Notificaciones</span>
               {pushEnabled && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
-            </button>
+            </motion.button>
 
-            <button 
+            <motion.button 
+              type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={() => window.dispatchEvent(new CustomEvent('trigger-pwa-install'))} 
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200"
             >
               <i className="fa-solid fa-download w-5 text-center text-lg text-blue-500"></i>
               <span className="flex-1 text-left">Instalar App</span>
-            </button>
+            </motion.button>
 
             {user && (
-              <button 
+              <motion.button 
+                type="button"
+                whileTap={{ scale: 0.97 }}
                 onClick={signOut} 
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors duration-200"
               >
                 <i className="fa-solid fa-right-from-bracket w-5 text-center"></i> 
                 <span>Salir</span>
-              </button>
+              </motion.button>
             )}
           </div>
         </nav>

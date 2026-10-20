@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../ui';
 import { useApp } from '../../context/AppContext';
+import { modalDrillInVariants, backdropFadeVariants } from '../../utils/fluentMotion';
 
 const DEFAULT_CATEGORIES = [
   { id: 'casa', icon: 'fa-house', label: 'Casa' },
@@ -202,11 +204,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
 
 
   const handleClose = () => {
-    setShow(false);
-    setTimeout(onClose, 300);
+    onClose();
   };
-
-  if (!isOpen && !show) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -244,24 +243,35 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
   const inputClass = "w-full p-4 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-bold text-slate-800 dark:text-white text-base transition-all";
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-      <div
-        className={`absolute inset-0 bg-slate-900/40 backdrop-blur-md transition-opacity duration-300 ${show ? 'opacity-100' : 'opacity-0'}`}
-        onClick={handleClose}
-      ></div>
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <motion.div
+            key="bill-modal-backdrop"
+            variants={backdropFadeVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
+            onClick={handleClose}
+          />
 
-      {/* Mobile: tarjeta centrada pill-style | Desktop: panel rectangular más ancho */}
-      <Card 
-        className={`
-          w-full relative z-50 border border-white/20 bg-white/70 dark:bg-slate-900/70
-          backdrop-blur-2xl shadow-2xl max-h-[90vh] flex flex-col transition-all duration-300
-          ${show ? 'animate-modal-in' : 'animate-modal-out'}
-          max-w-[400px] !rounded-[2.5rem] p-8
-          md:max-w-3xl md:!rounded-3xl md:p-0
-          scrollbar-none no-scrollbar
-        `}
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
+          {/* Mobile: tarjeta centrada pill-style | Desktop: panel rectangular más ancho */}
+          <motion.div 
+            key="bill-modal-card"
+            variants={modalDrillInVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className={`
+              card-item w-full relative z-50 border border-white/20 bg-white/70 dark:bg-slate-900/70
+              backdrop-blur-2xl shadow-2xl max-h-[90vh] flex flex-col
+              max-w-[400px] !rounded-[2.5rem] p-8
+              md:max-w-3xl md:!rounded-3xl md:p-0
+              scrollbar-none no-scrollbar
+            `}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
 
         {/* ─── HEADER ─────────────────────────────────── */}
         {/* Mobile: centrado vertical | Desktop: barra horizontal */}
@@ -588,23 +598,34 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
 
         {/* Padding inferior en desktop para el form */}
         <div className="hidden md:block md:pb-2" />
-      </Card>
+      </motion.div>
 
       {/* ─── Mini-modal de eliminación de categoría ───────────────────── */}
-      {deleteStep && deletingCatId && (() => {
-        const deletingCat = customCategories.find(c => c.id === deletingCatId);
-        const affected = bills.filter(b => b.category === deletingCatId);
-        const allCats = [...DEFAULT_CATEGORIES, ...customCategories.filter(c => c.id !== deletingCatId)];
+      <AnimatePresence>
+        {deleteStep && deletingCatId && (() => {
+          const deletingCat = customCategories.find(c => c.id === deletingCatId);
+          const affected = bills.filter(b => b.category === deletingCatId);
+          const allCats = [...DEFAULT_CATEGORIES, ...customCategories.filter(c => c.id !== deletingCatId)];
 
-        return (
-          <div className="absolute inset-0 z-[200] flex items-center justify-center p-6 rounded-[2.5rem] md:rounded-3xl overflow-hidden">
-            {/* Fondo difuminado */}
-            <div
-              className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm rounded-[2.5rem] md:rounded-3xl"
-              onClick={cancelDelete}
-            />
+          return (
+            <div className="absolute inset-0 z-[200] flex items-center justify-center p-6 rounded-[2.5rem] md:rounded-3xl overflow-hidden">
+              {/* Fondo difuminado */}
+              <motion.div
+                variants={backdropFadeVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm rounded-[2.5rem] md:rounded-3xl"
+                onClick={cancelDelete}
+              />
 
-            <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-white/10 p-6 animate-in fade-in zoom-in-95 duration-200">
+              <motion.div
+                variants={modalDrillInVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-white/10 p-6"
+              >
 
               {deleteStep === 'confirm' && (
                 <>
@@ -693,10 +714,13 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                   </div>
                 </>
               )}
-            </div>
+            </motion.div>
           </div>
         );
       })()}
+      </AnimatePresence>
     </div>
-  );
+  )}
+  </AnimatePresence>
+);
 };

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { fluentPillSpring, modalDrillInVariants } from '../../utils/fluentMotion';
 
 export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, toggleDarkMode, themeMode = 'light', setThemeMode, signOut, user, pushEnabled, requestPushPermission, syncStatus }) => {
   const [openSettings, setOpenSettings] = useState(false);
@@ -56,74 +58,108 @@ export const HeaderMobile = React.memo(({ toggleBalance, showBalance, darkMode, 
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <motion.button
+            whileTap={{ scale: 0.90 }}
             onClick={toggleBalance}
-            className="text-slate-700 dark:text-slate-200 w-10 h-10 rounded-2xl flex items-center justify-center active:scale-90 transition bg-white dark:bg-slate-800 shadow-sm border border-slate-300/80 dark:border-white/10 hover:text-slate-900 dark:hover:text-white"
+            className="text-slate-700 dark:text-slate-200 w-10 h-10 rounded-2xl flex items-center justify-center transition-colors bg-white dark:bg-slate-800 shadow-sm border border-slate-300/80 dark:border-white/10 hover:text-slate-900 dark:hover:text-white"
           >
             <i className={showBalance ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}></i>
-          </button>
+          </motion.button>
 
           <div className="relative">
-            <button
+            <motion.button
               id="mobile-settings-btn"
+              whileTap={{ scale: 0.90 }}
               onClick={(e) => { e.stopPropagation(); setOpenSettings(!openSettings); }}
-              className="text-slate-700 dark:text-slate-200 w-10 h-10 rounded-2xl flex items-center justify-center active:scale-90 transition bg-white dark:bg-slate-800 shadow-sm border border-slate-300/80 dark:border-white/10 hover:text-slate-900 dark:hover:text-white"
+              className="text-slate-700 dark:text-slate-200 w-10 h-10 rounded-2xl flex items-center justify-center transition-colors bg-white dark:bg-slate-800 shadow-sm border border-slate-300/80 dark:border-white/10 hover:text-slate-900 dark:hover:text-white"
             >
               <i className="fa-solid fa-gear"></i>
-            </button>
+            </motion.button>
 
-            {openSettings && (
-              <div className="absolute right-0 mt-3 w-72 sm:w-80 bg-white dark:bg-slate-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-700 overflow-hidden py-3 z-50 origin-top-right popup-animate">
-                <div className="px-5 py-4 border-b border-slate-50 dark:border-slate-700/50 mb-1">
-                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Ajustes</p>
-                  <p className="text-base font-bold text-slate-800 dark:text-white truncate mt-1">{user?.email}</p>
-                </div>
-                <div className="px-5 py-3 border-b border-slate-50 dark:border-slate-700/50 mb-1">
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Tema de la app</p>
-                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 dark:bg-slate-700/60 rounded-2xl">
-                    <button
-                      type="button"
-                      onClick={() => setThemeMode ? setThemeMode('light') : toggleDarkMode()}
-                      className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'light' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
-                    >
-                      <i className="fa-solid fa-sun text-base text-yellow-500 mb-1"></i>
-                      <span>Claro</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setThemeMode ? setThemeMode('dark') : toggleDarkMode()}
-                      className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'dark' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
-                    >
-                      <i className="fa-solid fa-moon text-base text-blue-400 mb-1"></i>
-                      <span>Oscuro</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setThemeMode ? setThemeMode('system') : toggleDarkMode()}
-                      className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-all ${themeMode === 'system' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
-                    >
-                      <i className="fa-solid fa-circle-half-stroke text-base text-slate-400 mb-1"></i>
-                      <span>Sistema</span>
-                    </button>
+            <AnimatePresence>
+              {openSettings && (
+                <motion.div
+                  variants={modalDrillInVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="absolute right-0 mt-3 w-72 sm:w-80 bg-white dark:bg-slate-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-700 overflow-hidden py-3 z-50 origin-top-right"
+                >
+                  <div className="px-5 py-4 border-b border-slate-50 dark:border-slate-700/50 mb-1">
+                    <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Ajustes</p>
+                    <p className="text-base font-bold text-slate-800 dark:text-white truncate mt-1">{user?.email}</p>
                   </div>
-                </div>
-                <button onClick={() => { requestPushPermission(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <i className={`fa-solid w-6 text-center text-xl ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
-                  <span className="flex-1 text-left">Notificaciones</span>
-                </button>
-                <button onClick={() => { window.dispatchEvent(new CustomEvent('trigger-pwa-install')); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <i className="fa-solid fa-download w-6 text-center text-xl text-blue-500"></i>
-                  <span className="flex-1 text-left">Instalar App</span>
-                </button>
-                <div className="border-t border-slate-100 dark:border-slate-700 my-2 mx-5"></div>
-                {user && (
-                  <button onClick={() => { signOut(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
-                    <i className="fa-solid fa-right-from-bracket w-6 text-center text-xl"></i>
-                    <span className="flex-1 text-left">Cerrar Sesión</span>
+                  <div className="px-5 py-3 border-b border-slate-50 dark:border-slate-700/50 mb-1">
+                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Tema de la app</p>
+                    <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 dark:bg-slate-700/60 rounded-2xl">
+                      <motion.button
+                        type="button"
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => setThemeMode ? setThemeMode('light') : toggleDarkMode()}
+                        className={`relative flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-colors ${themeMode === 'light' ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                      >
+                        {themeMode === 'light' && (
+                          <motion.div
+                            layoutId="activeThemeMobile"
+                            transition={fluentPillSpring}
+                            className="absolute inset-0 bg-white dark:bg-slate-800 rounded-xl shadow-sm pointer-events-none"
+                          />
+                        )}
+                        <i className="fa-solid fa-sun text-base text-yellow-500 mb-1 relative z-10"></i>
+                        <span className="relative z-10">Claro</span>
+                      </motion.button>
+                      <motion.button
+                        type="button"
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => setThemeMode ? setThemeMode('dark') : toggleDarkMode()}
+                        className={`relative flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-colors ${themeMode === 'dark' ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                      >
+                        {themeMode === 'dark' && (
+                          <motion.div
+                            layoutId="activeThemeMobile"
+                            transition={fluentPillSpring}
+                            className="absolute inset-0 bg-white dark:bg-slate-800 rounded-xl shadow-sm pointer-events-none"
+                          />
+                        )}
+                        <i className="fa-solid fa-moon text-base text-blue-400 mb-1 relative z-10"></i>
+                        <span className="relative z-10">Oscuro</span>
+                      </motion.button>
+                      <motion.button
+                        type="button"
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => setThemeMode ? setThemeMode('system') : toggleDarkMode()}
+                        className={`relative flex flex-col items-center justify-center py-2 px-1 rounded-xl text-xs font-bold transition-colors ${themeMode === 'system' ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                      >
+                        {themeMode === 'system' && (
+                          <motion.div
+                            layoutId="activeThemeMobile"
+                            transition={fluentPillSpring}
+                            className="absolute inset-0 bg-white dark:bg-slate-800 rounded-xl shadow-sm pointer-events-none"
+                          />
+                        )}
+                        <i className="fa-solid fa-circle-half-stroke text-base text-slate-400 mb-1 relative z-10"></i>
+                        <span className="relative z-10">Sistema</span>
+                      </motion.button>
+                    </div>
+                  </div>
+                  <button onClick={() => { requestPushPermission(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <i className={`fa-solid w-6 text-center text-xl ${pushEnabled ? 'fa-bell text-blue-500' : 'fa-bell-slash text-slate-400'}`}></i>
+                    <span className="flex-1 text-left">Notificaciones</span>
                   </button>
-                )}
-              </div>
-            )}
+                  <button onClick={() => { window.dispatchEvent(new CustomEvent('trigger-pwa-install')); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <i className="fa-solid fa-download w-6 text-center text-xl text-blue-500"></i>
+                    <span className="flex-1 text-left">Instalar App</span>
+                  </button>
+                  <div className="border-t border-slate-100 dark:border-slate-700 my-2 mx-5"></div>
+                  {user && (
+                    <button onClick={() => { signOut(); setOpenSettings(false); }} className="w-full flex items-center gap-4 px-6 py-5 text-base font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
+                      <i className="fa-solid fa-right-from-bracket w-6 text-center text-xl"></i>
+                      <span className="flex-1 text-left">Cerrar Sesión</span>
+                    </button>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

@@ -9,6 +9,8 @@
 @layer base {
   :root {
     color-scheme: light;
+    --fluent-decelerate: cubic-bezier(0.1, 0.9, 0.2, 1);
+    --fluent-accelerate: cubic-bezier(0.7, 0, 1, 0.5);
   }
   :root.dark {
     color-scheme: dark;

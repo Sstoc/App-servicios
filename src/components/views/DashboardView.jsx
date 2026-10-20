@@ -1,8 +1,10 @@
 import React, { useRef, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Card, Badge, Button } from '../ui';
 import { formatMoney, formatMoneyProtected, getIcon, getCategoryLabel, isOverdue } from '../../lib/utils';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { staggerContainerVariants, staggerItemVariants, fluentPillSpring } from '../../utils/fluentMotion';
 
 // ─── BudgetCard ──────────────────────────────────────────────────────────────
 const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
@@ -479,21 +481,30 @@ export const DashboardView = ({
         ].map((chip) => {
           const isActive = filter === chip.id;
           return (
-            <button
+            <motion.button
               key={chip.id}
               onClick={() => setFilter(chip.id)}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap active:scale-95 ${
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: 'spring', stiffness: 450, damping: 16 }}
+              className={`relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors whitespace-nowrap ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25'
+                  ? 'text-white'
                   : 'bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-300/80 dark:border-white/10'
               }`}
             >
-              {chip.alert && !isActive && (
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+              {isActive && (
+                <motion.div
+                  layoutId="activeDashboardFilter"
+                  transition={fluentPillSpring}
+                  className="absolute inset-0 bg-blue-600 rounded-full shadow-md shadow-blue-500/25 pointer-events-none"
+                />
               )}
-              <span>{chip.label}</span>
+              {chip.alert && !isActive && (
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse relative z-10"></span>
+              )}
+              <span className="relative z-10">{chip.label}</span>
               <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                className={`text-[10px] px-1.5 py-0.2 rounded-full font-black relative z-10 ${
                   isActive
                     ? 'bg-white/20 text-white'
                     : 'bg-slate-200/80 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
@@ -501,7 +512,7 @@ export const DashboardView = ({
               >
                 {chip.count}
               </span>
-            </button>
+            </motion.button>
           );
         })}
       </div>
@@ -512,9 +523,20 @@ export const DashboardView = ({
         <span>Deslizá una tarjeta a la derecha para pagar rápido</span>
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+      <motion.div
+        variants={staggerContainerVariants}
+        initial="initial"
+        animate="animate"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20"
+      >
         {monthBills.map(bill => (
-          <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
+          <motion.div
+            layout="position"
+            variants={staggerItemVariants}
+            key={bill.id}
+            data-id={bill.id}
+            className={`bill-card-item transition-colors ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}
+          >
             <SwipeableBillCard bill={bill} onSwipePay={handleTogglePaid}>
               <Card 
                 className={`group !overflow-visible !p-4 sm:!p-5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
@@ -619,7 +641,7 @@ export const DashboardView = ({
                 </div>
               </Card>
             </SwipeableBillCard>
-          </div>
+          </motion.div>
         ))}
         {monthBills.length === 0 && (
           <div className="col-span-full flex flex-col items-center justify-center py-16 text-center bg-white/45 dark:bg-slate-800/20 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 p-8 shadow-sm">
@@ -650,7 +672,7 @@ export const DashboardView = ({
             )}
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

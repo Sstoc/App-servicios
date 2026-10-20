@@ -1,6 +1,8 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Card, Badge, Button } from '../ui';
 import { formatMoney, isOverdue, getCategoryLabel, getIcon } from '../../lib/utils';
+import { staggerContainerVariants, staggerItemVariants } from '../../utils/fluentMotion';
 
 export const PendingView = ({ 
   bills, 
@@ -47,9 +49,20 @@ export const PendingView = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 mb-24">
+      <motion.div
+        variants={staggerContainerVariants}
+        initial="initial"
+        animate="animate"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 mb-24"
+      >
         {pendingBills.map(bill => (
-          <div key={bill.id} data-id={bill.id} className={`bill-card-item transition-all ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}>
+          <motion.div
+            layout="position"
+            variants={staggerItemVariants}
+            key={bill.id}
+            data-id={bill.id}
+            className={`bill-card-item transition-colors ${activeMenu === bill.id ? 'relative z-40' : 'relative z-0'}`}
+          >
             <Card 
               className={`group !overflow-visible !p-4 sm:!p-5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
             >
@@ -152,9 +165,9 @@ export const PendingView = ({
                 </div>
               </div>
             </Card>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
 
       {pendingBills.length === 0 && (

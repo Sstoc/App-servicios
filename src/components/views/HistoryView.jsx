@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { Card, Badge } from '../ui';
 import { formatMoney, getIcon, getCategoryLabel } from '../../lib/utils';
 import { exportToCSV, exportToPDF } from '../../lib/exportUtils';
+import { staggerContainerVariants, staggerItemVariants } from '../../utils/fluentMotion';
 
 export const HistoryView = ({ bills, handleEdit, showBalance }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -101,11 +103,18 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
         )}
       </div>
 
-      {historyGroups.map(group => {
-        const isGroupOpen = isSearching || !!openHistoryGroups[group.key];
+      <motion.div
+        variants={staggerContainerVariants}
+        initial="initial"
+        animate="animate"
+        className="space-y-4"
+      >
+        {historyGroups.map(group => {
+          const isGroupOpen = isSearching || !!openHistoryGroups[group.key];
 
-        return (
-          <Card key={group.key} className="p-0 overflow-hidden !translate-y-0 border !border-slate-200 dark:!border-slate-700/80 shadow-md !rounded-3xl !bg-slate-100 dark:!bg-slate-800">
+          return (
+            <motion.div layout="position" variants={staggerItemVariants} key={group.key}>
+              <Card className="p-0 overflow-hidden !translate-y-0 border !border-slate-200 dark:!border-slate-700/80 shadow-md !rounded-3xl !bg-slate-100 dark:!bg-slate-800">
             {/* Cabecera del grupo (mes) */}
             <div
               onClick={() => toggleHistoryGroup(group.key)}
@@ -361,8 +370,10 @@ export const HistoryView = ({ bills, handleEdit, showBalance }) => {
               </div>
             </div>
           </Card>
-        );
-      })}
+        </motion.div>
+      );
+    })}
+  </motion.div>
 
       {historyGroups.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 text-center bg-white/50 dark:bg-slate-800/30 rounded-[2.5rem] border border-slate-100 dark:border-white/5 p-8 shadow-sm">

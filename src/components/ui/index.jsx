@@ -1,4 +1,6 @@
 import React, { memo } from 'react';
+import { motion } from 'framer-motion';
+import { buttonInteractiveMotion } from '../../utils/fluentMotion';
 
 export const Card = memo(({ children, className = "" }) => (
   <div className={`card-item p-6 rounded-3xl relative ${className}`}>
@@ -31,13 +33,15 @@ export const Button = memo(({ children, variant = "primary", onClick, className 
   };
 
   return (
-    <button 
+    <motion.button 
       onClick={onClick}
       disabled={disabled}
-      className={`flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 shadow-lg hover:shadow-xl ${variants[variant]} ${className}`}
+      whileTap={disabled ? undefined : buttonInteractiveMotion.whileTap}
+      transition={buttonInteractiveMotion.transition}
+      className={`flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold transition-colors duration-200 disabled:opacity-50 shadow-lg hover:shadow-xl ${variants[variant]} ${className}`}
     >
       {icon && <i className={`${icon} transition-transform group-hover:scale-110`}></i>}
       {children}
-    </button>
+    </motion.button>
   );
 });

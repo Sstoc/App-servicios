@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './components/ui';
 import { Sidebar } from './components/layout/Sidebar';
 import { HeaderMobile } from './components/layout/HeaderMobile';
@@ -14,6 +15,7 @@ import { useDarkMode } from './hooks/useDarkMode';
 import { useApp } from './context/AppContext';
 import { formatMoney, getDiffDays } from './lib/utils';
 import { disablePushNotifications, enablePushNotifications } from './lib/pushNotifications';
+import { pageEntranceVariants, fluentPillSpring, fabInteractiveMotion } from './utils/fluentMotion';
 
 function App() {
   // Forzar idioma Español y desactivar traducción automática
@@ -325,8 +327,17 @@ function App() {
           syncStatus={syncStatus}
         />
 
-        <div key={view} className="flex-1 p-3.5 sm:p-4 md:p-10 pt-[4.9rem] sm:pt-20 md:pt-10 overflow-y-auto page-enter" style={{ paddingTop: 'calc(4.9rem + env(safe-area-inset-top, 0px))', WebkitOverflowScrolling: 'touch' }}>
-          <div className="max-w-5xl mx-auto space-y-3 sm:space-y-6 pb-32">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={view}
+            variants={pageEntranceVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="flex-1 p-3.5 sm:p-4 md:p-10 pt-[4.9rem] sm:pt-20 md:pt-10 overflow-y-auto"
+            style={{ paddingTop: 'calc(4.9rem + env(safe-area-inset-top, 0px))', WebkitOverflowScrolling: 'touch' }}
+          >
+            <div className="max-w-5xl mx-auto space-y-3 sm:space-y-6 pb-32">
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-1 sm:gap-4 mb-1.5 sm:mb-4">
               <div>
@@ -396,8 +407,9 @@ function App() {
                 showBalance={showBalance}
               />
             )}
-          </div>
-        </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Gradiente hacia arriba: sutil fade justo detrás de la nav flotante sin invadir las tarjetas */}
         <div 
@@ -416,37 +428,49 @@ function App() {
               { id: 'pending', icon: 'fa-clock', label: 'Pendientes' },
               { id: 'history', icon: 'fa-receipt', label: 'Historial' }
             ].map(item => (
-              <button
+              <motion.button
                 key={item.id}
                 onClick={() => setView(item.id)}
-                className={`relative flex flex-col items-center justify-center gap-1 py-2 px-2 transition-all duration-300 rounded-[2rem] ${
+                whileTap={{ scale: 0.92 }}
+                transition={{ type: "spring", stiffness: 450, damping: 16 }}
+                className={`relative flex flex-col items-center justify-center gap-1 py-2 px-2 transition-colors duration-200 rounded-[2rem] ${
                   view === item.id 
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-white/10 shadow-inner' 
+                    ? 'text-blue-600 dark:text-blue-400' 
                     : 'text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-white'
                 }`}
               >
-                <i className={`fa-solid ${item.icon} text-xl`}></i>
-                {item.id === 'pending' && pendingCount > 0 && (
-                  <div className="absolute top-2 right-6 w-2 h-2 bg-red-500 rounded-full border border-slate-50 dark:border-slate-900 shadow-sm animate-pulse"></div>
+                {view === item.id && (
+                  <motion.div
+                    layoutId="activeNavMobile"
+                    transition={fluentPillSpring}
+                    className="absolute inset-0 bg-blue-50/80 dark:bg-white/10 rounded-[2rem] shadow-inner pointer-events-none"
+                  />
                 )}
-                <span className={`text-[9px] font-black uppercase tracking-widest leading-none ${view === item.id ? 'opacity-100' : 'opacity-70'}`}>
+                <i className={`fa-solid ${item.icon} text-xl relative z-10`}></i>
+                {item.id === 'pending' && pendingCount > 0 && (
+                  <div className="absolute top-2 right-6 w-2 h-2 bg-red-500 rounded-full border border-slate-50 dark:border-slate-900 shadow-sm animate-pulse z-20"></div>
+                )}
+                <span className={`text-[9px] font-black uppercase tracking-widest leading-none relative z-10 ${view === item.id ? 'opacity-100' : 'opacity-70'}`}>
                   {item.label}
                 </span>
-              </button>
+              </motion.button>
             ))}
           </div>
         </nav>
 
         {/* Botón de acción flotante (FAB) despegado en la esquina inferior derecha, por encima del nav (estilo app de referencia) */}
-        <button
+        <motion.button
           onClick={() => { setEditingBill(null); setIsModalOpen(true); }}
-          className="md:hidden fixed right-5 w-14 h-14 bg-gradient-to-tr from-blue-600 to-blue-500 text-white rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(37,99,235,0.45)] active:scale-90 hover:scale-105 transition-all z-40 border border-white/25"
+          whileHover={fabInteractiveMotion.whileHover}
+          whileTap={fabInteractiveMotion.whileTap}
+          transition={fabInteractiveMotion.transition}
+          className="md:hidden fixed right-5 w-14 h-14 bg-gradient-to-tr from-blue-600 to-blue-500 text-white rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(37,99,235,0.45)] transition-colors z-40 border border-white/25"
           style={{ bottom: 'calc(6.25rem + env(safe-area-inset-bottom, 0px))' }}
           aria-label="Agregar servicio"
           title="Agregar servicio"
         >
           <i className="fa-solid fa-plus text-2xl"></i>
-        </button>
+        </motion.button>
       </main>
 
       <BillModal
