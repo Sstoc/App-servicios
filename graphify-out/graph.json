@@ -25,35 +25,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "utils.jsx",
+      "community_name": "PendingView.jsx",
       "file_type": "code",
       "norm_label": "pendingview()",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_lib_utils_getcustomcategoriescached",
-      "label": "getCustomCategoriesCached()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "utils.jsx",
-      "file_type": "code",
-      "norm_label": "getcustomcategoriescached()",
-      "source_file": "src/lib/utils.jsx",
-      "source_location": "L10"
-    },
-    {
-      "id": "src_lib_utils_geticon",
-      "label": "getIcon()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "utils.jsx",
-      "file_type": "code",
-      "norm_label": "geticon()",
-      "source_file": "src/lib/utils.jsx",
-      "source_location": "L65"
+      "source_location": "L7"
     },
     {
       "id": "src_lib_utils_isoverdue",
@@ -61,7 +37,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "utils.jsx",
+      "community_name": "PendingView.jsx",
       "file_type": "code",
       "norm_label": "isoverdue()",
       "source_file": "src/lib/utils.jsx",
@@ -176,40 +152,76 @@
       "source_location": "L25"
     },
     {
-      "id": "src_app_app",
-      "label": "App()",
+      "id": "src_components_layout_installpromptmodal_installpromptmodal",
+      "label": "InstallPromptModal()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
+      "community": 13,
+      "community_name": "ref_react",
       "file_type": "code",
-      "norm_label": "app()",
-      "source_file": "src/App.jsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_components_layout_auth_auth",
-      "label": "Auth()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "auth()",
-      "source_file": "src/components/layout/Auth.jsx",
-      "source_location": "L8"
+      "norm_label": "installpromptmodal()",
+      "source_file": "src/components/layout/InstallPromptModal.jsx",
+      "source_location": "L5"
     },
     {
       "id": "src_components_layout_billmodal_billmodal",
       "label": "BillModal()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
+      "community": 16,
+      "community_name": "BillModal.jsx",
       "file_type": "code",
       "norm_label": "billmodal()",
       "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L11"
+      "source_location": "L13"
+    },
+    {
+      "id": "src_context_appcontext_useapp",
+      "label": "useApp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "BillModal.jsx",
+      "file_type": "code",
+      "norm_label": "useapp()",
+      "source_file": "src/context/AppContext.jsx",
+      "source_location": "L639"
+    },
+    {
+      "id": "src_lib_utils_getcustomcategoriescached",
+      "label": "getCustomCategoriesCached()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "utils.jsx",
+      "file_type": "code",
+      "norm_label": "getcustomcategoriescached()",
+      "source_file": "src/lib/utils.jsx",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_lib_utils_geticon",
+      "label": "getIcon()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "utils.jsx",
+      "file_type": "code",
+      "norm_label": "geticon()",
+      "source_file": "src/lib/utils.jsx",
+      "source_location": "L65"
+    },
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": "app()",
+      "source_file": "src/App.jsx",
+      "source_location": "L20"
     },
     {
       "id": "src_components_layout_deleteconfirmmodal_deleteconfirmmodal",
@@ -217,23 +229,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "App.jsx",
+      "community_name": "App",
       "file_type": "code",
       "norm_label": "deleteconfirmmodal()",
       "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_components_layout_installpromptmodal_installpromptmodal",
-      "label": "InstallPromptModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "installpromptmodal()",
-      "source_file": "src/components/layout/InstallPromptModal.jsx",
-      "source_location": "L3"
+      "source_location": "L15"
     },
     {
       "id": "src_components_layout_payconfirmmodal_payconfirmmodal",
@@ -241,35 +241,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "App.jsx",
+      "community_name": "App",
       "file_type": "code",
       "norm_label": "payconfirmmodal()",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_context_appcontext_useapp",
-      "label": "useApp()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "useapp()",
-      "source_file": "src/context/AppContext.jsx",
-      "source_location": "L639"
-    },
-    {
-      "id": "src_lib_pushnotifications_disablepushnotifications",
-      "label": "disablePushNotifications()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "disablepushnotifications()",
-      "source_file": "src/lib/pushNotifications.js",
-      "source_location": "L85"
+      "source_location": "L18"
     },
     {
       "id": "src_lib_utils_getdiffdays",
@@ -277,7 +253,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "App.jsx",
+      "community_name": "App",
       "file_type": "code",
       "norm_label": "getdiffdays()",
       "source_file": "src/lib/utils.jsx",
@@ -305,7 +281,7 @@
       "file_type": "code",
       "norm_label": "historyview()",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L6"
+      "source_location": "L8"
     },
     {
       "id": "src_lib_exportutils_exporttocsv",
@@ -356,16 +332,40 @@
       "source_location": "L84"
     },
     {
+      "id": "src_components_layout_auth_auth",
+      "label": "Auth()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "Auth.jsx",
+      "file_type": "code",
+      "norm_label": "auth()",
+      "source_file": "src/components/layout/Auth.jsx",
+      "source_location": "L8"
+    },
+    {
       "id": "src_lib_pushnotifications_base64urltouint8array",
       "label": "base64UrlToUint8Array()",
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "pushNotifications.js",
+      "community_name": "Auth.jsx",
       "file_type": "code",
       "norm_label": "base64urltouint8array()",
       "source_file": "src/lib/pushNotifications.js",
       "source_location": "L5"
+    },
+    {
+      "id": "src_lib_pushnotifications_disablepushnotifications",
+      "label": "disablePushNotifications()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "Auth.jsx",
+      "file_type": "code",
+      "norm_label": "disablepushnotifications()",
+      "source_file": "src/lib/pushNotifications.js",
+      "source_location": "L85"
     },
     {
       "id": "src_lib_pushnotifications_enablepushnotifications",
@@ -373,7 +373,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "pushNotifications.js",
+      "community_name": "Auth.jsx",
       "file_type": "code",
       "norm_label": "enablepushnotifications()",
       "source_file": "src/lib/pushNotifications.js",
@@ -385,7 +385,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "pushNotifications.js",
+      "community_name": "Auth.jsx",
       "file_type": "code",
       "norm_label": "ensurepushissupported()",
       "source_file": "src/lib/pushNotifications.js",
@@ -449,7 +449,7 @@
       "file_type": "code",
       "norm_label": "budgetcard()",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L8"
+      "source_location": "L10"
     },
     {
       "id": "src_components_views_dashboardview_dashboardview",
@@ -461,7 +461,7 @@
       "file_type": "code",
       "norm_label": "dashboardview()",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L247"
+      "source_location": "L249"
     },
     {
       "id": "src_components_views_dashboardview_swipeablebillcard",
@@ -473,7 +473,7 @@
       "file_type": "code",
       "norm_label": "swipeablebillcard()",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L152"
+      "source_location": "L154"
     },
     {
       "id": "src_lib_utils_formatmoney",
@@ -504,44 +504,44 @@
       "label": "Badge",
       "_origin": "ast",
       "community": 0,
-      "community_name": "utils.jsx",
+      "community_name": "PendingView.jsx",
       "file_type": "code",
       "norm_label": "badge",
       "source_file": "src/components/ui/index.jsx",
-      "source_location": "L9"
+      "source_location": "L11"
     },
     {
       "id": "src_components_views_pendingview",
       "label": "PendingView.jsx",
       "_origin": "ast",
       "community": 0,
-      "community_name": "utils.jsx",
+      "community_name": "PendingView.jsx",
       "file_type": "code",
       "norm_label": "pendingview.jsx",
       "source_file": "src/components/views/PendingView.jsx",
       "source_location": "L1"
     },
     {
-      "id": "src_lib_utils",
-      "label": "utils.jsx",
+      "id": "src_utils_fluentmotion_staggercontainervariants",
+      "label": "staggerContainerVariants",
       "_origin": "ast",
       "community": 0,
-      "community_name": "utils.jsx",
+      "community_name": "PendingView.jsx",
       "file_type": "code",
-      "norm_label": "utils.jsx",
-      "source_file": "src/lib/utils.jsx",
-      "source_location": "L1"
+      "norm_label": "staggercontainervariants",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L38"
     },
     {
-      "id": "src_lib_utils_cachedcategories",
-      "label": "cachedCategories",
+      "id": "src_utils_fluentmotion_staggeritemvariants",
+      "label": "staggerItemVariants",
       "_origin": "ast",
       "community": 0,
-      "community_name": "utils.jsx",
+      "community_name": "PendingView.jsx",
       "file_type": "code",
-      "norm_label": "cachedcategories",
-      "source_file": "src/lib/utils.jsx",
-      "source_location": "L4"
+      "norm_label": "staggeritemvariants",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L48"
     },
     {
       "id": "src_context_appcontext",
@@ -658,10 +658,131 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_layout_deleteconfirmmodal",
+      "label": "DeleteConfirmModal.jsx",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "ref_react",
+      "file_type": "code",
+      "norm_label": "deleteconfirmmodal.jsx",
+      "source_file": "src/components/layout/DeleteConfirmModal.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_layout_installpromptmodal",
+      "label": "InstallPromptModal.jsx",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "ref_react",
+      "file_type": "code",
+      "norm_label": "installpromptmodal.jsx",
+      "source_file": "src/components/layout/InstallPromptModal.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_index",
+      "label": "index.jsx",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "ref_react",
+      "file_type": "code",
+      "norm_label": "index.jsx",
+      "source_file": "src/components/ui/index.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_fluentmotion_backdropfadevariants",
+      "label": "backdropFadeVariants",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "ref_react",
+      "file_type": "code",
+      "norm_label": "backdropfadevariants",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L97"
+    },
+    {
+      "id": "src_utils_fluentmotion",
+      "label": "fluentMotion.js",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "fluentmotion.js",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_fluentmotion_buttoninteractivemotion",
+      "label": "buttonInteractiveMotion",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "buttoninteractivemotion",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L135"
+    },
+    {
+      "id": "src_utils_fluentmotion_cardinteractivemotion",
+      "label": "cardInteractiveMotion",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "cardinteractivemotion",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L125"
+    },
+    {
+      "id": "src_utils_fluentmotion_fabinteractivemotion",
+      "label": "fabInteractiveMotion",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "fabinteractivemotion",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L144"
+    },
+    {
+      "id": "src_utils_fluentmotion_fluent_accelerate_ease",
+      "label": "FLUENT_ACCELERATE_EASE",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "fluent_accelerate_ease",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_utils_fluentmotion_fluent_decelerate_ease",
+      "label": "FLUENT_DECELERATE_EASE",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "fluent_decelerate_ease",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_utils_fluentmotion_pageentrancevariants",
+      "label": "pageEntranceVariants",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "fluentMotion.js",
+      "file_type": "code",
+      "norm_label": "pageentrancevariants",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L11"
+    },
+    {
       "id": "src_app",
       "label": "App.jsx",
       "_origin": "ast",
-      "community": 2,
+      "community": 15,
       "community_name": "App.jsx",
       "file_type": "code",
       "norm_label": "app.jsx",
@@ -669,98 +790,10 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_layout_auth",
-      "label": "Auth.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "auth.jsx",
-      "source_file": "src/components/layout/Auth.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_layout_billmodal",
-      "label": "BillModal.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "billmodal.jsx",
-      "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_layout_billmodal_default_categories",
-      "label": "DEFAULT_CATEGORIES",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "default_categories",
-      "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_layout_deleteconfirmmodal",
-      "label": "DeleteConfirmModal.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "deleteconfirmmodal.jsx",
-      "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_layout_headermobile",
-      "label": "HeaderMobile.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "headermobile.jsx",
-      "source_file": "src/components/layout/HeaderMobile.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_layout_headermobile_headermobile",
-      "label": "HeaderMobile",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "headermobile",
-      "source_file": "src/components/layout/HeaderMobile.jsx",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_components_layout_installpromptmodal",
-      "label": "InstallPromptModal.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "installpromptmodal.jsx",
-      "source_file": "src/components/layout/InstallPromptModal.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_layout_payconfirmmodal",
-      "label": "PayConfirmModal.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "payconfirmmodal.jsx",
-      "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_layout_sidebar",
       "label": "Sidebar.jsx",
       "_origin": "ast",
-      "community": 2,
+      "community": 15,
       "community_name": "App.jsx",
       "file_type": "code",
       "norm_label": "sidebar.jsx",
@@ -771,22 +804,110 @@
       "id": "src_components_layout_sidebar_sidebar",
       "label": "Sidebar",
       "_origin": "ast",
-      "community": 2,
+      "community": 15,
       "community_name": "App.jsx",
       "file_type": "code",
       "norm_label": "sidebar",
       "source_file": "src/components/layout/Sidebar.jsx",
-      "source_location": "L3"
+      "source_location": "L5"
     },
     {
-      "id": "src_components_ui_index",
-      "label": "index.jsx",
+      "id": "src_utils_fluentmotion_fluentpillspring",
+      "label": "fluentPillSpring",
       "_origin": "ast",
-      "community": 2,
+      "community": 15,
       "community_name": "App.jsx",
       "file_type": "code",
-      "norm_label": "index.jsx",
-      "source_file": "src/components/ui/index.jsx",
+      "norm_label": "fluentpillspring",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L118"
+    },
+    {
+      "id": "src_components_layout_billmodal",
+      "label": "BillModal.jsx",
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "BillModal.jsx",
+      "file_type": "code",
+      "norm_label": "billmodal.jsx",
+      "source_file": "src/components/layout/BillModal.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_layout_billmodal_default_categories",
+      "label": "DEFAULT_CATEGORIES",
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "BillModal.jsx",
+      "file_type": "code",
+      "norm_label": "default_categories",
+      "source_file": "src/components/layout/BillModal.jsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_lib_utils",
+      "label": "utils.jsx",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "utils.jsx",
+      "file_type": "code",
+      "norm_label": "utils.jsx",
+      "source_file": "src/lib/utils.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib_utils_cachedcategories",
+      "label": "cachedCategories",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "utils.jsx",
+      "file_type": "code",
+      "norm_label": "cachedcategories",
+      "source_file": "src/lib/utils.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_components_layout_headermobile",
+      "label": "HeaderMobile.jsx",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "HeaderMobile.jsx",
+      "file_type": "code",
+      "norm_label": "headermobile.jsx",
+      "source_file": "src/components/layout/HeaderMobile.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_layout_headermobile_headermobile",
+      "label": "HeaderMobile",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "HeaderMobile.jsx",
+      "file_type": "code",
+      "norm_label": "headermobile",
+      "source_file": "src/components/layout/HeaderMobile.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_utils_fluentmotion_modaldrillinvariants",
+      "label": "modalDrillInVariants",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "HeaderMobile.jsx",
+      "file_type": "code",
+      "norm_label": "modaldrillinvariants",
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L68"
+    },
+    {
+      "id": "src_components_layout_payconfirmmodal",
+      "label": "PayConfirmModal.jsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": "payconfirmmodal.jsx",
+      "source_file": "src/components/layout/PayConfirmModal.jsx",
       "source_location": "L1"
     },
     {
@@ -794,22 +915,11 @@
       "label": "Button",
       "_origin": "ast",
       "community": 2,
-      "community_name": "App.jsx",
+      "community_name": "App",
       "file_type": "code",
       "norm_label": "button",
       "source_file": "src/components/ui/index.jsx",
-      "source_location": "L25"
-    },
-    {
-      "id": "src_components_ui_index_card",
-      "label": "Card",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "App.jsx",
-      "file_type": "code",
-      "norm_label": "card",
-      "source_file": "src/components/ui/index.jsx",
-      "source_location": "L3"
+      "source_location": "L27"
     },
     {
       "id": "scripts_generate_vapid",
@@ -911,11 +1021,22 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_layout_auth",
+      "label": "Auth.jsx",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "Auth.jsx",
+      "file_type": "code",
+      "norm_label": "auth.jsx",
+      "source_file": "src/components/layout/Auth.jsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_lib_pushnotifications",
       "label": "pushNotifications.js",
       "_origin": "ast",
       "community": 5,
-      "community_name": "pushNotifications.js",
+      "community_name": "Auth.jsx",
       "file_type": "code",
       "norm_label": "pushnotifications.js",
       "source_file": "src/lib/pushNotifications.js",
@@ -926,7 +1047,7 @@
       "label": "supabase.js",
       "_origin": "ast",
       "community": 5,
-      "community_name": "pushNotifications.js",
+      "community_name": "Auth.jsx",
       "file_type": "code",
       "norm_label": "supabase.js",
       "source_file": "src/lib/supabase.js",
@@ -937,7 +1058,7 @@
       "label": "supabase",
       "_origin": "ast",
       "community": 5,
-      "community_name": "pushNotifications.js",
+      "community_name": "Auth.jsx",
       "file_type": "code",
       "norm_label": "supabase",
       "source_file": "src/lib/supabase.js",
@@ -986,6 +1107,17 @@
       "norm_label": "theme_color_light",
       "source_file": "src/hooks/useDarkMode.js",
       "source_location": "L3"
+    },
+    {
+      "id": "src_components_ui_index_card",
+      "label": "Card",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "DashboardView.jsx",
+      "file_type": "code",
+      "norm_label": "card",
+      "source_file": "src/components/ui/index.jsx",
+      "source_location": "L5"
     },
     {
       "id": "src_components_views_dashboardview",
@@ -1098,8 +1230,8 @@
       "id": "ref_react",
       "label": "ref_react",
       "_origin": "semantic",
-      "community": 2,
-      "community_name": "App.jsx",
+      "community": 13,
+      "community_name": "ref_react",
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_react",
@@ -1115,6 +1247,42 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_node_crypto",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_jspdf",
+      "label": "ref_jspdf",
+      "_origin": "semantic",
+      "community": 4,
+      "community_name": "HistoryView.jsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_jspdf",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_jspdf_autotable",
+      "label": "ref_jspdf_autotable",
+      "_origin": "semantic",
+      "community": 4,
+      "community_name": "HistoryView.jsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_jspdf_autotable",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_supabase_supabase_js",
+      "label": "ref_supabase_supabase_js",
+      "_origin": "semantic",
+      "community": 5,
+      "community_name": "Auth.jsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_supabase_supabase_js",
       "source_file": "",
       "type": "external"
     },
@@ -1143,41 +1311,9 @@
       "type": "external"
     },
     {
-      "id": "ref_jspdf",
-      "label": "ref_jspdf",
-      "community": 4,
-      "community_name": "HistoryView.jsx",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_jspdf",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_jspdf_autotable",
-      "label": "ref_jspdf_autotable",
-      "community": 4,
-      "community_name": "HistoryView.jsx",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_jspdf_autotable",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_supabase_supabase_js",
-      "label": "ref_supabase_supabase_js",
-      "community": 5,
-      "community_name": "pushNotifications.js",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_supabase_supabase_js",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "ref_gsap",
       "label": "ref_gsap",
+      "_origin": "semantic",
       "community": 8,
       "community_name": "DashboardView.jsx",
       "external": true,
@@ -1189,11 +1325,23 @@
     {
       "id": "ref_gsap_react",
       "label": "ref_gsap_react",
+      "_origin": "semantic",
       "community": 8,
       "community_name": "DashboardView.jsx",
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_gsap_react",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_framer_motion",
+      "label": "ref_framer_motion",
+      "community": 13,
+      "community_name": "ref_react",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_framer_motion",
       "source_file": "",
       "type": "external"
     }
@@ -1208,7 +1356,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L165",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -1220,7 +1368,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L196",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -1232,7 +1380,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L197",
+      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -1244,19 +1392,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L271",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_app",
-      "target": "src_context_appcontext_useapp",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/App.jsx",
-      "source_location": "L28",
+      "source_location": "L273",
       "weight": 1.0
     },
     {
@@ -1268,19 +1404,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L295",
+      "source_location": "L297",
       "weight": 1.0
     },
     {
       "source": "src_app_app",
-      "target": "src_hooks_usedarkmode_usedarkmode",
+      "target": "src_context_appcontext_useapp",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -1292,7 +1428,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L314",
+      "source_location": "L316",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_app",
+      "target": "src_hooks_usedarkmode_usedarkmode",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/App.jsx",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -1304,7 +1452,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L337",
+      "source_location": "L348",
       "weight": 1.0
     },
     {
@@ -1316,7 +1464,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L360",
+      "source_location": "L371",
       "weight": 1.0
     },
     {
@@ -1328,7 +1476,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L381",
+      "source_location": "L392",
       "weight": 1.0
     },
     {
@@ -1340,7 +1488,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L393",
+      "source_location": "L404",
       "weight": 1.0
     },
     {
@@ -1352,7 +1500,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L452",
+      "source_location": "L476",
       "weight": 1.0
     },
     {
@@ -1364,7 +1512,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L459",
+      "source_location": "L483",
       "weight": 1.0
     },
     {
@@ -1376,7 +1524,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L465",
+      "source_location": "L489",
       "weight": 1.0
     },
     {
@@ -1388,7 +1536,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L475",
+      "source_location": "L499",
       "weight": 1.0
     },
     {
@@ -1400,7 +1548,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L81",
+      "source_location": "L83",
       "weight": 1.0
     },
     {
@@ -1424,31 +1572,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L12",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_layout_billmodal_billmodal",
-      "target": "src_components_ui_index_card",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L254",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_layout_deleteconfirmmodal_deleteconfirmmodal",
-      "target": "src_components_ui_index_card",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L52",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -1460,7 +1584,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L74",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -1472,7 +1596,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L116",
+      "source_location": "L105",
       "weight": 1.0
     },
     {
@@ -1484,19 +1608,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L44",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_layout_payconfirmmodal_payconfirmmodal",
-      "target": "src_components_ui_index_card",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L58",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -1508,19 +1620,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L93",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_views_dashboardview_budgetcard",
-      "target": "src_components_ui_index_card",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L89",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -1532,7 +1632,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L98",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview_budgetcard",
+      "target": "src_components_ui_index_card",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -1544,7 +1656,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L272",
+      "source_location": "L274",
       "weight": 1.0
     },
     {
@@ -1556,7 +1668,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L343",
+      "source_location": "L345",
       "weight": 1.0
     },
     {
@@ -1568,7 +1680,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L349",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -1580,7 +1692,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L425",
+      "source_location": "L427",
       "weight": 1.0
     },
     {
@@ -1592,7 +1704,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L430",
+      "source_location": "L432",
       "weight": 1.0
     },
     {
@@ -1604,7 +1716,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L455",
+      "source_location": "L457",
       "weight": 1.0
     },
     {
@@ -1616,7 +1728,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L518",
+      "source_location": "L540",
       "weight": 1.0
     },
     {
@@ -1628,7 +1740,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L530",
+      "source_location": "L552",
       "weight": 1.0
     },
     {
@@ -1640,7 +1752,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L541",
+      "source_location": "L563",
       "weight": 1.0
     },
     {
@@ -1652,7 +1764,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L588",
+      "source_location": "L610",
       "weight": 1.0
     },
     {
@@ -1664,7 +1776,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L108",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -1676,7 +1788,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L161",
+      "source_location": "L170",
       "weight": 1.0
     },
     {
@@ -1688,7 +1800,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L23",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -1700,7 +1812,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L241",
+      "source_location": "L250",
       "weight": 1.0
     },
     {
@@ -1712,7 +1824,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L259",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -1724,7 +1836,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L30",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -1736,7 +1848,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L46",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -1748,7 +1860,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L122",
+      "source_location": "L135",
       "weight": 1.0
     },
     {
@@ -1760,7 +1872,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L139",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -1772,7 +1884,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L29",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -1784,7 +1896,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L53",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -1796,7 +1908,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L57",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -1808,7 +1920,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L64",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -1820,7 +1932,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L75",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -2019,7 +2131,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_views_dashboardview_dashboardview",
+      "target": "src_components_layout_installpromptmodal_installpromptmodal",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2031,7 +2143,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_views_pendingview_pendingview",
+      "target": "src_components_views_dashboardview_dashboardview",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2043,7 +2155,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_views_historyview_historyview",
+      "target": "src_components_views_pendingview_pendingview",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2055,7 +2167,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_hooks_usedarkmode_usedarkmode",
+      "target": "src_components_views_historyview_historyview",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2067,7 +2179,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_context_appcontext_useapp",
+      "target": "src_hooks_usedarkmode_usedarkmode",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2079,7 +2191,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_lib_utils_formatmoney",
+      "target": "src_context_appcontext_useapp",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2087,6 +2199,18 @@
       "context": "import",
       "source_file": "src/App.jsx",
       "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_lib_utils_formatmoney",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -2098,7 +2222,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -2110,7 +2234,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -2122,7 +2246,43 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L16",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_utils_fluentmotion_fabinteractivemotion",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_utils_fluentmotion_fluentpillspring",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_utils_fluentmotion_pageentrancevariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -2134,7 +2294,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2146,7 +2306,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2158,7 +2318,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -2170,7 +2330,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -2182,7 +2342,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -2194,24 +2354,12 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app",
-      "target": "src_components_layout_deleteconfirmmodal_deleteconfirmmodal",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/App.jsx",
       "source_location": "L8",
       "weight": 1.0
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_installpromptmodal_installpromptmodal",
+      "target": "src_components_layout_deleteconfirmmodal_deleteconfirmmodal",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2254,7 +2402,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2266,7 +2414,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_billmodal",
+      "target": "src_utils_fluentmotion_backdropfadevariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/BillModal.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_billmodal",
+      "target": "src_utils_fluentmotion_modaldrillinvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/BillModal.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -2278,19 +2450,79 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
       "source": "src_components_layout_deleteconfirmmodal",
-      "target": "src_components_ui_index_card",
+      "target": "src_utils_fluentmotion_backdropfadevariants",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L2",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_deleteconfirmmodal",
+      "target": "src_utils_fluentmotion_modaldrillinvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/DeleteConfirmModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_headermobile",
+      "target": "src_utils_fluentmotion_fluentpillspring",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/HeaderMobile.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_headermobile",
+      "target": "src_utils_fluentmotion_modaldrillinvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/HeaderMobile.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_installpromptmodal",
+      "target": "src_utils_fluentmotion_backdropfadevariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/InstallPromptModal.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_installpromptmodal",
+      "target": "src_utils_fluentmotion_modaldrillinvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/InstallPromptModal.jsx",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2302,7 +2534,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2314,7 +2546,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2326,18 +2558,54 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
       "source": "src_components_layout_payconfirmmodal",
-      "target": "src_components_ui_index_card",
+      "target": "src_utils_fluentmotion_backdropfadevariants",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_payconfirmmodal",
+      "target": "src_utils_fluentmotion_modaldrillinvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/PayConfirmModal.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_sidebar",
+      "target": "src_utils_fluentmotion_fluentpillspring",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/Sidebar.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_index",
+      "target": "src_utils_fluentmotion_buttoninteractivemotion",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/ui/index.jsx",
       "source_location": "L3",
       "weight": 1.0
     },
@@ -2350,7 +2618,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2362,7 +2630,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2374,7 +2642,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2386,7 +2654,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2398,7 +2666,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2410,7 +2678,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2422,7 +2690,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2434,7 +2702,43 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_utils_fluentmotion_fluentpillspring",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_utils_fluentmotion_staggercontainervariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_utils_fluentmotion_staggeritemvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -2446,7 +2750,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2458,7 +2762,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2470,7 +2774,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2482,7 +2786,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2494,7 +2798,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2506,7 +2810,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -2518,7 +2822,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_historyview",
+      "target": "src_utils_fluentmotion_staggercontainervariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/HistoryView.jsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_historyview",
+      "target": "src_utils_fluentmotion_staggeritemvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/HistoryView.jsx",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -2530,7 +2858,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2542,7 +2870,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2554,7 +2882,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -2566,7 +2894,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2578,7 +2906,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2590,7 +2918,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -2602,7 +2930,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_pendingview",
+      "target": "src_utils_fluentmotion_staggercontainervariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/PendingView.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_pendingview",
+      "target": "src_utils_fluentmotion_staggeritemvariants",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/PendingView.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -2739,7 +3091,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_views_dashboardview",
+      "target": "src_components_layout_installpromptmodal",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2751,7 +3103,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_views_pendingview",
+      "target": "src_components_views_dashboardview",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2763,7 +3115,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_views_historyview",
+      "target": "src_components_views_pendingview",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2775,7 +3127,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_hooks_usedarkmode",
+      "target": "src_components_views_historyview",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2787,7 +3139,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_context_appcontext",
+      "target": "src_hooks_usedarkmode",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2799,7 +3151,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_lib_utils",
+      "target": "src_context_appcontext",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2811,7 +3163,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_lib_pushnotifications",
+      "target": "src_lib_utils",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2823,7 +3175,31 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_ui_index",
+      "target": "src_lib_pushnotifications",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2835,7 +3211,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_sidebar",
+      "target": "src_components_ui_index",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2847,7 +3223,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_headermobile",
+      "target": "src_components_layout_sidebar",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2859,7 +3235,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_auth",
+      "target": "src_components_layout_headermobile",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2871,7 +3247,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_billmodal",
+      "target": "src_components_layout_auth",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2883,7 +3259,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_payconfirmmodal",
+      "target": "src_components_layout_billmodal",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2895,7 +3271,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_deleteconfirmmodal",
+      "target": "src_components_layout_payconfirmmodal",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2907,7 +3283,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_layout_installpromptmodal",
+      "target": "src_components_layout_deleteconfirmmodal",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2967,7 +3343,7 @@
     },
     {
       "source": "src_components_layout_billmodal",
-      "target": "src_components_ui_index",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2979,7 +3355,7 @@
     },
     {
       "source": "src_components_layout_billmodal",
-      "target": "src_context_appcontext",
+      "target": "src_components_ui_index",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2987,6 +3363,30 @@
       "context": "import",
       "source_file": "src/components/layout/BillModal.jsx",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_billmodal",
+      "target": "src_context_appcontext",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/BillModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_billmodal",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/BillModal.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3003,7 +3403,7 @@
     },
     {
       "source": "src_components_layout_deleteconfirmmodal",
-      "target": "src_components_ui_index",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3011,6 +3411,30 @@
       "context": "import",
       "source_file": "src/components/layout/DeleteConfirmModal.jsx",
       "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_deleteconfirmmodal",
+      "target": "src_components_ui_index",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/DeleteConfirmModal.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_deleteconfirmmodal",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/DeleteConfirmModal.jsx",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -3026,6 +3450,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_layout_headermobile",
+      "target": "ref_framer_motion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/HeaderMobile.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_headermobile",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/HeaderMobile.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_layout_installpromptmodal",
       "target": "ref_react",
       "relation": "imports_from",
@@ -3038,6 +3486,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_layout_installpromptmodal",
+      "target": "ref_framer_motion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/InstallPromptModal.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_installpromptmodal",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/InstallPromptModal.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_layout_payconfirmmodal",
       "target": "ref_react",
       "relation": "imports_from",
@@ -3051,7 +3523,7 @@
     },
     {
       "source": "src_components_layout_payconfirmmodal",
-      "target": "src_lib_utils",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3063,7 +3535,7 @@
     },
     {
       "source": "src_components_layout_payconfirmmodal",
-      "target": "src_components_ui_index",
+      "target": "src_lib_utils",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3071,6 +3543,30 @@
       "context": "import",
       "source_file": "src/components/layout/PayConfirmModal.jsx",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_payconfirmmodal",
+      "target": "src_components_ui_index",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/PayConfirmModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_payconfirmmodal",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/PayConfirmModal.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3086,6 +3582,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_layout_sidebar",
+      "target": "ref_framer_motion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/Sidebar.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_sidebar",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/layout/Sidebar.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_ui_index",
       "target": "ref_react",
       "relation": "imports_from",
@@ -3098,6 +3618,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_ui_index",
+      "target": "ref_framer_motion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/ui/index.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_index",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/ui/index.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_views_dashboardview",
       "target": "ref_react",
       "relation": "imports_from",
@@ -3111,7 +3655,7 @@
     },
     {
       "source": "src_components_views_dashboardview",
-      "target": "src_components_ui_index",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3123,7 +3667,7 @@
     },
     {
       "source": "src_components_views_dashboardview",
-      "target": "src_lib_utils",
+      "target": "src_components_ui_index",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3131,6 +3675,18 @@
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_lib_utils",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -3142,7 +3698,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3154,7 +3710,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L5",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -3171,7 +3739,7 @@
     },
     {
       "source": "src_components_views_historyview",
-      "target": "src_components_ui_index",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3183,7 +3751,7 @@
     },
     {
       "source": "src_components_views_historyview",
-      "target": "src_lib_utils",
+      "target": "src_components_ui_index",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3191,6 +3759,18 @@
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_historyview",
+      "target": "src_lib_utils",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/HistoryView.jsx",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -3202,7 +3782,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_historyview",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/HistoryView.jsx",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -3219,7 +3811,7 @@
     },
     {
       "source": "src_components_views_pendingview",
-      "target": "src_components_ui_index",
+      "target": "ref_framer_motion",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3231,7 +3823,7 @@
     },
     {
       "source": "src_components_views_pendingview",
-      "target": "src_lib_utils",
+      "target": "src_components_ui_index",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -3239,6 +3831,30 @@
       "context": "import",
       "source_file": "src/components/views/PendingView.jsx",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_pendingview",
+      "target": "src_lib_utils",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/PendingView.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_pendingview",
+      "target": "src_utils_fluentmotion",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/views/PendingView.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3577,7 +4193,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/App.jsx",
-      "source_location": "L18",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -3599,7 +4215,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L11",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -3610,7 +4226,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/BillModal.jsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -3621,7 +4237,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/DeleteConfirmModal.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -3632,7 +4248,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/HeaderMobile.jsx",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3643,7 +4259,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/InstallPromptModal.jsx",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3654,7 +4270,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/PayConfirmModal.jsx",
-      "source_location": "L16",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -3665,29 +4281,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/Sidebar.jsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ui_index",
-      "target": "src_components_ui_index_button",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ui/index.jsx",
-      "source_location": "L25",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ui_index",
-      "target": "src_components_ui_index_card",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ui/index.jsx",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3698,29 +4292,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/index.jsx",
-      "source_location": "L9",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "src_components_views_dashboardview",
-      "target": "src_components_views_dashboardview_swipeablebillcard",
+      "source": "src_components_ui_index",
+      "target": "src_components_ui_index_button",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L152",
+      "source_file": "src/components/ui/index.jsx",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
-      "source": "src_components_views_dashboardview",
-      "target": "src_components_views_dashboardview_dashboardview",
+      "source": "src_components_ui_index",
+      "target": "src_components_ui_index_card",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L247",
+      "source_file": "src/components/ui/index.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -3731,7 +4325,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/views/DashboardView.jsx",
-      "source_location": "L8",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_components_views_dashboardview_swipeablebillcard",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_views_dashboardview",
+      "target": "src_components_views_dashboardview_dashboardview",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/views/DashboardView.jsx",
+      "source_location": "L249",
       "weight": 1.0
     },
     {
@@ -3742,7 +4358,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/views/HistoryView.jsx",
-      "source_location": "L6",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -3753,7 +4369,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/views/PendingView.jsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -4076,6 +4692,127 @@
       "weight": 1.0
     },
     {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_pageentrancevariants",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_fluentpillspring",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_cardinteractivemotion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_buttoninteractivemotion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_fabinteractivemotion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_staggercontainervariants",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_staggeritemvariants",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_modaldrillinvariants",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_fluent_decelerate_ease",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_fluent_accelerate_ease",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_fluentmotion",
+      "target": "src_utils_fluentmotion_backdropfadevariants",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/fluentMotion.js",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
       "source": "supabase_readme",
       "target": "supabase_readme_notificaciones_con_la_pwa_cerrada",
       "relation": "contains",
@@ -4162,5 +4899,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7ab90977bd8cd9253746aa70bf742fdf2a92e0b8"
+  "built_at_commit": "da4e6de3fe1e80be07224ddcb1e06a815bffff64"
 }

@@ -240,7 +240,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
   };
 
 
-  const inputClass = "w-full p-4 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-bold text-slate-800 dark:text-white text-base transition-all";
+  const inputClass = "w-full p-4 bg-[#EEF2F7]/60 dark:bg-[#1B263B]/60 border border-[#E2E8F0] dark:border-[#253149] rounded-2xl focus:border-[#2563EB] dark:focus:border-[#3478F6] focus:ring-4 focus:ring-blue-500/10 outline-none font-bold text-[#0F172A] dark:text-[#F1F5F9] text-base transition-all";
 
   return (
     <AnimatePresence>
@@ -264,8 +264,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
             animate="animate"
             exit="exit"
             className={`
-              card-item w-full relative z-50 border border-white/20 bg-white/70 dark:bg-slate-900/70
-              backdrop-blur-2xl shadow-2xl max-h-[90vh] flex flex-col
+              card-item w-full relative z-50 border border-[#E2E8F0] dark:border-[#253149] bg-white dark:bg-[#111A2D]
+              shadow-2xl max-h-[90vh] flex flex-col
               max-w-[400px] !rounded-[2.5rem] p-8
               md:max-w-3xl md:!rounded-3xl md:p-0
               scrollbar-none no-scrollbar
@@ -275,25 +275,25 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
 
         {/* ─── HEADER ─────────────────────────────────── */}
         {/* Mobile: centrado vertical | Desktop: barra horizontal */}
-        <div className="md:flex md:items-center md:gap-5 md:px-8 md:pt-7 md:pb-6 md:border-b md:border-slate-100 md:dark:border-white/5 text-center md:text-left relative mb-6 md:mb-0">
+        <div className="md:flex md:items-center md:gap-5 md:px-8 md:pt-7 md:pb-6 md:border-b md:border-[#EEF2F7] md:dark:border-[#253149] text-center md:text-left relative mb-6 md:mb-0">
 
           {/* Logo */}
-          <div className="w-16 h-16 md:w-12 md:h-12 bg-white/50 dark:bg-white/10 rounded-2xl md:rounded-xl mx-auto md:mx-0 flex-shrink-0 flex items-center justify-center shadow-lg border border-white/20">
+          <div className="w-16 h-16 md:w-12 md:h-12 bg-[#EEF2F7] dark:bg-[#1B263B] rounded-2xl md:rounded-xl mx-auto md:mx-0 flex-shrink-0 flex items-center justify-center shadow-lg border border-[#E2E8F0] dark:border-[#253149]">
             <img src="/logo-home.png" alt="Logo" className="w-12 h-12 md:w-9 md:h-9 object-contain rounded-xl md:rounded-lg" />
           </div>
 
           {/* Título */}
           <div className="mt-3 md:mt-0 flex-1">
-            <h3 className="text-2xl md:text-xl font-black text-slate-800 dark:text-white tracking-tight leading-none">
+            <h3 className="text-2xl md:text-xl font-black text-[#0F172A] dark:text-[#F1F5F9] tracking-tight leading-none">
               {bill ? 'Editar Servicio' : 'Nuevo Servicio'}
             </h3>
-            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mt-1">Gestión Inteligente</p>
+            <p className="text-[10px] font-black text-[#64748B] dark:text-[#94A3B8] uppercase tracking-[0.2em] mt-1">Gestión Inteligente</p>
           </div>
 
           {/* Botón cerrar */}
           <button
             onClick={handleClose}
-            className="absolute -top-2 -right-2 md:relative md:top-auto md:right-auto w-8 h-8 rounded-full bg-white/30 dark:bg-white/10 text-slate-500 hover:bg-slate-100 dark:hover:bg-white/20 flex items-center justify-center transition active:scale-95 border border-white/20 md:ml-auto flex-shrink-0"
+            className="absolute -top-2 -right-2 md:relative md:top-auto md:right-auto w-8 h-8 rounded-full bg-[#EEF2F7] dark:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9] flex items-center justify-center transition active:scale-95 border border-[#E2E8F0] dark:border-[#253149] md:ml-auto flex-shrink-0"
           >
             <i className="fa-solid fa-xmark text-sm"></i>
           </button>
@@ -342,7 +342,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                   value={form.dueDate}
                   onChange={(e) => setForm({...form, dueDate: e.target.value})}
                   required
-                  className="w-full p-4 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-2xl focus:border-blue-500 outline-none text-slate-800 dark:text-white font-bold text-sm transition-all"
+                  className="w-full p-4 bg-[#EEF2F7]/60 dark:bg-[#1B263B]/60 border border-[#E2E8F0] dark:border-[#253149] rounded-2xl focus:border-[#2563EB] dark:focus:border-[#3478F6] outline-none text-[#0F172A] dark:text-[#F1F5F9] font-bold text-sm transition-all"
                 />
               </div>
             </div>
@@ -385,8 +385,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                           onClick={() => setForm({ ...form, category: cat.id })}
                           className={`w-full p-2.5 md:p-3 rounded-2xl border-[0.5px] flex flex-col items-center justify-center gap-1.5 transition-all duration-300 min-h-[70px] ${
                             isSelected
-                              ? 'bg-blue-600 border-blue-600 text-white shadow-[0_4px_10px_rgba(37,99,235,0.22)] scale-[1.02]'
-                              : 'bg-white/40 dark:bg-white/5 border-slate-100 dark:border-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                              ? 'bg-[#2563EB] dark:bg-[#3478F6] border-transparent text-white shadow-[0_4px_10px_rgba(37,99,235,0.25)] scale-[1.02]'
+                              : 'bg-[#EEF2F7]/60 dark:bg-[#1B263B]/60 border-[#E2E8F0] dark:border-[#253149] text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9]'
                           }`}
                         >
                           <i className={`fa-solid ${cat.icon} text-base md:text-lg`}></i>
@@ -400,7 +400,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                           <button
                             type="button"
                             onClick={(e) => handleDeleteCustomCategory(e, cat.id)}
-                            className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-red-500 hover:text-white text-slate-500 dark:text-slate-400 flex items-center justify-center text-[8px] shadow-sm transition-colors z-10"
+                            className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-[#DC2626] hover:text-white text-slate-500 dark:text-slate-400 flex items-center justify-center text-[8px] shadow-sm transition-colors z-10"
                             title="Eliminar categoría"
                           >
                             <i className="fa-solid fa-xmark"></i>
@@ -419,11 +419,11 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                     }}
                     className={`flex-shrink-0 w-[84px] md:w-auto snap-start p-2.5 md:p-3 rounded-2xl border-[1.5px] border-dashed flex flex-col items-center justify-center gap-1.5 transition-all duration-200 group active:scale-95 min-h-[70px] ${
                       isAddingCategory
-                        ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 scale-[1.02]'
-                        : 'border-slate-300 dark:border-white/15 text-slate-400 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 bg-white/20 dark:bg-white/[0.02]'
+                        ? 'border-[#2563EB] bg-blue-50/50 dark:bg-[#3478F6]/10 text-[#2563EB] dark:text-[#3478F6] scale-[1.02]'
+                        : 'border-[#E2E8F0] dark:border-[#253149] text-[#64748B] dark:text-[#94A3B8] hover:border-[#2563EB] dark:hover:border-[#3478F6] hover:text-[#2563EB] dark:hover:text-[#3478F6] bg-white/20 dark:bg-white/[0.02]'
                     }`}
                   >
-                    <div className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-white/5 group-hover:bg-blue-600 group-hover:text-white flex items-center justify-center transition-colors">
+                    <div className="w-6 h-6 rounded-lg bg-[#EEF2F7] dark:bg-[#1B263B] group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center transition-colors">
                       <i className="fa-solid fa-plus text-[11px]"></i>
                     </div>
                     <span className="text-[8px] font-bold uppercase tracking-widest">
@@ -434,16 +434,16 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
 
                 {/* Formulario desplegable para agregar categoría */}
                 {isAddingCategory && (
-                  <div className="mt-2 p-3.5 bg-slate-50 dark:bg-slate-800/90 rounded-2xl border border-blue-200 dark:border-blue-500/30 animate-in fade-in zoom-in-95 duration-200 space-y-3">
+                  <div className="mt-2 p-3.5 bg-white dark:bg-[#1B263B] rounded-2xl border border-blue-200 dark:border-[#3478F6]/30 animate-in fade-in zoom-in-95 duration-200 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                        <i className="fa-solid fa-circle-plus text-blue-500"></i>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8] flex items-center gap-1.5">
+                        <i className="fa-solid fa-circle-plus text-[#2563EB] dark:text-[#3478F6]"></i>
                         Nueva categoría
                       </span>
                       <button
                         type="button"
                         onClick={() => setIsAddingCategory(false)}
-                        className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xs p-1"
+                        className="text-[#64748B] hover:text-[#0F172A] dark:text-[#94A3B8] dark:hover:text-[#F1F5F9] text-xs p-1"
                       >
                         <i className="fa-solid fa-xmark"></i>
                       </button>
@@ -462,12 +462,12 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                           }
                         }}
                         placeholder="Nombre (ej: Salud, Gym, Mascotas)..."
-                        className="flex-1 px-3 py-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                        className="flex-1 px-3 py-2 text-xs font-bold rounded-xl border border-[#E2E8F0] dark:border-[#253149] bg-[#EEF2F7]/50 dark:bg-[#111A2D] text-[#0F172A] dark:text-[#F1F5F9] outline-none focus:border-[#2563EB] dark:focus:border-[#3478F6] focus:ring-2 focus:ring-blue-500/10"
                       />
                       <button
                         type="button"
                         onClick={handleAddCategory}
-                        className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md shadow-blue-500/20 active:scale-95 transition-all"
+                        className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 dark:bg-[#3478F6] dark:hover:bg-[#2563EB] text-white text-xs font-black shadow-md shadow-blue-500/20 active:scale-95 transition-all"
                       >
                         Guardar
                       </button>
@@ -475,7 +475,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
 
                     {/* Selector de icono rápido */}
                     <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" style={{ touchAction: 'pan-x pan-y' }}>
-                      <span className="text-[8px] font-bold text-slate-400 uppercase mr-1">Icono:</span>
+                      <span className="text-[8px] font-bold text-[#64748B] dark:text-[#94A3B8] uppercase mr-1">Icono:</span>
                       {[
                         'fa-tag', 'fa-utensils', 'fa-heart-pulse', 'fa-graduation-cap',
                         'fa-gamepad', 'fa-paw', 'fa-plane', 'fa-dumbbell',
@@ -487,8 +487,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                           onClick={() => setNewCategoryIcon(icon)}
                           className={`w-7 h-7 flex-shrink-0 rounded-lg flex items-center justify-center text-xs transition-all ${
                             newCategoryIcon === icon
-                              ? 'bg-blue-600 text-white shadow-sm scale-110'
-                              : 'bg-white dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 hover:bg-slate-100'
+                              ? 'bg-[#2563EB] dark:bg-[#3478F6] text-white shadow-sm scale-110'
+                              : 'bg-[#EEF2F7] dark:bg-[#111A2D] text-[#64748B] dark:text-[#94A3B8] hover:bg-slate-200'
                           }`}
                         >
                           <i className={`fa-solid ${icon}`}></i>
@@ -502,40 +502,40 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
               {/* Toggles: apilados en mobile, columna en desktop */}
               <div className="flex flex-col gap-3 md:flex-1">
                 {/* Monto Fijo */}
-                <div className="flex items-center justify-between p-4 bg-white/40 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-2xl">
+                <div className="flex items-center justify-between p-4 bg-[#EEF2F7]/50 dark:bg-[#1B263B]/50 border border-[#E2E8F0] dark:border-[#253149] rounded-2xl">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${form.isFixed ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'}`}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${form.isFixed ? 'bg-amber-100 text-[#B45309] dark:bg-[#F59E0B]/15 dark:text-[#F59E0B]' : 'bg-[#EEF2F7] dark:bg-[#111A2D] text-[#64748B] dark:text-[#94A3B8]'}`}>
                       <i className="fa-solid fa-lock text-sm"></i>
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-700 dark:text-slate-200">Monto Fijo</p>
-                      <p className="text-[9px] text-slate-500 font-medium">Mantener importe al cambiar de mes</p>
+                      <p className="text-xs font-bold text-[#0F172A] dark:text-[#F1F5F9]">Monto Fijo</p>
+                      <p className="text-[9px] text-[#64748B] dark:text-[#94A3B8] font-medium">Mantener importe al cambiar de mes</p>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setForm({...form, isFixed: !form.isFixed})}
-                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 relative flex-shrink-0 ${form.isFixed ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'}`}
+                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 relative flex-shrink-0 ${form.isFixed ? 'bg-[#2563EB] dark:bg-[#3478F6]' : 'bg-slate-200 dark:bg-[#111A2D]'}`}
                   >
                     <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-300 ${form.isFixed ? 'translate-x-6' : 'translate-x-0'}`}></div>
                   </button>
                 </div>
 
                 {/* Es en Cuotas */}
-                <div className="flex items-center justify-between p-4 bg-white/40 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-2xl">
+                <div className="flex items-center justify-between p-4 bg-[#EEF2F7]/50 dark:bg-[#1B263B]/50 border border-[#E2E8F0] dark:border-[#253149] rounded-2xl">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${form.isInstallments ? 'bg-purple-100 text-purple-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'}`}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${form.isInstallments ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300' : 'bg-[#EEF2F7] dark:bg-[#111A2D] text-[#64748B] dark:text-[#94A3B8]'}`}>
                       <i className="fa-solid fa-layer-group text-sm"></i>
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-700 dark:text-slate-200">Es en Cuotas</p>
-                      <p className="text-[9px] text-slate-500 font-medium">Dividir o repetir el pago</p>
+                      <p className="text-xs font-bold text-[#0F172A] dark:text-[#F1F5F9]">Es en Cuotas</p>
+                      <p className="text-[9px] text-[#64748B] dark:text-[#94A3B8] font-medium">Dividir o repetir el pago</p>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setForm({...form, isInstallments: !form.isInstallments})}
-                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 relative flex-shrink-0 ${form.isInstallments ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
+                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 relative flex-shrink-0 ${form.isInstallments ? 'bg-purple-600' : 'bg-slate-200 dark:bg-[#111A2D]'}`}
                   >
                     <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-300 ${form.isInstallments ? 'translate-x-6' : 'translate-x-0'}`}></div>
                   </button>
@@ -555,7 +555,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                     placeholder="Ej: 12"
                     required
                     min="1"
-                    className="w-full p-3 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-xl outline-none font-bold text-slate-800 dark:text-white text-sm"
+                    className="w-full p-3 bg-[#EEF2F7]/60 dark:bg-[#1B263B]/60 border border-[#E2E8F0] dark:border-[#253149] rounded-xl outline-none font-bold text-[#0F172A] dark:text-[#F1F5F9] text-sm"
                   />
                 </div>
                 <div className="space-y-2">
@@ -567,7 +567,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                     placeholder="Ej: 1"
                     required
                     min="1"
-                    className="w-full p-3 bg-white/50 dark:bg-slate-800/40 border border-slate-100 dark:border-white/5 rounded-xl outline-none font-bold text-slate-800 dark:text-white text-sm"
+                    className="w-full p-3 bg-[#EEF2F7]/60 dark:bg-[#1B263B]/60 border border-[#E2E8F0] dark:border-[#253149] rounded-xl outline-none font-bold text-[#0F172A] dark:text-[#F1F5F9] text-sm"
                   />
                 </div>
               </div>
@@ -576,7 +576,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
             {/* Error + Botón submit */}
             <div className="pt-2 md:pt-0">
               {formError && (
-                <div className="mb-3 p-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl text-xs font-bold text-red-600 dark:text-red-400 text-center animate-in slide-in-from-top-2 duration-200">
+                <div className="mb-3 p-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl text-xs font-bold text-[#DC2626] dark:text-[#F04452] text-center animate-in slide-in-from-top-2 duration-200">
                   <i className="fa-solid fa-triangle-exclamation mr-1"></i>
                   {formError}
                 </div>
@@ -585,7 +585,7 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
               <div className="md:flex md:justify-end">
                 <button
                   type="submit"
-                  className="w-full md:w-auto md:px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-base shadow-xl shadow-blue-500/20 transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full md:w-auto md:px-10 py-4 bg-[#2563EB] hover:bg-blue-700 dark:bg-[#3478F6] dark:hover:bg-[#2563EB] text-white rounded-2xl font-black text-base shadow-xl shadow-blue-500/20 transition-all active:scale-95 flex items-center justify-center gap-2"
                 >
                   <i className="fa-solid fa-check text-sm"></i>
                   {bill ? 'Actualizar Servicio' : 'Guardar Servicio'}
@@ -624,23 +624,23 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-white/10 p-6"
+                className="relative w-full max-w-sm bg-white dark:bg-[#111A2D] rounded-3xl shadow-2xl border border-[#E2E8F0] dark:border-[#253149] p-6"
               >
 
               {deleteStep === 'confirm' && (
                 <>
                   {/* Ícono de advertencia */}
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center">
-                    <i className="fa-solid fa-trash-can text-red-500 text-xl" />
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-red-50 dark:bg-[#F04452]/15 flex items-center justify-center">
+                    <i className="fa-solid fa-trash-can text-[#DC2626] dark:text-[#F04452] text-xl" />
                   </div>
-                  <h4 className="text-base font-black text-slate-800 dark:text-white text-center mb-1">
+                  <h4 className="text-base font-black text-[#0F172A] dark:text-[#F1F5F9] text-center mb-1">
                     ¿Eliminar categoría?
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 text-center mb-1 font-medium">
-                    Vas a eliminar la categoría <span className="font-black text-slate-700 dark:text-slate-200">"{deletingCat?.label}"</span>.
+                  <p className="text-xs text-[#64748B] dark:text-[#94A3B8] text-center mb-1 font-medium">
+                    Vas a eliminar la categoría <span className="font-black text-[#0F172A] dark:text-[#F1F5F9]">"{deletingCat?.label}"</span>.
                   </p>
                   {affected.length > 0 && (
-                    <p className="text-xs text-amber-600 dark:text-amber-400 font-bold text-center mb-4 bg-amber-50 dark:bg-amber-500/10 py-2 px-3 rounded-xl border border-amber-200 dark:border-amber-500/20">
+                    <p className="text-xs text-[#B45309] dark:text-[#F59E0B] font-bold text-center mb-4 bg-amber-50 dark:bg-amber-500/10 py-2 px-3 rounded-xl border border-amber-200 dark:border-amber-500/20">
                       <i className="fa-solid fa-triangle-exclamation mr-1" />
                       {affected.length} {affected.length === 1 ? 'servicio usa' : 'servicios usan'} esta categoría
                     </p>
@@ -649,14 +649,14 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                     <button
                       type="button"
                       onClick={cancelDelete}
-                      className="flex-1 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition active:scale-95"
+                      className="flex-1 py-3 rounded-2xl bg-[#EEF2F7] dark:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8] font-bold text-sm hover:bg-slate-200 dark:hover:bg-[#253149] transition active:scale-95"
                     >
                       Cancelar
                     </button>
                     <button
                       type="button"
                       onClick={confirmDeleteStep}
-                      className="flex-1 py-3 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-black text-sm shadow-lg shadow-red-500/20 transition active:scale-95"
+                      className="flex-1 py-3 rounded-2xl bg-[#DC2626] hover:bg-red-700 dark:bg-[#F04452] text-white font-black text-sm shadow-lg shadow-red-500/20 transition active:scale-95"
                     >
                       {affected.length > 0 ? 'Continuar' : 'Eliminar'}
                     </button>
@@ -666,14 +666,14 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
 
               {deleteStep === 'reassign' && (
                 <>
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
-                    <i className="fa-solid fa-folder-open text-blue-500 text-xl" />
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-50 dark:bg-[#3478F6]/15 flex items-center justify-center">
+                    <i className="fa-solid fa-folder-open text-[#2563EB] dark:text-[#3478F6] text-xl" />
                   </div>
-                  <h4 className="text-base font-black text-slate-800 dark:text-white text-center mb-1">
+                  <h4 className="text-base font-black text-[#0F172A] dark:text-[#F1F5F9] text-center mb-1">
                     ¿A dónde mover los servicios?
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 text-center mb-4 font-medium">
-                    Los <span className="font-black text-slate-700 dark:text-slate-200">{affected.length} servicios</span> de <span className="font-black">"{deletingCat?.label}"</span> serán reasignados a:
+                  <p className="text-xs text-[#64748B] dark:text-[#94A3B8] text-center mb-4 font-medium">
+                    Los <span className="font-black text-[#0F172A] dark:text-[#F1F5F9]">{affected.length} servicios</span> de <span className="font-black">"{deletingCat?.label}"</span> serán reasignados a:
                   </p>
 
                   {/* Selector de categoría destino */}
@@ -685,8 +685,8 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                         onClick={() => setReassignTarget(cat.id)}
                         className={`p-2.5 rounded-2xl border flex flex-col items-center gap-1.5 transition-all text-center ${
                           reassignTarget === cat.id
-                            ? 'bg-blue-600 border-blue-600 text-white shadow-md scale-[1.03]'
-                            : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-500 hover:border-blue-400'
+                            ? 'bg-[#2563EB] dark:bg-[#3478F6] border-transparent text-white shadow-md scale-[1.03]'
+                            : 'bg-[#EEF2F7] dark:bg-[#1B263B] border-[#E2E8F0] dark:border-[#253149] text-[#64748B] dark:text-[#94A3B8] hover:border-blue-400'
                         }`}
                       >
                         <i className={`fa-solid ${cat.icon} text-sm`} />
@@ -699,14 +699,14 @@ export const BillModal = ({ isOpen, onClose, onSave, bill = null }) => {
                     <button
                       type="button"
                       onClick={cancelDelete}
-                      className="flex-1 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition active:scale-95"
+                      className="flex-1 py-3 rounded-2xl bg-[#EEF2F7] dark:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8] font-bold text-sm hover:bg-slate-200 dark:hover:bg-[#253149] transition active:scale-95"
                     >
                       Cancelar
                     </button>
                     <button
                       type="button"
                       onClick={() => executeDelete(reassignTarget)}
-                      className="flex-1 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-lg shadow-blue-500/20 transition active:scale-95"
+                      className="flex-1 py-3 rounded-2xl bg-[#2563EB] hover:bg-blue-700 dark:bg-[#3478F6] text-white font-black text-sm shadow-lg shadow-blue-500/20 transition active:scale-95"
                     >
                       <i className="fa-solid fa-check mr-1.5" />
                       Confirmar

@@ -10,15 +10,15 @@ export const Card = memo(({ children, className = "" }) => (
 
 export const Badge = memo(({ children, variant = "default", className = "" }) => {
   const variants = {
-    default: "bg-slate-100/50 text-slate-600 dark:bg-white/10 dark:text-slate-300 backdrop-blur-md",
-    green: "bg-green-100/50 text-green-700 dark:bg-green-500/20 dark:text-green-400 backdrop-blur-md",
-    red: "bg-red-100/50 text-red-600 dark:bg-red-500/20 dark:text-red-400 backdrop-blur-md",
-    orange: "bg-orange-100/50 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400 backdrop-blur-md",
-    blue: "bg-blue-100/50 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 backdrop-blur-md"
+    default: "bg-[#EEF2F7] text-[#64748B] dark:bg-[#1B263B] dark:text-[#94A3B8] border border-[#E2E8F0] dark:border-[#253149]",
+    green: "bg-[#15803D]/10 text-[#15803D] dark:bg-[#16A765]/15 dark:text-[#16A765] border border-[#15803D]/20 dark:border-[#16A765]/30",
+    red: "bg-[#DC2626]/10 text-[#DC2626] dark:bg-[#F04452]/15 dark:text-[#F04452] border border-[#DC2626]/20 dark:border-[#F04452]/30",
+    orange: "bg-[#B45309]/10 text-[#B45309] dark:bg-[#F59E0B]/15 dark:text-[#F59E0B] border border-[#B45309]/20 dark:border-[#F59E0B]/30",
+    blue: "bg-[#2563EB]/10 text-[#2563EB] dark:bg-[#3478F6]/15 dark:text-[#3478F6] border border-[#2563EB]/20 dark:border-[#3478F6]/30"
   };
 
   return (
-    <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-white/10 ${variants[variant]} ${className}`}>
+    <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider ${variants[variant]} ${className}`}>
       {children}
     </span>
   );
@@ -26,10 +26,10 @@ export const Badge = memo(({ children, variant = "default", className = "" }) =>
 
 export const Button = memo(({ children, variant = "primary", onClick, className = "", disabled = false, icon = null }) => {
   const variants = {
-    primary: "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/30 border border-blue-400/30",
-    secondary: "bg-slate-900 hover:bg-slate-800 text-white shadow-slate-900/30 dark:bg-white/10 dark:hover:bg-white/20 border border-white/5",
-    ghost: "bg-transparent hover:bg-slate-100 dark:hover:bg-white/5 text-slate-600 dark:text-slate-400",
-    danger: "bg-red-500 hover:bg-red-400 text-white shadow-red-500/30 border border-red-400/30"
+    primary: "bg-[#2563EB] hover:bg-blue-700 dark:bg-[#3478F6] dark:hover:bg-[#2563EB] text-white shadow-md shadow-blue-500/20 border border-transparent",
+    secondary: "bg-[#0F172A] hover:bg-slate-800 text-white dark:bg-[#1B263B] dark:hover:bg-[#253149] dark:text-[#F1F5F9] border border-transparent dark:border-[#253149]",
+    ghost: "bg-transparent hover:bg-[#EEF2F7] dark:hover:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9]",
+    danger: "bg-[#DC2626] hover:bg-red-700 dark:bg-[#F04452] dark:hover:bg-red-600 text-white shadow-md shadow-red-500/20 border border-transparent"
   };
 
   return (

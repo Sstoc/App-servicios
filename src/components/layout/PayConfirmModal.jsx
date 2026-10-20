@@ -47,16 +47,16 @@ export const PayConfirmModal = ({ bill, onConfirm, onClose }) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="card-item w-full max-w-sm p-8 text-center relative z-50 border border-white/20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl shadow-2xl !rounded-[2.5rem]"
+            className="card-item w-full max-w-sm p-8 text-center relative z-50 border border-[#E2E8F0] dark:border-[#253149] bg-white dark:bg-[#111A2D] shadow-2xl !rounded-[2.5rem]"
           >
             {/* Icono grande adaptado a la acción */}
             <div
-              className={`w-20 h-20 bg-white/50 dark:bg-white/10 rounded-3xl mx-auto flex items-center justify-center mb-6 text-3xl shadow-xl border ${
+              className={`w-20 h-20 bg-[#EEF2F7] dark:bg-[#1B263B] rounded-3xl mx-auto flex items-center justify-center mb-6 text-3xl shadow-xl border ${
                 isPaid
-                  ? 'text-amber-500 shadow-amber-500/10 border-amber-500/20'
+                  ? 'text-[#B45309] dark:text-[#F59E0B] border-[#B45309]/20'
                   : isOverdue
-                  ? 'text-amber-500 shadow-amber-500/10 border-amber-500/20'
-                  : 'text-green-500 shadow-green-500/10 border-green-500/20'
+                  ? 'text-[#DC2626] dark:text-[#F04452] border-[#DC2626]/20'
+                  : 'text-[#15803D] dark:text-[#16A765] border-[#15803D]/20'
               }`}
             >
               <i
@@ -70,26 +70,26 @@ export const PayConfirmModal = ({ bill, onConfirm, onClose }) => {
               ></i>
             </div>
 
-            <h3 className="text-2xl font-black text-slate-800 dark:text-white mb-2 tracking-tight">
+            <h3 className="text-2xl font-black text-[#0F172A] dark:text-[#F1F5F9] mb-2 tracking-tight">
               {isPaid ? '¿Marcar como impago?' : '¿Confirmar pago?'}
             </h3>
 
-            <p className="text-blue-600 dark:text-blue-400 font-black text-lg mb-1 uppercase tracking-tight">
+            <p className="text-[#2563EB] dark:text-[#3478F6] font-black text-lg mb-1 uppercase tracking-tight">
               {currentBill?.name}
             </p>
 
-            <p className="text-2xl font-black text-slate-800 dark:text-white mb-2 tracking-tight">
+            <p className="text-2xl font-black text-[#0F172A] dark:text-[#F1F5F9] mb-2 tracking-tight">
               {formatMoney(currentBill?.amount)}
             </p>
 
             {isPaid ? (
-              <p className="text-sm font-medium mb-8 leading-relaxed text-slate-500 dark:text-slate-400">
-                El servicio volverá a figurar como <span className="text-amber-500 font-bold">pendiente</span> y se descontará del total pagado este mes.
+              <p className="text-sm font-medium mb-8 leading-relaxed text-[#64748B] dark:text-[#94A3B8]">
+                El servicio volverá a figurar como <span className="text-[#B45309] dark:text-[#F59E0B] font-bold">pendiente</span> y se descontará del total pagado este mes.
               </p>
             ) : (
               <p
                 className={`text-sm font-medium mb-8 leading-relaxed ${
-                  isOverdue ? 'text-red-500 font-bold' : 'text-slate-500 dark:text-slate-400'
+                  isOverdue ? 'text-[#DC2626] dark:text-[#F04452] font-bold' : 'text-[#64748B] dark:text-[#94A3B8]'
                 }`}
               >
                 {isOverdue
@@ -104,7 +104,7 @@ export const PayConfirmModal = ({ bill, onConfirm, onClose }) => {
             <div className="flex gap-4">
               <Button
                 variant="ghost"
-                className="flex-1 !rounded-2xl font-bold py-4 hover:bg-slate-100/50"
+                className="flex-1 !rounded-2xl font-bold py-4 hover:bg-[#EEF2F7] dark:hover:bg-[#1B263B]"
                 onClick={onClose}
               >
                 Cancelar
@@ -115,7 +115,7 @@ export const PayConfirmModal = ({ bill, onConfirm, onClose }) => {
                   type="button"
                   whileTap={{ scale: 0.94 }}
                   onClick={onConfirm}
-                  className="flex-1 !rounded-2xl font-black py-4 text-white bg-amber-500 hover:bg-amber-600 shadow-lg shadow-amber-500/25 transition-colors text-sm flex items-center justify-center gap-2 border border-amber-400/30"
+                  className="flex-1 !rounded-2xl font-black py-4 text-white bg-[#B45309] hover:bg-amber-600 dark:bg-[#F59E0B] dark:hover:bg-amber-600 shadow-lg shadow-amber-500/25 transition-colors text-sm flex items-center justify-center gap-2 border border-transparent"
                 >
                   <i className="fa-solid fa-rotate-left"></i>
                   Desmarcar
@@ -125,7 +125,7 @@ export const PayConfirmModal = ({ bill, onConfirm, onClose }) => {
                   type="button"
                   whileTap={{ scale: 0.94 }}
                   onClick={onConfirm}
-                  className="flex-1 !rounded-2xl font-black py-4 text-white bg-green-500 hover:bg-green-600 shadow-lg shadow-green-500/25 transition-colors text-sm flex items-center justify-center gap-2 border border-green-400/30"
+                  className="flex-1 !rounded-2xl font-black py-4 text-white bg-[#15803D] hover:bg-green-700 dark:bg-[#16A765] dark:hover:bg-emerald-600 shadow-lg shadow-green-500/25 transition-colors text-sm flex items-center justify-center gap-2 border border-transparent"
                 >
                   <i className="fa-solid fa-check"></i>
                   Pagar

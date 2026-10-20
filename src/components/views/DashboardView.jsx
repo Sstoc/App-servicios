@@ -29,9 +29,9 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
     if (editing) {
       return (
         <div className="mb-3 sm:mb-6">
-          <div className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-blue-300 dark:border-blue-500/40 bg-blue-50/40 dark:bg-blue-500/5 transition-all flex items-center justify-between text-xs font-semibold">
-            <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-              <i className="fa-solid fa-bullseye text-sm text-blue-500"></i>
+          <div className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-[#2563EB]/40 dark:border-[#3478F6]/40 bg-blue-50/40 dark:bg-[#3478F6]/5 transition-all flex items-center justify-between text-xs font-semibold">
+            <div className="flex items-center gap-2 text-[#0F172A] dark:text-[#F1F5F9]">
+              <i className="fa-solid fa-bullseye text-sm text-[#2563EB] dark:text-[#3478F6]"></i>
               <span>Presupuesto:</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -46,19 +46,19 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
                 }}
                 placeholder="Ej: 50000"
                 min="0"
-                className="w-24 sm:w-28 px-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-blue-500"
+                className="w-24 sm:w-28 px-2 py-1 text-xs rounded-lg border border-[#E2E8F0] dark:border-[#253149] bg-white dark:bg-[#1B263B] text-[#0F172A] dark:text-[#F1F5F9] outline-none focus:border-[#2563EB] dark:focus:border-[#3478F6]"
               />
               <button
                 type="button"
                 onClick={handleSave}
-                className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold hover:bg-blue-700 transition"
+                className="px-2.5 py-1 rounded-lg bg-[#2563EB] dark:bg-[#3478F6] text-white text-[11px] font-bold hover:bg-blue-700 transition"
               >
                 Guardar
               </button>
               <button
                 type="button"
                 onClick={() => setEditing(false)}
-                className="px-1.5 py-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs"
+                className="px-1.5 py-1 text-[#64748B] hover:text-[#0F172A] dark:text-[#94A3B8] dark:hover:text-[#F1F5F9] text-xs"
                 title="Cancelar"
               >
                 <i className="fa-solid fa-xmark"></i>
@@ -74,10 +74,10 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
         <button
           type="button"
           onClick={() => { setInputVal(''); setEditing(true); }}
-          className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all flex items-center justify-between text-xs font-semibold group"
+          className="w-full py-2 sm:py-2.5 px-3.5 rounded-xl border border-dashed border-[#E2E8F0] dark:border-[#253149] text-[#64748B] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3478F6] hover:border-blue-300 dark:hover:border-[#3478F6]/30 transition-all flex items-center justify-between text-xs font-semibold group"
         >
           <div className="flex items-center gap-2">
-            <i className="fa-solid fa-bullseye text-sm group-hover:scale-110 transition-transform text-blue-500/70"></i>
+            <i className="fa-solid fa-bullseye text-sm group-hover:scale-110 transition-transform text-[#2563EB]/70 dark:text-[#3478F6]/70"></i>
             <span>Establecer presupuesto mensual</span>
           </div>
           <i className="fa-solid fa-plus text-[10px] opacity-60"></i>
@@ -88,25 +88,25 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
 
   // Con presupuesto configurado
   return (
-    <Card className={`mb-3 sm:mb-6 !p-3.5 sm:!p-5 !rounded-2xl transition-all duration-500 ${hasExceeded ? 'border-red-200 dark:border-red-500/30 bg-red-50/50 dark:bg-red-500/5' : 'border-blue-100 dark:border-blue-500/20'}`}>
+    <Card className={`mb-3 sm:mb-6 !p-3.5 sm:!p-5 !rounded-2xl transition-all duration-500 ${hasExceeded ? 'border-red-200 dark:border-[#F04452]/40 bg-red-50/50 dark:bg-[#F04452]/5' : 'border-[#E2E8F0] dark:border-[#253149]'}`}>
       <div className="flex items-start justify-between mb-2">
         <div>
-          <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${hasExceeded ? 'text-red-500' : 'text-blue-600 dark:text-blue-400'}`}>
+          <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${hasExceeded ? 'text-[#DC2626] dark:text-[#F04452]' : 'text-[#2563EB] dark:text-[#3478F6]'}`}>
             {hasExceeded ? '⚠ Presupuesto superado' : 'Presupuesto del mes'}
           </p>
-          <p className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white mt-0.5">
+          <p className="text-lg sm:text-2xl font-black text-[#0F172A] dark:text-[#F1F5F9] mt-0.5">
             {showBalance ? (
               <span>
-                <span className={hasExceeded ? 'text-red-500' : ''}>{formatMoney(monthTotal)}</span>
-                <span className="text-slate-300 dark:text-slate-600 text-sm sm:text-base font-bold"> / </span>
-                <span className="text-slate-500 dark:text-slate-400 text-sm sm:text-base font-bold">{formatMoney(budget)}</span>
+                <span className={hasExceeded ? 'text-[#DC2626] dark:text-[#F04452]' : ''}>{formatMoney(monthTotal)}</span>
+                <span className="text-slate-300 dark:text-[#253149] text-sm sm:text-base font-bold"> / </span>
+                <span className="text-[#64748B] dark:text-[#94A3B8] text-sm sm:text-base font-bold">{formatMoney(budget)}</span>
               </span>
             ) : '••• / •••'}
           </p>
         </div>
         <button
           onClick={() => { setInputVal(String(budget)); setEditing(v => !v); }}
-          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-blue-500 transition-all"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#EEF2F7] dark:bg-[#1B263B] flex items-center justify-center text-[#64748B] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3478F6] transition-all"
           title="Editar presupuesto"
         >
           <i className="fa-solid fa-pen text-[10px] sm:text-xs"></i>
@@ -114,14 +114,14 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
       </div>
 
       {/* Barra de progreso */}
-      <div className="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+      <div className="w-full bg-[#EEF2F7] dark:bg-[#1B263B] h-2.5 rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-700 ${hasExceeded ? 'bg-gradient-to-r from-red-400 to-red-600 animate-pulse' : pct > 80 ? 'bg-gradient-to-r from-amber-400 to-orange-500' : 'bg-gradient-to-r from-blue-500 to-blue-600'}`}
+          className={`h-full rounded-full transition-all duration-700 ${hasExceeded ? 'bg-gradient-to-r from-red-500 to-[#F04452] animate-pulse' : pct > 80 ? 'bg-gradient-to-r from-amber-400 to-[#F59E0B]' : 'bg-gradient-to-r from-[#2563EB] to-[#3478F6]'}`}
           style={{ width: `${pct}%` }}
         />
       </div>
 
-      <p className="text-xs text-slate-400 mt-2 font-medium">
+      <p className="text-xs text-[#64748B] dark:text-[#94A3B8] mt-2 font-medium">
         {hasExceeded
           ? `Excediste en ${formatMoney(monthTotal - budget)}`
           : `Disponible: ${showBalance ? formatMoney(budget - monthTotal) : '•••'}`}
@@ -138,10 +138,10 @@ const BudgetCard = ({ budget, monthTotal, showBalance, onSetBudget }) => {
             onKeyDown={e => e.key === 'Enter' && handleSave()}
             placeholder="Nuevo presupuesto"
             min="0"
-            className="flex-1 px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-blue-500"
+            className="flex-1 px-3 py-2 text-sm rounded-xl border border-[#E2E8F0] dark:border-[#253149] bg-white dark:bg-[#1B263B] text-[#0F172A] dark:text-[#F1F5F9] outline-none focus:border-[#2563EB] dark:focus:border-[#3478F6]"
           />
-          <button onClick={handleSave} className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition">Guardar</button>
-          <button onClick={handleRemove} className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-red-500 text-xs font-bold transition">
+          <button onClick={handleSave} className="px-4 py-2 rounded-xl bg-[#2563EB] dark:bg-[#3478F6] text-white text-xs font-bold hover:bg-blue-700 transition">Guardar</button>
+          <button onClick={handleRemove} className="px-3 py-2 rounded-xl bg-[#EEF2F7] dark:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8] hover:text-[#DC2626] dark:hover:text-[#F04452] text-xs font-bold transition">
             <i className="fa-solid fa-trash text-xs"></i>
           </button>
         </div>
@@ -344,17 +344,17 @@ export const DashboardView = ({
         {/* Card 1: Pendiente Total */}
         <Card className={`!p-4 sm:!p-6 !rounded-2xl relative overflow-hidden transition-all duration-700 ${calculatePendingTotal() === 0 ? 'bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 border-none shadow-[0_20px_50px_rgba(245,158,11,0.3)]' : ''}`}>
           <div className="relative z-10">
-            <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-orange-500 dark:text-orange-400'}`}>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${calculatePendingTotal() === 0 ? 'text-white opacity-80' : 'text-[#B45309] dark:text-[#F59E0B]'}`}>
               {calculatePendingTotal() === 0 ? '¡Felicidades!' : 'Pendiente Total'}
             </p>
-            <p className={`text-2xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
+            <p className={`text-2xl sm:text-3xl font-black tracking-tight ${calculatePendingTotal() === 0 ? 'text-white' : 'text-[#0F172A] dark:text-[#F1F5F9]'}`}>
               {calculatePendingTotal() === 0 ? '¡Todo al día!' : formatMoneyProtected(calculatePendingTotal(), showBalance)}
             </p>
-            <p className={`text-xs sm:text-sm mt-1 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'}`}>
-              {calculatePendingTotal() === 0 ? 'Sin deudas este mes' : `${pendingCount} facturas sin pagar`}
+            <p className={`text-xs sm:text-sm mt-1 font-medium ${calculatePendingTotal() === 0 ? 'text-white/80' : 'text-[#64748B] dark:text-[#94A3B8]'}`}>
+              {calculatePendingTotal() === 0 ? 'Sin deudas este mes' : `${pendingCount} ${pendingCount === 1 ? 'factura sin pagar' : 'facturas sin pagar'}`}
             </p>
           </div>
-          <div className={`absolute right-0 bottom-0 w-20 sm:w-24 h-20 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-orange-50 dark:bg-orange-500/5 opacity-50'}`}></div>
+          <div className={`absolute right-0 bottom-0 w-20 sm:w-24 h-20 sm:h-24 rounded-tl-full -mr-3 -mb-3 transition-all ${calculatePendingTotal() === 0 ? 'bg-white/20' : 'bg-amber-500/5 dark:bg-amber-500/10 pointer-events-none'}`}></div>
           {calculatePendingTotal() === 0 && (
             <div className="absolute top-2 right-2 text-white/20 text-3xl sm:text-4xl rotate-12">
               <i className="fa-solid fa-star"></i>
@@ -366,15 +366,15 @@ export const DashboardView = ({
         <Card className="!p-4 sm:!p-6 !rounded-2xl relative overflow-hidden">
           <div className="relative z-10 w-full">
             <div className="flex justify-between items-center mb-1">
-              <p className="text-xs font-bold uppercase tracking-wider text-green-600">Pagado (Mes)</p>
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">{Math.round(currentMonthProgress())}%</span>
+              <p className="text-xs font-bold uppercase tracking-wider text-[#15803D] dark:text-[#16A765]">Pagado (Mes)</p>
+              <span className="text-xs font-bold text-[#64748B] dark:text-[#94A3B8]">{Math.round(currentMonthProgress())}%</span>
             </div>
-            <p className="text-2xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">
+            <p className="text-2xl sm:text-3xl font-black tracking-tight text-[#0F172A] dark:text-[#F1F5F9]">
               {formatMoneyProtected(calculatePaidThisMonth(), showBalance)}
             </p>
-            <div className="w-full bg-slate-100 dark:bg-slate-700 h-2 mt-2.5 rounded-full overflow-hidden">
+            <div className="w-full bg-[#EEF2F7] dark:bg-[#1B263B] h-2 mt-2.5 rounded-full overflow-hidden">
               <div 
-                className={`h-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all duration-1000 ${currentMonthProgress() >= 100 ? 'animate-pulse' : ''}`} 
+                className={`h-full bg-gradient-to-r from-[#15803D] to-[#16A765] transition-all duration-1000 ${currentMonthProgress() >= 100 ? 'animate-pulse' : ''}`} 
                 style={{ width: `${Math.min(100, currentMonthProgress())}%` }}
               ></div>
             </div>
@@ -384,8 +384,8 @@ export const DashboardView = ({
         {/* Card 3: Próximo Vencimiento / Alerta Vencida */}
         <Card className={`col-span-2 md:col-span-1 !p-3.5 sm:!p-5 !rounded-2xl relative overflow-hidden transition-all duration-300 ${
           hasOverdueAlert && targetUrgentBill
-            ? 'border-red-200 dark:border-red-500/30 bg-red-50/40 dark:bg-red-500/5' 
-            : 'border-blue-100 dark:border-blue-500/20'
+            ? 'border-red-200 dark:border-[#F04452]/40 bg-red-50/40 dark:bg-[#F04452]/5' 
+            : 'border-[#E2E8F0] dark:border-[#253149]'
         }`}>
           <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[50px] pointer-events-none ${
             hasOverdueAlert && targetUrgentBill ? 'bg-red-500 opacity-15' : 'bg-blue-500 opacity-10'
@@ -396,10 +396,10 @@ export const DashboardView = ({
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-1.5 min-w-0">
                 {hasOverdueAlert && targetUrgentBill && (
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0"></span>
+                  <span className="w-2 h-2 rounded-full bg-[#DC2626] dark:bg-[#F04452] animate-pulse shrink-0"></span>
                 )}
                 <p className={`text-[11px] sm:text-xs font-bold uppercase tracking-wider truncate ${
-                  hasOverdueAlert && targetUrgentBill ? 'text-red-500 font-black' : 'text-slate-600 dark:text-slate-400'
+                  hasOverdueAlert && targetUrgentBill ? 'text-[#DC2626] dark:text-[#F04452] font-black' : 'text-[#64748B] dark:text-[#94A3B8]'
                 }`}>
                   {hasOverdueAlert && targetUrgentBill
                     ? `Tenés ${overdueCount} ${overdueCount === 1 ? 'factura vencida' : 'facturas vencidas'}`
@@ -408,8 +408,8 @@ export const DashboardView = ({
               </div>
               <span className={`text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-lg shrink-0 ${
                 hasOverdueAlert && targetUrgentBill
-                  ? 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300'
-                  : 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400'
+                  ? 'bg-red-50 text-[#DC2626] dark:bg-[#F04452]/20 dark:text-[#F04452]'
+                  : 'bg-blue-50 text-[#2563EB] dark:bg-[#3478F6]/15 dark:text-[#3478F6]'
               }`}>
                 {targetUrgentBill ? getRelativeDateString(targetUrgentBill.dueDate) : 'Todo al día'}
               </span>
@@ -419,20 +419,20 @@ export const DashboardView = ({
             {targetUrgentBill ? (
               <div className="flex items-center justify-between gap-3 pt-1">
                 <div className="min-w-0 flex-1">
-                  <p className="text-base sm:text-lg font-black truncate text-slate-800 dark:text-white" title={targetUrgentBill.name}>
+                  <p className="text-base sm:text-lg font-black truncate text-[#0F172A] dark:text-[#F1F5F9]" title={targetUrgentBill.name}>
                     {targetUrgentBill.name}
                   </p>
-                  <p className="text-sm sm:text-base font-black text-slate-900 dark:text-slate-100 mt-0.5">
+                  <p className="text-sm sm:text-base font-black text-[#0F172A] dark:text-[#F1F5F9] mt-0.5">
                     {targetUrgentBill.amount > 0 
                       ? (showBalance ? formatMoney(targetUrgentBill.amount) : '••••••')
-                      : <span className="text-xs text-amber-500 font-bold">Sin monto</span>
+                      : <span className="text-xs text-[#B45309] dark:text-[#F59E0B] font-bold">Sin monto</span>
                     }
                   </p>
                 </div>
                 <Button
                   variant={hasOverdueAlert ? 'danger' : 'secondary'}
                   className={`!px-3.5 !py-1.5 !text-xs font-bold !rounded-xl shrink-0 shadow-sm transition-transform active:scale-95 ${
-                    hasOverdueAlert ? '!bg-red-600 hover:!bg-red-700 !text-white border-none shadow-red-500/25' : ''
+                    hasOverdueAlert ? '!bg-[#DC2626] hover:!bg-red-700 dark:!bg-[#F04452] dark:hover:!bg-red-600 !text-white border-none shadow-red-500/25' : ''
                   }`}
                   onClick={() => handleTogglePaid(targetUrgentBill)}
                   title="Pagar factura urgente"
@@ -443,8 +443,8 @@ export const DashboardView = ({
               </div>
             ) : (
               <div className="flex items-center justify-between gap-2 py-1">
-                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">Sin facturas pendientes</p>
-                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-0.5 rounded-lg">
+                <p className="text-sm font-bold text-[#64748B] dark:text-[#94A3B8]">Sin facturas pendientes</p>
+                <span className="text-xs font-bold text-[#15803D] dark:text-[#16A765] bg-emerald-50 dark:bg-[#16A765]/15 px-2.5 py-0.5 rounded-lg">
                   ¡Todo al día!
                 </span>
               </div>
@@ -464,8 +464,8 @@ export const DashboardView = ({
       {/* Encabezado de sección */}
       <div className="flex items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Este Mes</h3>
-          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-200/80 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+          <h3 className="text-lg font-bold text-[#0F172A] dark:text-[#F1F5F9]">Este Mes</h3>
+          <span className="text-xs font-bold text-[#64748B] dark:text-[#94A3B8] bg-[#EEF2F7] dark:bg-[#1B263B] px-2.5 py-0.5 rounded-full">
             {monthBills.length}
           </span>
         </div>
@@ -489,25 +489,25 @@ export const DashboardView = ({
               className={`relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors whitespace-nowrap ${
                 isActive
                   ? 'text-white'
-                  : 'bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-300/80 dark:border-white/10'
+                  : 'bg-white dark:bg-[#111A2D] text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9] border border-[#E2E8F0] dark:border-[#253149]'
               }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="activeDashboardFilter"
                   transition={fluentPillSpring}
-                  className="absolute inset-0 bg-blue-600 rounded-full shadow-md shadow-blue-500/25 pointer-events-none"
+                  className="absolute inset-0 bg-[#2563EB] dark:bg-[#3478F6] rounded-full shadow-md shadow-blue-500/25 pointer-events-none"
                 />
               )}
               {chip.alert && !isActive && (
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse relative z-10"></span>
+                <span className="w-2 h-2 rounded-full bg-[#DC2626] dark:bg-[#F04452] animate-pulse relative z-10"></span>
               )}
               <span className="relative z-10">{chip.label}</span>
               <span
                 className={`text-[10px] px-1.5 py-0.2 rounded-full font-black relative z-10 ${
                   isActive
                     ? 'bg-white/20 text-white'
-                    : 'bg-slate-200/80 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+                    : 'bg-[#EEF2F7] dark:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8]'
                 }`}
               >
                 {chip.count}
@@ -518,8 +518,8 @@ export const DashboardView = ({
       </div>
 
       {/* Hint para mobile swipe */}
-      <p className="md:hidden text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-3 flex items-center gap-1.5">
-        <i className="fa-solid fa-hand-point-right text-blue-600 dark:text-blue-400"></i>
+      <p className="md:hidden text-[11px] font-semibold text-[#64748B] dark:text-[#94A3B8] mb-3 flex items-center gap-1.5">
+        <i className="fa-solid fa-hand-point-right text-[#2563EB] dark:text-[#3478F6]"></i>
         <span>Deslizá una tarjeta a la derecha para pagar rápido</span>
       </p>
 
@@ -542,38 +542,38 @@ export const DashboardView = ({
                 className={`group !overflow-visible !p-4 sm:!p-5 !rounded-2xl transition-all duration-300 ${bill.paid ? 'opacity-60 grayscale-[0.5]' : ''}`}
               >
                 <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
-                  <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all ${bill.paid ? 'bg-green-500' : isOverdue(bill.dueDate) ? 'bg-red-500' : bill.amount > 0 ? 'bg-orange-400' : 'bg-blue-500'}`}></div>
+                  <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all ${bill.paid ? 'bg-[#15803D] dark:bg-[#16A765]' : isOverdue(bill.dueDate) ? 'bg-[#DC2626] dark:bg-[#F04452]' : bill.amount > 0 ? 'bg-[#B45309] dark:bg-[#F59E0B]' : 'bg-[#2563EB] dark:bg-[#3478F6]'}`}></div>
                 </div>
 
                 {/* Fila Superior: Icono + Nombre/Categoría + Importe + Menú */}
                 <div className="flex justify-between items-center gap-2 mb-2 relative z-10 pl-0.5">
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-lg shrink-0 shadow-sm bg-[#EEF2F7] dark:bg-[#1B263B] text-[#0F172A] dark:text-[#F1F5F9] border border-[#E2E8F0]/60 dark:border-[#253149]">
                       {getIcon(bill.category)}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h4 className="font-bold text-slate-800 dark:text-slate-100 text-[15px] sm:text-base leading-tight truncate" title={bill.name}>
+                      <h4 className="font-bold text-[#0F172A] dark:text-[#F1F5F9] text-[15px] sm:text-base leading-tight truncate" title={bill.name}>
                         {bill.name}
                         {bill.isInstallments && (
-                          <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-black bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 align-middle">
+                          <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-black bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300 border border-purple-200 dark:border-purple-500/20 align-middle">
                             {bill.currentInstallment}/{bill.totalInstallments}
                           </span>
                         )}
                       </h4>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
+                      <p className="text-xs text-[#64748B] dark:text-[#94A3B8] font-medium leading-none mt-0.5 truncate">{getCategoryLabel(bill.category)}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     {bill.amount >= 0 && (
-                      <span className="font-black text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight">
+                      <span className="font-black text-lg sm:text-xl text-[#0F172A] dark:text-[#F1F5F9] tracking-tight">
                         {showBalance ? formatMoney(bill.amount) : '****'}
                       </span>
                     )}
                     <div className="relative">
                       <button 
                         onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === bill.id ? null : bill.id); }}
-                        className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95"
+                        className="text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9] w-8 h-8 flex items-center justify-center transition-colors rounded-full hover:bg-[#EEF2F7] dark:hover:bg-[#1B263B] active:scale-95"
                       >
                         <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                       </button>
@@ -586,13 +586,13 @@ export const DashboardView = ({
                               setActiveMenu(null);
                             }}
                           />
-                          <div className="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-white/10 z-[200] overflow-hidden py-1.5 popup-animate origin-top-right">
-                            <button onClick={() => { handleEdit(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
-                              <i className="fa-solid fa-pen-to-square text-slate-400"></i>
+                          <div className="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-[#1B263B]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-[#E2E8F0] dark:border-[#253149] z-[200] overflow-hidden py-1.5 popup-animate origin-top-right">
+                            <button onClick={() => { handleEdit(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-[#0F172A] dark:text-[#F1F5F9] hover:bg-[#EEF2F7] dark:hover:bg-[#111A2D] transition">
+                              <i className="fa-solid fa-pen-to-square text-[#64748B] dark:text-[#94A3B8]"></i>
                               <span>Editar</span>
                             </button>
-                            <button onClick={() => { handleDeleteClick(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition">
-                              <i className="fa-solid fa-trash-can text-red-400"></i>
+                            <button onClick={() => { handleDeleteClick(bill); setActiveMenu(null); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-[#DC2626] dark:text-[#F04452] hover:bg-red-50 dark:hover:bg-red-500/10 transition">
+                              <i className="fa-solid fa-trash-can text-[#DC2626] dark:text-[#F04452]"></i>
                               <span>Eliminar</span>
                             </button>
                           </div>
@@ -603,7 +603,7 @@ export const DashboardView = ({
                 </div>
 
                 {/* Fila Inferior: Estado / Vencimiento + Botón Pagar */}
-                <div className="flex justify-between items-center gap-2 pt-2.5 mt-0.5 border-t border-slate-100 dark:border-white/5 pl-0.5">
+                <div className="flex justify-between items-center gap-2 pt-2.5 mt-0.5 border-t border-[#EEF2F7] dark:border-[#253149] pl-0.5">
                   <div className="flex items-center gap-2 min-w-0">
                     {bill.amount > 0 ? (
                       <>
@@ -613,8 +613,8 @@ export const DashboardView = ({
                         >
                           {bill.paid ? 'Pagado' : isOverdue(bill.dueDate) ? 'Vencido' : 'Pendiente'}
                         </Badge>
-                        <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold truncate flex items-center gap-1.5">
-                          <i className="fa-regular fa-calendar text-[11px] text-slate-500 dark:text-slate-400"></i>
+                        <span className="text-xs text-[#64748B] dark:text-[#94A3B8] font-semibold truncate flex items-center gap-1.5">
+                          <i className="fa-regular fa-calendar text-[11px] text-[#64748B] dark:text-[#94A3B8]"></i>
                           {new Date(bill.dueDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
                         </span>
                       </>
@@ -630,7 +630,7 @@ export const DashboardView = ({
                       onClick={() => handleTogglePaid(bill)}
                     >
                       {bill.paid ? (
-                        <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400"><i className="fa-solid fa-check text-[11px]"></i> Pagado</span>
+                        <span className="flex items-center gap-1 text-[#15803D] dark:text-[#16A765]"><i className="fa-solid fa-check text-[11px]"></i> Pagado</span>
                       ) : bill.amount === 0 ? (
                         'Definir'
                       ) : (
@@ -644,16 +644,16 @@ export const DashboardView = ({
           </motion.div>
         ))}
         {monthBills.length === 0 && (
-          <div className="col-span-full flex flex-col items-center justify-center py-16 text-center bg-white/45 dark:bg-slate-800/20 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 p-8 shadow-sm">
-            <div className="w-16 h-16 bg-blue-50 dark:bg-blue-500/10 rounded-2xl flex items-center justify-center text-2xl text-blue-600 dark:text-blue-400 mb-4 shadow-inner">
+          <div className="col-span-full flex flex-col items-center justify-center py-16 text-center bg-white/60 dark:bg-[#111A2D]/60 rounded-[2.5rem] border border-[#E2E8F0] dark:border-[#253149] p-8 shadow-sm">
+            <div className="w-16 h-16 bg-blue-50 dark:bg-[#3478F6]/15 rounded-2xl flex items-center justify-center text-2xl text-[#2563EB] dark:text-[#3478F6] mb-4 shadow-inner">
               <i className={filter === 'all' ? 'fa-solid fa-receipt' : 'fa-solid fa-filter'}></i>
             </div>
-            <h4 className="text-lg font-black text-slate-800 dark:text-white mb-2">
+            <h4 className="text-lg font-black text-[#0F172A] dark:text-[#F1F5F9] mb-2">
               {bills.length === 0
                 ? 'No hay servicios registrados'
                 : `No hay servicios ${filter === 'pending' ? 'pendientes' : filter === 'overdue' ? 'vencidos' : filter === 'paid' ? 'pagados' : ''}`}
             </h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mb-6 font-medium leading-relaxed">
+            <p className="text-xs text-[#64748B] dark:text-[#94A3B8] max-w-xs mb-6 font-medium leading-relaxed">
               {bills.length === 0
                 ? 'Comenzá a organizar tus cuentas agregando tu primer servicio de luz, agua, internet, etc.'
                 : 'Cambiá el filtro activo para ver el resto de tus facturas.'}
@@ -665,7 +665,7 @@ export const DashboardView = ({
             ) : (
               <button
                 onClick={() => setFilter('all')}
-                className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-xs font-black shadow-md shadow-blue-500/25 active:scale-95 transition-all"
+                className="px-5 py-2.5 rounded-full bg-[#2563EB] dark:bg-[#3478F6] text-white text-xs font-black shadow-md shadow-blue-500/25 active:scale-95 transition-all"
               >
                 Ver todos
               </button>

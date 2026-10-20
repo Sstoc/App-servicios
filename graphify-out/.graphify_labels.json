@@ -1,15 +1,21 @@
 {
-  "0": "utils.jsx",
+  "0": "PendingView.jsx",
   "1": "AppContext.jsx",
-  "2": "App.jsx",
+  "2": "App",
   "3": "generate-vapid.mjs",
   "4": "HistoryView.jsx",
-  "5": "pushNotifications.js",
+  "5": "Auth.jsx",
   "6": "index.ts",
   "7": "useDarkMode.js",
   "8": "DashboardView.jsx",
   "9": "Notificaciones con la PWA cerrada",
   "10": "optimize-images.ps1",
   "11": "CLAUDE.md",
-  "12": ".claude/CLAUDE.md"
+  "12": ".claude/CLAUDE.md",
+  "13": "ref_react",
+  "14": "fluentMotion.js",
+  "15": "App.jsx",
+  "16": "BillModal.jsx",
+  "17": "utils.jsx",
+  "18": "HeaderMobile.jsx"
 }

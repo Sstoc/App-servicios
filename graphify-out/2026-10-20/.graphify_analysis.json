@@ -1,0 +1,241 @@
+{
+  "communities": {
+    "0": [
+      "src_components_ui_index_badge",
+      "src_components_views_dashboardview",
+      "src_components_views_dashboardview_budgetcard",
+      "src_components_views_dashboardview_dashboardview",
+      "src_components_views_dashboardview_swipeablebillcard",
+      "src_components_views_historyview",
+      "src_components_views_historyview_historyview",
+      "src_components_views_pendingview",
+      "src_components_views_pendingview_pendingview",
+      "src_lib_exportutils",
+      "src_lib_exportutils_exporttocsv",
+      "src_lib_exportutils_exporttopdf",
+      "src_lib_exportutils_fmt",
+      "src_lib_utils",
+      "src_lib_utils_cachedcategories",
+      "src_lib_utils_formatmoney",
+      "src_lib_utils_formatmoneyprotected",
+      "src_lib_utils_getcategorylabel",
+      "src_lib_utils_getcustomcategoriescached",
+      "src_lib_utils_geticon",
+      "src_lib_utils_isoverdue"
+    ],
+    "1": [
+      "ref_react",
+      "ref_react_dom",
+      "ref_sentry_react",
+      "ref_vercel_analytics",
+      "ref_vercel_speed_insights",
+      "src_context_appcontext",
+      "src_context_appcontext_appcontext",
+      "src_context_appcontext_appprovider",
+      "src_context_appcontext_sanitizebillfromstorage",
+      "src_index",
+      "src_lib_sentry",
+      "src_lib_sentry_captureerror",
+      "src_lib_sentry_initsentry",
+      "src_lib_sentry_setsentryuser",
+      "src_lib_utils_setcustomcategoriescache",
+      "src_main",
+      "src_main_rooterrorboundary",
+      "src_main_rooterrorboundary_componentdidcatch",
+      "src_main_rooterrorboundary_getderivedstatefromerror",
+      "src_main_rooterrorboundary_render"
+    ],
+    "2": [
+      "src_app",
+      "src_app_app",
+      "src_components_layout_headermobile",
+      "src_components_layout_headermobile_headermobile",
+      "src_components_layout_installpromptmodal",
+      "src_components_layout_installpromptmodal_installpromptmodal",
+      "src_components_layout_sidebar",
+      "src_components_layout_sidebar_sidebar",
+      "src_lib_pushnotifications_disablepushnotifications"
+    ],
+    "3": [
+      "ref_node_crypto",
+      "scripts_generate_vapid",
+      "scripts_generate_vapid_privatejwk",
+      "scripts_generate_vapid_publicjwk",
+      "scripts_generate_vapid_publickey_privatekey",
+      "scripts_generate_vapid_publicvapidkey",
+      "scripts_generate_vapid_tobase64url"
+    ],
+    "4": [
+      "src_components_layout_auth",
+      "src_components_layout_auth_auth",
+      "src_components_layout_deleteconfirmmodal",
+      "src_components_layout_deleteconfirmmodal_deleteconfirmmodal",
+      "src_components_ui_index",
+      "src_components_ui_index_button",
+      "src_components_ui_index_card"
+    ],
+    "5": [
+      "src_lib_pushnotifications",
+      "src_lib_pushnotifications_base64urltouint8array",
+      "src_lib_pushnotifications_enablepushnotifications",
+      "src_lib_pushnotifications_ensurepushissupported",
+      "src_lib_supabase",
+      "src_lib_supabase_supabase"
+    ],
+    "6": [
+      "ref_npm_supabase",
+      "ref_npm_web_push_3_6_7",
+      "supabase_functions_send_due_notifications_index",
+      "supabase_functions_send_due_notifications_index_argentinadate",
+      "supabase_functions_send_due_notifications_index_json"
+    ],
+    "7": [
+      "src_hooks_usedarkmode",
+      "src_hooks_usedarkmode_applythemetodom",
+      "src_hooks_usedarkmode_theme_color_dark",
+      "src_hooks_usedarkmode_theme_color_light",
+      "src_hooks_usedarkmode_usedarkmode"
+    ],
+    "8": [
+      "src_components_layout_billmodal",
+      "src_components_layout_billmodal_billmodal",
+      "src_components_layout_billmodal_default_categories",
+      "src_context_appcontext_useapp"
+    ],
+    "9": [
+      "src_components_layout_payconfirmmodal",
+      "src_components_layout_payconfirmmodal_payconfirmmodal",
+      "src_lib_utils_getdiffdays"
+    ],
+    "10": [
+      "scripts_optimize_images",
+      "scripts_optimize_images_resize_imagefile"
+    ]
+  },
+  "cohesion": {
+    "0": 0.3047619047619048,
+    "1": 0.14210526315789473,
+    "2": 0.4166666666666667,
+    "3": 0.2857142857142857,
+    "4": 0.5714285714285714,
+    "5": 0.5333333333333333,
+    "6": 0.4,
+    "7": 0.5,
+    "8": 0.6666666666666666,
+    "9": 1.0,
+    "10": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "degree": 19
+    },
+    {
+      "id": "src_components_ui_index_card",
+      "label": "Card",
+      "degree": 16
+    },
+    {
+      "id": "src_components_views_dashboardview_dashboardview",
+      "label": "DashboardView()",
+      "degree": 13
+    },
+    {
+      "id": "src_lib_utils_formatmoney",
+      "label": "formatMoney()",
+      "degree": 13
+    },
+    {
+      "id": "src_lib_utils_getcategorylabel",
+      "label": "getCategoryLabel()",
+      "degree": 11
+    },
+    {
+      "id": "src_components_ui_index_button",
+      "label": "Button",
+      "degree": 11
+    },
+    {
+      "id": "src_components_views_historyview_historyview",
+      "label": "HistoryView()",
+      "degree": 10
+    },
+    {
+      "id": "src_components_views_pendingview_pendingview",
+      "label": "PendingView()",
+      "degree": 10
+    },
+    {
+      "id": "src_lib_utils_geticon",
+      "label": "getIcon()",
+      "degree": 8
+    },
+    {
+      "id": "src_components_layout_payconfirmmodal_payconfirmmodal",
+      "label": "PayConfirmModal()",
+      "degree": 7
+    }
+  ],
+  "surprises": [
+    {
+      "source": "App()",
+      "target": "BillModal()",
+      "source_files": [
+        "src/App.jsx",
+        "src/components/layout/BillModal.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "BillModal()",
+      "target": "Card",
+      "source_files": [
+        "src/components/layout/BillModal.jsx",
+        "src/components/ui/index.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "App()",
+      "target": "DeleteConfirmModal()",
+      "source_files": [
+        "src/App.jsx",
+        "src/components/layout/DeleteConfirmModal.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "App()",
+      "target": "PayConfirmModal()",
+      "source_files": [
+        "src/App.jsx",
+        "src/components/layout/PayConfirmModal.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "PayConfirmModal()",
+      "target": "Button",
+      "source_files": [
+        "src/components/layout/PayConfirmModal.jsx",
+        "src/components/ui/index.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

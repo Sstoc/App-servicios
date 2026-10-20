@@ -133,7 +133,7 @@ export const InstallPromptModal = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="w-full max-w-md bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-2xl border border-slate-100 dark:border-white/10 relative overflow-hidden z-10"
+            className="w-full max-w-md bg-white dark:bg-[#111A2D] rounded-3xl p-6 shadow-2xl border border-[#E2E8F0] dark:border-[#253149] relative overflow-hidden z-10"
           >
             {/* Glow decorativo */}
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -144,7 +144,7 @@ export const InstallPromptModal = () => {
                   <img
                     src="/logo-home.png"
                     alt="Home"
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-contain shadow-lg border border-slate-100 dark:border-white/10"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-contain shadow-lg border border-[#E2E8F0] dark:border-[#253149]"
                   />
                   <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -152,10 +152,10 @@ export const InstallPromptModal = () => {
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-slate-900 dark:text-white text-lg leading-tight">
+                  <h3 className="font-extrabold text-[#0F172A] dark:text-[#F1F5F9] text-lg leading-tight">
                     Instalar Home
                   </h3>
-                  <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                  <p className="text-xs font-semibold text-[#2563EB] dark:text-[#3478F6]">
                     Gestión de Servicios & Alertas
                   </p>
                 </div>
@@ -163,29 +163,29 @@ export const InstallPromptModal = () => {
 
               <button
                 onClick={handleDismiss}
-                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-400 hover:text-slate-600 dark:hover:text-white flex items-center justify-center transition active:scale-90"
+                className="w-8 h-8 rounded-full bg-[#EEF2F7] dark:bg-[#1B263B] text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9] flex items-center justify-center transition active:scale-90"
                 title="Cerrar"
               >
                 <i className="fa-solid fa-xmark text-sm"></i>
               </button>
             </div>
 
-            <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-5 leading-relaxed">
-              Instalá la aplicación en tu pantalla de inicio para abrirla al instante y recibir <strong className="text-slate-900 dark:text-white">notificaciones de vencimiento</strong> automáticamente.
+            <p className="text-sm text-[#64748B] dark:text-[#94A3B8] font-medium mb-5 leading-relaxed">
+              Instalá la aplicación en tu pantalla de inicio para abrirla al instante y recibir <strong className="text-[#0F172A] dark:text-[#F1F5F9]">notificaciones de vencimiento</strong> automáticamente.
             </p>
 
             {isIOS ? (
               /* Instrucciones para iPhone / iPad */
-              <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl p-4 border border-slate-100 dark:border-white/5 space-y-2.5 mb-4">
-                <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
+              <div className="bg-[#EEF2F7]/50 dark:bg-[#1B263B]/50 rounded-2xl p-4 border border-[#E2E8F0] dark:border-[#253149] space-y-2.5 mb-4">
+                <p className="text-xs font-bold text-[#0F172A] dark:text-[#F1F5F9]">
                   Cómo instalar en tu iPhone:
                 </p>
-                <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
-                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">1</span>
-                  <span>Tocá el botón <strong>Compartir</strong> <i className="fa-solid fa-arrow-up-from-bracket text-blue-500 ml-1"></i> en Safari.</span>
+                <div className="flex items-center gap-3 text-xs text-[#64748B] dark:text-[#94A3B8]">
+                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-[#2563EB] dark:text-[#3478F6] font-black flex items-center justify-center text-[11px] shrink-0">1</span>
+                  <span>Tocá el botón <strong>Compartir</strong> <i className="fa-solid fa-arrow-up-from-bracket text-[#2563EB] dark:text-[#3478F6] ml-1"></i> en Safari.</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
-                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-black flex items-center justify-center text-[11px] shrink-0">2</span>
+                <div className="flex items-center gap-3 text-xs text-[#64748B] dark:text-[#94A3B8]">
+                  <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-[#2563EB] dark:text-[#3478F6] font-black flex items-center justify-center text-[11px] shrink-0">2</span>
                   <span>Buscá y seleccioná <strong>"Agregar a pantalla de inicio"</strong>.</span>
                 </div>
               </div>
@@ -195,15 +195,15 @@ export const InstallPromptModal = () => {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={handleInstallClick}
-                  className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 text-base transition-colors cursor-pointer"
+                  className="w-full py-3.5 px-4 bg-[#2563EB] hover:bg-blue-700 dark:bg-[#3478F6] dark:hover:bg-[#2563EB] text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 text-base transition-colors cursor-pointer"
                 >
                   <i className="fa-solid fa-download"></i>
                   <span>Instalar Aplicación</span>
                 </motion.button>
 
                 {showAndroidGuide && (
-                  <div className="bg-blue-50/80 dark:bg-blue-500/10 rounded-2xl p-3.5 border border-blue-200/60 dark:border-blue-500/20 text-xs text-slate-600 dark:text-slate-300 animate-fade-in space-y-1.5">
-                    <p className="font-bold text-blue-900 dark:text-blue-200">
+                  <div className="bg-blue-50/80 dark:bg-blue-500/10 rounded-2xl p-3.5 border border-blue-200/60 dark:border-blue-500/20 text-xs text-[#64748B] dark:text-[#94A3B8] animate-fade-in space-y-1.5">
+                    <p className="font-bold text-blue-900 dark:text-[#F1F5F9]">
                       Si tu navegador no abrió el diálogo:
                     </p>
                     <p>
@@ -216,7 +216,7 @@ export const InstallPromptModal = () => {
 
             <button
               onClick={handleDismiss}
-              className="w-full mt-2 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-center"
+              className="w-full mt-2 py-2 text-xs font-bold text-[#64748B] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#F1F5F9] transition-colors text-center"
             >
               Quizás más tarde
             </button>
